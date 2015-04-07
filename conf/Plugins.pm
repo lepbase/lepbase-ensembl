@@ -40,7 +40,8 @@ $SiteDefs::ENSEMBL_PLUGINS = [
 
   
 #  'EnsEMBL::Mirror'     => $SiteDefs::ENSEMBL_SERVERROOT.'/public-plugins/mirror',
-  'EG::Metazoa'             => $SiteDefs::ENSEMBL_SERVERROOT.'/eg-web-metazoa',
+#  'EG::Metazoa'             => $SiteDefs::ENSEMBL_SERVERROOT.'/eg-web-metazoa',
+  'EG::LepBase'             => $SiteDefs::ENSEMBL_SERVERROOT.'/lepbase-ensembl',
 # 'EnsEMBL::Lucene'     => $SiteDefs::ENSEMBL_SERVERROOT.'/public-plugins/genoverse',
 
 ## Common must come after the division specific plugins above
