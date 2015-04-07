@@ -28,7 +28,7 @@ package EG::LepBase::SiteDefs;
 use strict;
 
 sub update_conf {
-    $SiteDefs::ENSEMBL_PORT           = 8001;
+    $SiteDefs::ENSEMBL_PORT           = 8080;
 
 ## BEGIN LEPBASE MODIFICATIONS...
     $SiteDefs::ENSEMBL_SERVERNAME     = 'localhost.localdomain';

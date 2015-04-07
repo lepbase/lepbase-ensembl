@@ -31,7 +31,7 @@ All modifications licensed under the Apache License, Version 2.0, as above.
 
 $SiteDefs::ENSEMBL_PLUGINS = [
 
-  'MyPlugins'               => $SiteDefs::ENSEMBL_WEBROOT.'/my-plugins',
+  #'MyPlugins'               => $SiteDefs::ENSEMBL_WEBROOT.'/my-plugins',
   # ebi search
   #'EG::EBEyeSearch'         => $SiteDefs::ENSEMBL_SERVERROOT.'/eg-web-search',
  # blast using ebi service
