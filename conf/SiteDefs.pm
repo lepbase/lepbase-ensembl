@@ -37,7 +37,7 @@ our $ENSEMBL_RELEASE_DATE      = $Access::LEPBASE_RELEASE_DATE;
 ##########################################################################
 my ($volume, $dir) = File::Spec->splitpath(__FILE__);
 
-our $ENSEMBL_SERVERROOT = File::Spec->catpath($volume, [split '/ensembl-webcode', $dir]->[0]) || '.';
+our $ENSEMBL_SERVERROOT = File::Spec->catpath($volume, [split '/lepbase-ensembl', $dir]->[0]) || '.';
 our $ENSEMBL_WEBROOT    = "$ENSEMBL_SERVERROOT/ensembl-webcode";
 our $ENSEMBL_PLUGINS;
 
