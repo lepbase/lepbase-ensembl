@@ -598,7 +598,7 @@ sub sequenceserver_button {
 	my ($title,$sequence,$label) = @_;
 	my $button = '  <form id="nt_blast_form" target="_blank" action="http://blast.lepbase.org" method="POST">
     <input type="hidden" name="input_sequence" value=">'.$title."\n".$sequence.'">
-    <a href="#" onclick="document.getElementById(\'nt_blast_form\').submit();" class="button toggle no_img style="float: left" title="Click to BLAST against Lepidoptera genes and genomes (opens a new window)">'.$label.'</a>
+    <a href="#" onclick="document.getElementById(\'nt_blast_form\').submit();" class="button toggle no_img" style="float:left" title="Click to BLAST against Lepidoptera genes and genomes (opens a new window)">'.$label.'</a>
   </form>';
 
 	return $button;
