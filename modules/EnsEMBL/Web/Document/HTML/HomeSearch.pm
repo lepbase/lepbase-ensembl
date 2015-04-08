@@ -124,10 +124,12 @@ sub _add_species_dropdown {
     'id'      => 'species',
     'class'   => 'input',
     'values'  => [
-      {'value' => '', 'caption' => 'All species'},
-      {'value' => '', 'caption' => '---', 'disabled' => 1},
-      map({ $common_names{$_} ? {'value' => $_, 'caption' => $common_names{$_}, 'group' => 'Favourite species'} : ()} @$favourites),
-      {'value' => '', 'caption' => '---', 'disabled' => 1},
+## BEGIN LEPBASE MODIFICATIONS...
+        #{'value' => '', 'caption' => 'All species'},
+        #{'value' => '', 'caption' => '---', 'disabled' => 1},
+        #map({ $common_names{$_} ? {'value' => $_, 'caption' => $common_names{$_}, 'group' => 'Favourite species'} : ()} @$favourites),
+		{'value' => '', 'caption' => 'Choose a species:', 'disabled' => 1, 'selected' => 1},
+## ...END LEPBASE MODIFICATIONS
       map({'value' => $species{$_}, 'caption' => $_}, sort { uc $a cmp uc $b } keys %species)
     ]
   }, 1)->first_child->after('label', {'inner_HTML' => 'for', 'for' => 'q'});
