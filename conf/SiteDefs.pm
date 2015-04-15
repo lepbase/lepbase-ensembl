@@ -24,11 +24,11 @@ All modifications licensed under the Apache License, Version 2.0, as above.
 
 =cut
 
-package EG::Metazoa::SiteDefs;
+package EG::LepBase::SiteDefs;
 use strict;
 
 sub update_conf {
-    $SiteDefs::ENSEMBL_PORT           = 8001;
+    $SiteDefs::ENSEMBL_PORT           = 8080;
 
 ## BEGIN LEPBASE MODIFICATIONS...
     $SiteDefs::ENSEMBL_SERVERNAME     = 'localhost.localdomain';
