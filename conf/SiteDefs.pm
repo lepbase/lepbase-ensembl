@@ -24,11 +24,11 @@ All modifications licensed under the Apache License, Version 2.0, as above.
 
 =cut
 
-package EG::Metazoa::SiteDefs;
+package EG::LepBase::SiteDefs;
 use strict;
 
 sub update_conf {
-    $SiteDefs::ENSEMBL_PORT           = 8001;
+    $SiteDefs::ENSEMBL_PORT           = 8080;
 
 ## BEGIN LEPBASE MODIFICATIONS...
     $SiteDefs::ENSEMBL_SERVERNAME     = 'localhost.localdomain';
@@ -57,10 +57,11 @@ sub update_conf {
 # --- Lepbase release 1
 ## BEGIN LEPBASE MODIFICATIONS...
     $SiteDefs::__species_aliases{'Plutella_xylostella_PRJNA78271'} = [qw(plutella_xylostella_PRJNA78271)];
-#    $SiteDefs::__species_aliases{'Plodia_interpunctella_PRJEB4874'} = [qw(plodia_interpunctella PRJEB4874)];
+    $SiteDefs::__species_aliases{'Plodia_interpunctella_PRJEB4874'} = [qw(plodia_interpunctella PRJEB4874)];
     $SiteDefs::__species_aliases{'Bicyclus_anynana_PRJEB8426'} = [qw(bicyclus_anynana PRJEB8426)];
-#    $SiteDefs::__species_aliases{'Manduca_sexta_PRJNA71235'} = [qw(manduca_sexta_PRJNA71235)];
-#    $SiteDefs::__species_aliases{'Chilo_suppressalis_PRJNA178139'} = [qw(chilo_suppressalis_PRJNA178139)];
+    $SiteDefs::__species_aliases{'Manduca_sexta_PRJNA71235'} = [qw(manduca_sexta_PRJNA71235)];
+    $SiteDefs::__species_aliases{'Chilo_suppressalis_PRJNA178139'} = [qw(chilo_suppressalis_PRJNA178139)];
+    $SiteDefs::__species_aliases{'Pieris_napi_LBTMP10001'} = [qw(pieris_napi_LBTMP10001)];
     
 
 ## ...END LEPBASE MODIFICATIONS
