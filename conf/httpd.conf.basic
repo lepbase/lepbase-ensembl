@@ -323,7 +323,7 @@ FileETag None
 # # warn ' BIOMART_REGISTRY: ', __FILE__, ':', __LINE__, ' ', $main::BIOMART_REGISTRY if $main::BIOMART_REGISTRY;
 # # 
 # # __END__
-</Perl>
+# # </Perl>
 
 ###############################################################################
 ####
