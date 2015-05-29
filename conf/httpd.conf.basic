@@ -279,7 +279,6 @@ $Directory{"$ServerRoot/htdocs"} = {
   Order         => 'allow,deny',
   Allow         => 'from all',
 };
-exit;
 
 ###########################################################
 # Error Handling /Crash
@@ -322,7 +321,7 @@ if ($SiteDefs::ENSEMBL_MART_ENABLED > 0) {
 }
 
 warn ' BIOMART_REGISTRY: ', __FILE__, ':', __LINE__, ' ', $main::BIOMART_REGISTRY if $main::BIOMART_REGISTRY;
-
+exit;
 __END__
 </Perl>
 
