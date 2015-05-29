@@ -140,189 +140,189 @@ FileETag None
 #
 ####
 
-<Perl>
-#!/usr/local/bin/perl -w
-
-use Apache2::Resource;
-use File::Path;
-use Sys::Hostname;
-
-# linux does not honor RLIMIT_DATA
-# RLIMIT_AS (address space) will work to limit the size of a process
-$ENV{'PERL_RLIMIT_AS'} = '2048:4096';
-
-###############################################################################
-# Load the Local Config from SiteDefs.pm
-#
-# This is a little hairy - SiteDefs is in the same directory as httpd.conf, 
-# but that may not be the current directory, and may not be in the path.  
-# Use $0 to give the relative path to httpd.conf, and use that to load 
-# SiteDefs.pm.
-###############################################################################
-  
-my $sitedefs_dir = $0;
-   $sitedefs_dir =~ s/\/httpd\.conf//;
-   
-unshift @INC, $sitedefs_dir;
-
-eval {
-  require SiteDefs;
-};
-
-die "Can't use SiteDefs.pm - $@\n" if $@;
-
-# set environment variable for BAM file parsing from external sites
-$ENV{'http_proxy'}   = $SiteDefs::HTTP_PROXY   if $SiteDefs::HTTP_PROXY;
-$ENV{'UDC_CACHEDIR'} = $SiteDefs::UDC_CACHEDIR if $SiteDefs::UDC_CACHEDIR;
-
-$MinSpareServers = $SiteDefs::ENSEMBL_MIN_SPARE_SERVERS;
-$MaxSpareServers = $SiteDefs::ENSEMBL_MAX_SPARE_SERVERS;
-$StartServers    = $SiteDefs::ENSEMBL_START_SERVERS;
-
-@Listen          = ($SiteDefs::ENSEMBL_PORT);
-$User            = $SiteDefs::ENSEMBL_USER;
-$Group           = $SiteDefs::ENSEMBL_GROUP;
-
-$ServerAdmin     = $SiteDefs::ENSEMBL_SERVERADMIN;
-$ServerName      = $SiteDefs::ENSEMBL_SERVERNAME;
-
-####################
-# Set environment variables. SetEnv directive
-####################
-push @SetEnv, [ $_, $SiteDefs::ENSEMBL_SETENV{$_} ] for keys %SiteDefs::ENSEMBL_SETENV;
-
-######################
-# set-up our INC path; configured in SiteDefs::ENSEMBL_LIB_DIRS
-######################
-my %X = map { $_, 1 } @INC;
-
-foreach my $dir (@SiteDefs::ENSEMBL_LIB_DIRS) {
-  next if $X{$dir};
-  
-  if (-d $dir) {
-    if (-r $dir) {
-      unshift @INC, $dir;
-    } else {
-      warn " ENSEMBL_LIB_DIR $dir is not readable\n";
-    }
-  }
-}
-
-#####################
-#   Set server root
-#####################
-my $hostname = Sys::Hostname::hostname;
-
-warn "
- Starting up Ensembl server on host: $hostname
-";
-
-$PidFile      = $SiteDefs::ENSEMBL_PIDFILE   if $SiteDefs::ENSEMBL_PIDFILE;
-$ErrorLog     = $SiteDefs::ENSEMBL_ERRORLOG  if $SiteDefs::ENSEMBL_ERRORLOG;
-$CustomLog    = $SiteDefs::ENSEMBL_CUSTOMLOG if $SiteDefs::ENSEMBL_CUSTOMLOG;
-
-$ServerRoot   = $SiteDefs::ENSEMBL_WEBROOT;
-$DocumentRoot = $SiteDefs::ENSEMBL_WEBROOT . '/htdocs';
-
-#######################################################################
-# ScriptAlias: This controls which directories contain server scripts.
-#######################################################################
-@ScriptAlias = (
-  [ '/perl'    => "$ServerRoot/perl"                 ],
-  [ '/biomart' => "$ServerRoot/biomart-perl/cgi-bin" ],
-);
-
-########################
-#   Directory configs
-########################
-$DirectoryIndex = 'index.html index.wml';
-
-## Perl handlers etc
-
-@PerlModule                 = qw(EnsEMBL::Web::Apache::Handlers);
-@PerlChildInitHandler       = qw(Apache2::Resource EnsEMBL::Web::Apache::Handlers::childInitHandler);
-@PerlPostReadRequestHandler = qw(EnsEMBL::Web::Apache::Handlers::redirect_to_nearest_mirror EnsEMBL::Web::Apache::Handlers::postReadRequestHandler);
-@PerlTransHandler           = qw(EnsEMBL::Web::Apache::Handlers::cleanURI);
-@PerlHandler                = qw(EnsEMBL::Web::Apache::Handlers::handler);
-@PerlLogHandler             = qw(EnsEMBL::Web::Apache::Handlers::logHandler);
-@PerlCleanupHandler         = qw(EnsEMBL::Web::Apache::Handlers::cleanupHandler);
-@PerlChildExitHandler       = qw(EnsEMBL::Web::Apache::Handlers::childExitHandler);
-
-$Location{'/'} = {
-  SetHandler            => 'perl-script',
-  PerlHandler           => 'EnsEMBL::Web::Apache::Handlers',
-  AddOutputFilterByType => 'DEFLATE text/html text/plain text/xml text/javascript text/css application/x-javascript',
-};
-
-$LocationMatch{'^/(merged|minified|packed|packed.0|css|img|js|t|c|i)/'} =
-$LocationMatch{'static'} = {
-  ExpiresActive  => 'On',
-  ExpiresDefault => 'A2592000'
-};
-
-$LocationMatch{'(?i)\.(jpg|jpeg|gif|png|svg|js|css|txt|xml|csv|xls|gff|bed|gtf|psl|wig|fa|nh|pdf|swf|gz|tar|zip|jar|ped|htm)$'} = {
-  SetHandler  => 'perl-script',
-  PerlHandler => 'EnsEMBL::Web::Apache::Static'
-};
-
-$LocationMatch{'Doxygen.+/search/'} = {
-  SetHandler  => 'perl-script',
-  PerlHandler => 'EnsEMBL::Web::Apache::Static'
-};
-
-$Directory{"$ServerRoot"} = {
-  AllowOverride => 'None',
-};
-
-$Directory{"$ServerRoot/htdocs"} = {
-  AllowOverride => 'None',
-  Order         => 'allow,deny',
-  Allow         => 'from all',
-};
-
-###########################################################
-# Error Handling /Crash
-###########################################################
-$Location{'/Crash'} = {
-  SetHandler  => 'perl-script',
-  PerlHandler => 'EnsEMBL::Web::Apache::ServerError',
-};
-
-###########################################################
-# Missing Page Handling /Missing
-###########################################################
-$Location{'/Error'} = {
-  SetHandler  => 'perl-script',
-  PerlHandler => 'EnsEMBL::Web::Apache::Error',
-};
-
-###########################################################
-# /perl this is the ModPerl::Registry scripts directory
-###########################################################
-$Location{'/perl'} = {
-  SetHandler     => 'perl-script',
-  PerlHandler    => 'ModPerl::Registry',
-  allow          => 'from all',
-  PerlSendHeader => 'On',
-};
-
-#############################################################
-# Finally,pre-load/pre-compile modules
-#############################################################
-require "$ServerRoot/conf/perl.startup";
-
-if ($SiteDefs::ENSEMBL_MART_ENABLED > 0) {
-  eval { 
-    require 'BioMart/Initializer.pm';
-    BioMart::Initializer->import;
-    my $init = BioMart::Initializer->new(registryFile => "$SiteDefs::ENSEMBL_SERVERROOT/biomart-perl/conf/martRegistry.xml");
-    $main::BIOMART_REGISTRY = $init->getRegistry || die "Can't get registry from initializer";
-  };
-}
-
-warn ' BIOMART_REGISTRY: ', __FILE__, ':', __LINE__, ' ', $main::BIOMART_REGISTRY if $main::BIOMART_REGISTRY;
-
-__END__
+# # <Perl>
+# # #!/usr/local/bin/perl -w
+# # 
+# # use Apache2::Resource;
+# # use File::Path;
+# # use Sys::Hostname;
+# # 
+# # # linux does not honor RLIMIT_DATA
+# # # RLIMIT_AS (address space) will work to limit the size of a process
+# # $ENV{'PERL_RLIMIT_AS'} = '2048:4096';
+# # 
+# # ###############################################################################
+# # # Load the Local Config from SiteDefs.pm
+# # #
+# # # This is a little hairy - SiteDefs is in the same directory as httpd.conf, 
+# # # but that may not be the current directory, and may not be in the path.  
+# # # Use $0 to give the relative path to httpd.conf, and use that to load 
+# # # SiteDefs.pm.
+# # ###############################################################################
+# #   
+# # my $sitedefs_dir = $0;
+# #    $sitedefs_dir =~ s/\/httpd\.conf//;
+# #    
+# # unshift @INC, $sitedefs_dir;
+# # 
+# # eval {
+# #   require SiteDefs;
+# # };
+# # 
+# # die "Can't use SiteDefs.pm - $@\n" if $@;
+# # 
+# # # set environment variable for BAM file parsing from external sites
+# # $ENV{'http_proxy'}   = $SiteDefs::HTTP_PROXY   if $SiteDefs::HTTP_PROXY;
+# # $ENV{'UDC_CACHEDIR'} = $SiteDefs::UDC_CACHEDIR if $SiteDefs::UDC_CACHEDIR;
+# # 
+# # $MinSpareServers = $SiteDefs::ENSEMBL_MIN_SPARE_SERVERS;
+# # $MaxSpareServers = $SiteDefs::ENSEMBL_MAX_SPARE_SERVERS;
+# # $StartServers    = $SiteDefs::ENSEMBL_START_SERVERS;
+# # 
+# # @Listen          = ($SiteDefs::ENSEMBL_PORT);
+# # $User            = $SiteDefs::ENSEMBL_USER;
+# # $Group           = $SiteDefs::ENSEMBL_GROUP;
+# # 
+# # $ServerAdmin     = $SiteDefs::ENSEMBL_SERVERADMIN;
+# # $ServerName      = $SiteDefs::ENSEMBL_SERVERNAME;
+# # 
+# # ####################
+# # # Set environment variables. SetEnv directive
+# # ####################
+# # push @SetEnv, [ $_, $SiteDefs::ENSEMBL_SETENV{$_} ] for keys %SiteDefs::ENSEMBL_SETENV;
+# # 
+# # ######################
+# # # set-up our INC path; configured in SiteDefs::ENSEMBL_LIB_DIRS
+# # ######################
+# # my %X = map { $_, 1 } @INC;
+# # 
+# # foreach my $dir (@SiteDefs::ENSEMBL_LIB_DIRS) {
+# #   next if $X{$dir};
+# #   
+# #   if (-d $dir) {
+# #     if (-r $dir) {
+# #       unshift @INC, $dir;
+# #     } else {
+# #       warn " ENSEMBL_LIB_DIR $dir is not readable\n";
+# #     }
+# #   }
+# # }
+# # 
+# # #####################
+# # #   Set server root
+# # #####################
+# # my $hostname = Sys::Hostname::hostname;
+# # 
+# # warn "
+# #  Starting up Ensembl server on host: $hostname
+# # ";
+# # 
+# # $PidFile      = $SiteDefs::ENSEMBL_PIDFILE   if $SiteDefs::ENSEMBL_PIDFILE;
+# # $ErrorLog     = $SiteDefs::ENSEMBL_ERRORLOG  if $SiteDefs::ENSEMBL_ERRORLOG;
+# # $CustomLog    = $SiteDefs::ENSEMBL_CUSTOMLOG if $SiteDefs::ENSEMBL_CUSTOMLOG;
+# # 
+# # $ServerRoot   = $SiteDefs::ENSEMBL_WEBROOT;
+# # $DocumentRoot = $SiteDefs::ENSEMBL_WEBROOT . '/htdocs';
+# # 
+# # #######################################################################
+# # # ScriptAlias: This controls which directories contain server scripts.
+# # #######################################################################
+# # @ScriptAlias = (
+# #   [ '/perl'    => "$ServerRoot/perl"                 ],
+# #   [ '/biomart' => "$ServerRoot/biomart-perl/cgi-bin" ],
+# # );
+# # 
+# # ########################
+# # #   Directory configs
+# # ########################
+# # $DirectoryIndex = 'index.html index.wml';
+# # 
+# # ## Perl handlers etc
+# # 
+# # @PerlModule                 = qw(EnsEMBL::Web::Apache::Handlers);
+# # @PerlChildInitHandler       = qw(Apache2::Resource EnsEMBL::Web::Apache::Handlers::childInitHandler);
+# # @PerlPostReadRequestHandler = qw(EnsEMBL::Web::Apache::Handlers::redirect_to_nearest_mirror EnsEMBL::Web::Apache::Handlers::postReadRequestHandler);
+# # @PerlTransHandler           = qw(EnsEMBL::Web::Apache::Handlers::cleanURI);
+# # @PerlHandler                = qw(EnsEMBL::Web::Apache::Handlers::handler);
+# # @PerlLogHandler             = qw(EnsEMBL::Web::Apache::Handlers::logHandler);
+# # @PerlCleanupHandler         = qw(EnsEMBL::Web::Apache::Handlers::cleanupHandler);
+# # @PerlChildExitHandler       = qw(EnsEMBL::Web::Apache::Handlers::childExitHandler);
+# # 
+# # $Location{'/'} = {
+# #   SetHandler            => 'perl-script',
+# #   PerlHandler           => 'EnsEMBL::Web::Apache::Handlers',
+# #   AddOutputFilterByType => 'DEFLATE text/html text/plain text/xml text/javascript text/css application/x-javascript',
+# # };
+# # 
+# # $LocationMatch{'^/(merged|minified|packed|packed.0|css|img|js|t|c|i)/'} =
+# # $LocationMatch{'static'} = {
+# #   ExpiresActive  => 'On',
+# #   ExpiresDefault => 'A2592000'
+# # };
+# # 
+# # $LocationMatch{'(?i)\.(jpg|jpeg|gif|png|svg|js|css|txt|xml|csv|xls|gff|bed|gtf|psl|wig|fa|nh|pdf|swf|gz|tar|zip|jar|ped|htm)$'} = {
+# #   SetHandler  => 'perl-script',
+# #   PerlHandler => 'EnsEMBL::Web::Apache::Static'
+# # };
+# # 
+# # $LocationMatch{'Doxygen.+/search/'} = {
+# #   SetHandler  => 'perl-script',
+# #   PerlHandler => 'EnsEMBL::Web::Apache::Static'
+# # };
+# # 
+# # $Directory{"$ServerRoot"} = {
+# #   AllowOverride => 'None',
+# # };
+# # 
+# # $Directory{"$ServerRoot/htdocs"} = {
+# #   AllowOverride => 'None',
+# #   Order         => 'allow,deny',
+# #   Allow         => 'from all',
+# # };
+# # 
+# # ###########################################################
+# # # Error Handling /Crash
+# # ###########################################################
+# # $Location{'/Crash'} = {
+# #   SetHandler  => 'perl-script',
+# #   PerlHandler => 'EnsEMBL::Web::Apache::ServerError',
+# # };
+# # 
+# # ###########################################################
+# # # Missing Page Handling /Missing
+# # ###########################################################
+# # $Location{'/Error'} = {
+# #   SetHandler  => 'perl-script',
+# #   PerlHandler => 'EnsEMBL::Web::Apache::Error',
+# # };
+# # 
+# # ###########################################################
+# # # /perl this is the ModPerl::Registry scripts directory
+# # ###########################################################
+# # $Location{'/perl'} = {
+# #   SetHandler     => 'perl-script',
+# #   PerlHandler    => 'ModPerl::Registry',
+# #   allow          => 'from all',
+# #   PerlSendHeader => 'On',
+# # };
+# # 
+# # #############################################################
+# # # Finally,pre-load/pre-compile modules
+# # #############################################################
+# # require "$ServerRoot/conf/perl.startup";
+# # 
+# # if ($SiteDefs::ENSEMBL_MART_ENABLED > 0) {
+# #   eval { 
+# #     require 'BioMart/Initializer.pm';
+# #     BioMart::Initializer->import;
+# #     my $init = BioMart::Initializer->new(registryFile => "$SiteDefs::ENSEMBL_SERVERROOT/biomart-perl/conf/martRegistry.xml");
+# #     $main::BIOMART_REGISTRY = $init->getRegistry || die "Can't get registry from initializer";
+# #   };
+# # }
+# # 
+# # warn ' BIOMART_REGISTRY: ', __FILE__, ':', __LINE__, ' ', $main::BIOMART_REGISTRY if $main::BIOMART_REGISTRY;
+# # 
+# # __END__
 </Perl>
 
 ###############################################################################
