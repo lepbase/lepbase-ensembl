@@ -32,6 +32,44 @@ package EnsEMBL::Web::Apache::Handlers;
 
 use strict;
 
+use Apache2::Const qw(:common :http :methods);
+use Apache2::SizeLimit;
+use Apache2::Connection;
+use Apache2::URI;
+use APR::URI;
+use Config;
+use Fcntl ':flock';
+use Sys::Hostname;
+use Time::HiRes qw(time);
+use URI::Escape qw(uri_escape);
+
+use SiteDefs;# qw(:APACHE);
+
+use Bio::EnsEMBL::Registry;
+
+use EnsEMBL::Web::Cache;
+use EnsEMBL::Web::Cookie;
+use EnsEMBL::Web::Registry;
+use EnsEMBL::Web::RegObj;
+use EnsEMBL::Web::SpeciesDefs;
+
+use EnsEMBL::Web::Apache::DasHandler;
+use EnsEMBL::Web::Apache::SSI;
+use EnsEMBL::Web::Apache::SpeciesHandler;
+
+our $species_defs = EnsEMBL::Web::SpeciesDefs->new;
+our $MEMD         = EnsEMBL::Web::Cache->new;
+
+our $LOAD_COMMAND;
+
+BEGIN {
+  $LOAD_COMMAND = $Config{'osname'} eq 'dec_osf' ? \&_load_command_alpha :
+                  $Config{'osname'} eq 'linux'   ? \&_load_command_linux :
+                                                   \&_load_command_null;
+};
+
+
+
 
 sub handler {
   my $r = shift; # Get the connection handler
