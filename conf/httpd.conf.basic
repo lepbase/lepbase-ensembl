@@ -311,16 +311,16 @@ $Location{'/perl'} = {
 #############################################################
 require "$ServerRoot/conf/perl.startup";
 
-if ($SiteDefs::ENSEMBL_MART_ENABLED > 0) {
-  eval { 
-    require 'BioMart/Initializer.pm';
-    BioMart::Initializer->import;
-    my $init = BioMart::Initializer->new(registryFile => "$SiteDefs::ENSEMBL_SERVERROOT/biomart-perl/conf/martRegistry.xml");
-    $main::BIOMART_REGISTRY = $init->getRegistry || die "Can't get registry from initializer";
-  };
-}
-
-warn ' BIOMART_REGISTRY: ', __FILE__, ':', __LINE__, ' ', $main::BIOMART_REGISTRY if $main::BIOMART_REGISTRY;
+#if ($SiteDefs::ENSEMBL_MART_ENABLED > 0) {
+#  eval { 
+#    require 'BioMart/Initializer.pm';
+#    BioMart::Initializer->import;
+#    my $init = BioMart::Initializer->new(registryFile => "$SiteDefs::ENSEMBL_SERVERROOT/biomart-perl/conf/martRegistry.xml");
+#    $main::BIOMART_REGISTRY = $init->getRegistry || die "Can't get registry from initializer";
+#  };
+#}
+#
+#warn ' BIOMART_REGISTRY: ', __FILE__, ':', __LINE__, ' ', $main::BIOMART_REGISTRY if $main::BIOMART_REGISTRY;
 exit;
 __END__
 </Perl>
