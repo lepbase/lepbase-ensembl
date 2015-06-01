@@ -81,6 +81,7 @@ our $ENSEMBL_GROUP             = getgrgid($)); # Auto-set web server group
 our $ENSEMBL_IMAGE_WIDTH       = 800;
 our $ENSEMBL_JSCSS_TYPE        = 'minified';
 our $ENSEMBL_MINIFIED_FILES_PATH = '/minified'; # path for saving the minified files
+our $ENSEMBL_DEBUG_CSS           = 1; # change these to 1 to prevent css minification
 
 our $ENSEMBL_MART_ENABLED      = 0;
 our $ENSEMBL_BLAST_ENABLED     = 0;
