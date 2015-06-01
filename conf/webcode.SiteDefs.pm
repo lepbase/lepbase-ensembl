@@ -39,6 +39,7 @@ my ($volume, $dir) = File::Spec->splitpath(__FILE__);
 
 our $ENSEMBL_SERVERROOT = File::Spec->catpath($volume, [split '/ensembl-webcode', $dir]->[0]) || '.';
 our $ENSEMBL_WEBROOT    = "$ENSEMBL_SERVERROOT/ensembl-webcode";
+our $ENSEMBL_DOCROOT    = "$ENSEMBL_WEBROOT/htdocs";
 our $ENSEMBL_PLUGINS;
 
 ## Define Plugin directories
@@ -79,6 +80,7 @@ our $ENSEMBL_USER              = getpwuid($>); # Auto-set web serveruser
 our $ENSEMBL_GROUP             = getgrgid($)); # Auto-set web server group
 our $ENSEMBL_IMAGE_WIDTH       = 800;
 our $ENSEMBL_JSCSS_TYPE        = 'minified';
+our $ENSEMBL_MINIFIED_FILES_PATH = '/minified'; # path for saving the minified files
 
 our $ENSEMBL_MART_ENABLED      = 0;
 our $ENSEMBL_BLAST_ENABLED     = 0;
@@ -160,7 +162,7 @@ our %ENSEMBL_SETENV = (
 our @ENSEMBL_LIB_DIRS;
 our @ENSEMBL_CONF_DIRS    = ("$ENSEMBL_WEBROOT/conf");
 our @ENSEMBL_PERL_DIRS    = ("$ENSEMBL_WEBROOT/perl");
-our @ENSEMBL_HTDOCS_DIRS  = ("$ENSEMBL_WEBROOT/htdocs", "$ENSEMBL_SERVERROOT/biomart-perl/htdocs");
+our @ENSEMBL_HTDOCS_DIRS  = ("$ENSEMBL_DOCROOT", "$ENSEMBL_SERVERROOT/biomart-perl/htdocs");
 
 our $APACHE_DIR           = "$ENSEMBL_SERVERROOT/apache2";
 our $APACHE_BIN           = "$APACHE_DIR/bin/httpd";
