@@ -43,10 +43,12 @@ sub content {
   }
 
 ## BEGIN LEPBASE MODIFICATIONS...
+  my $sd    = $self->species_defs;
+  my $blog  = $sd->ENSEMBL_BLOG_URL;
   push @links,   '<a class="constant" href="http://blast.lepbase.org" title="BLAST">BLAST</a>';
   push @links,   '<a class="constant" href="/downloads.html" title="downloads.html">Downloads</a>';
   push @links,   '<a class="constant" href="/help.html" title="help.html">Help</a>';
-  push @links,   '<a class="constant" href="'.$self->blog.'" title="lepbase.org">Blog</a>'                  if $self->blog;
+  push @links,   '<a class="constant" href="'.$blog.'" title="lepbase.org">Blog</a>'                  if $self->blog;
 ## ...END LEPBASE MODIFICATIONS
   my $last  = pop @links;
   my $tools = join '', map "<li>$_</li>", @links;
