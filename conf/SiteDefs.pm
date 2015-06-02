@@ -37,31 +37,31 @@ sub update_conf {
     map {delete($SiteDefs::__species_aliases{$_}) } keys %SiteDefs::__species_aliases;
 
 ## BEGIN LEPBASE MODIFICATIONS...
-    $SiteDefs::ENSEMBL_PRIMARY_SPECIES  = 'Heliconius_melpomene_PRJEA71053'; # Default species
-    $SiteDefs::ENSEMBL_SECONDARY_SPECIES  = 'Bombyx_mori_PRJDA20217'; # Default species
+    $SiteDefs::ENSEMBL_PRIMARY_SPECIES  = 'Manduca_sexta_PRJNA71235'; # Default species
+    $SiteDefs::ENSEMBL_SECONDARY_SPECIES  = 'Manduca_sexta_PRJNA71235'; # Default species
 ## ...END LEPBASE MODIFICATIONS
 
 # --- Release 12
 #    $SiteDefs::__species_aliases{ 'Tribolium_castaneum' } = [qw(Tribolium_castaneum)];
-    $SiteDefs::__species_aliases{ 'Bombyx_mori_PRJDA20217' } = [qw(Bombyx_mori_PRJDA20217)];
+#    $SiteDefs::__species_aliases{ 'Bombyx_mori_PRJDA20217' } = [qw(Bombyx_mori_PRJDA20217)];
 #    $SiteDefs::__species_aliases{ 'Atta_cephalotes' } = [qw(Atta_cephalotes)];
 
 # --- Release 14
-    $SiteDefs::__species_aliases{ 'Danaus_plexippus_PRJNA72423' } = [qw(danaus_plexippus_PRJNA72423)];    
-    $SiteDefs::__species_aliases{ 'Heliconius_melpomene_PRJEA71053' } = [qw(heliconius_melpomene_PRJEA71053)];    
+#    $SiteDefs::__species_aliases{ 'Danaus_plexippus_PRJNA72423' } = [qw(danaus_plexippus_PRJNA72423)];    
+#    $SiteDefs::__species_aliases{ 'Heliconius_melpomene_PRJEA71053' } = [qw(heliconius_melpomene_PRJEA71053)];    
 
 # --- Release 23
 #    $SiteDefs::__species_aliases{'Mnemiopsis_leidyi'} = [qw(Mnemiopsis_leidyi)];
-    $SiteDefs::__species_aliases{'Melitaea_cinxia_PRJNA191594'} = [qw(Melitaea_cinxia_PRJNA191594)];
+#    $SiteDefs::__species_aliases{'Melitaea_cinxia_PRJNA191594'} = [qw(Melitaea_cinxia_PRJNA191594)];
 
 # --- Lepbase release 1
 ## BEGIN LEPBASE MODIFICATIONS...
-    $SiteDefs::__species_aliases{'Plutella_xylostella_PRJNA78271'} = [qw(plutella_xylostella_PRJNA78271)];
-    $SiteDefs::__species_aliases{'Plodia_interpunctella_PRJEB4874'} = [qw(plodia_interpunctella PRJEB4874)];
-    $SiteDefs::__species_aliases{'Bicyclus_anynana_PRJEB8426'} = [qw(bicyclus_anynana PRJEB8426)];
+#    $SiteDefs::__species_aliases{'Plutella_xylostella_PRJNA78271'} = [qw(plutella_xylostella_PRJNA78271)];
+#    $SiteDefs::__species_aliases{'Plodia_interpunctella_PRJEB4874'} = [qw(plodia_interpunctella PRJEB4874)];
+#    $SiteDefs::__species_aliases{'Bicyclus_anynana_PRJEB8426'} = [qw(bicyclus_anynana PRJEB8426)];
     $SiteDefs::__species_aliases{'Manduca_sexta_PRJNA71235'} = [qw(manduca_sexta_PRJNA71235)];
-    $SiteDefs::__species_aliases{'Chilo_suppressalis_PRJNA178139'} = [qw(chilo_suppressalis_PRJNA178139)];
-    $SiteDefs::__species_aliases{'Pieris_napi_LBTMP10001'} = [qw(pieris_napi_LBTMP10001)];
+#    $SiteDefs::__species_aliases{'Chilo_suppressalis_PRJNA178139'} = [qw(chilo_suppressalis_PRJNA178139)];
+#    $SiteDefs::__species_aliases{'Pieris_napi_LBTMP10001'} = [qw(pieris_napi_LBTMP10001)];
     
 
 ## ...END LEPBASE MODIFICATIONS
