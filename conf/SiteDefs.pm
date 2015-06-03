@@ -37,7 +37,7 @@ sub update_conf {
     map {delete($SiteDefs::__species_aliases{$_}) } keys %SiteDefs::__species_aliases;
 
 ## BEGIN LEPBASE MODIFICATIONS...
-    $SiteDefs::ENSEMBL_PRIMARY_SPECIES  = 'Manduca_sexta_PRJNA71235'; # Default species
+    $SiteDefs::ENSEMBL_PRIMARY_SPECIES  = 'Heliconius_melpomene'; # Default species
     $SiteDefs::ENSEMBL_SECONDARY_SPECIES  = 'Manduca_sexta_PRJNA71235'; # Default species
 ## ...END LEPBASE MODIFICATIONS
 
@@ -49,6 +49,7 @@ sub update_conf {
 # --- Release 14
 #    $SiteDefs::__species_aliases{ 'Danaus_plexippus_PRJNA72423' } = [qw(danaus_plexippus_PRJNA72423)];    
 #    $SiteDefs::__species_aliases{ 'Heliconius_melpomene_PRJEA71053' } = [qw(heliconius_melpomene_PRJEA71053)];    
+    $SiteDefs::__species_aliases{ 'Heliconius_melpomene' } = [qw(heliconius_melpomene)];    
 
 # --- Release 23
 #    $SiteDefs::__species_aliases{'Mnemiopsis_leidyi'} = [qw(Mnemiopsis_leidyi)];
