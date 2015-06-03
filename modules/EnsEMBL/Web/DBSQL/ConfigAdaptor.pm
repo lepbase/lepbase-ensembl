@@ -44,11 +44,6 @@ sub set_cache_tags {
 ## ...END LEPBASE MODIFICATIONS
 }
 
-# not currently used, but written in case we need it in future
-sub disconnect {
-  return unless $DBH;
-  $DBH->disconnect;
-  undef $DBH;
-}
+
 
 1;
