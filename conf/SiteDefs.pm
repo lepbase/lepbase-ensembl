@@ -38,8 +38,9 @@ sub update_conf {
 
 ## BEGIN LEPBASE MODIFICATIONS...
     $SiteDefs::ENSEMBL_PRIMARY_SPECIES  = 'Heliconius_melpomene'; # Default species
-    $SiteDefs::ENSEMBL_SECONDARY_SPECIES  = 'Manduca_sexta_PRJNA71235'; # Default species
+    $SiteDefs::ENSEMBL_SECONDARY_SPECIES  = 'Melitaea_cinxia'; # Default species
 ## ...END LEPBASE MODIFICATIONS
+
 
 # --- Release 12
 #    $SiteDefs::__species_aliases{ 'Tribolium_castaneum' } = [qw(Tribolium_castaneum)];
@@ -49,7 +50,7 @@ sub update_conf {
 # --- Release 14
 #    $SiteDefs::__species_aliases{ 'Danaus_plexippus_PRJNA72423' } = [qw(danaus_plexippus_PRJNA72423)];    
 #    $SiteDefs::__species_aliases{ 'Heliconius_melpomene_PRJEA71053' } = [qw(heliconius_melpomene_PRJEA71053)];    
-    $SiteDefs::__species_aliases{ 'Heliconius_melpomene' } = [qw(heliconius_melpomene)];    
+#    $SiteDefs::__species_aliases{ 'Heliconius_melpomene' } = [qw(heliconius_melpomene)];    
 
 # --- Release 23
 #    $SiteDefs::__species_aliases{'Mnemiopsis_leidyi'} = [qw(Mnemiopsis_leidyi)];
@@ -60,9 +61,13 @@ sub update_conf {
 #    $SiteDefs::__species_aliases{'Plutella_xylostella_PRJNA78271'} = [qw(plutella_xylostella_PRJNA78271)];
 #    $SiteDefs::__species_aliases{'Plodia_interpunctella_PRJEB4874'} = [qw(plodia_interpunctella PRJEB4874)];
 #    $SiteDefs::__species_aliases{'Bicyclus_anynana_PRJEB8426'} = [qw(bicyclus_anynana PRJEB8426)];
-    $SiteDefs::__species_aliases{'Manduca_sexta_PRJNA71235'} = [qw(manduca_sexta_PRJNA71235)];
+#    $SiteDefs::__species_aliases{'Manduca_sexta_PRJNA71235'} = [qw(manduca_sexta_PRJNA71235)];
 #    $SiteDefs::__species_aliases{'Chilo_suppressalis_PRJNA178139'} = [qw(chilo_suppressalis_PRJNA178139)];
 #    $SiteDefs::__species_aliases{'Pieris_napi_LBTMP10001'} = [qw(pieris_napi_LBTMP10001)];
+    $SiteDefs::__species_aliases{ 'Heliconius_melpomene' } = [qw(heliconius_melpomene)];    
+    $SiteDefs::__species_aliases{ 'Danaus_plexippus' } = [qw(danaus_plexippus)];    
+    $SiteDefs::__species_aliases{ 'Bombyx_mori' } = [qw(bombys_mori)];    
+    $SiteDefs::__species_aliases{ 'Melitaea_cinxia' } = [qw(melitaea_cinxia)];    
     
 
 ## ...END LEPBASE MODIFICATIONS
