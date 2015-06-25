@@ -50,7 +50,7 @@ sub update_conf {
   );
 
   push (@SiteDefs::ENSEMBL_LIB_DIRS, 
-    $SiteDefs::ENSEMBL_SERVERROOT . '/ensemblgenomes-api/modules'
+    $SiteDefs::ENSEMBL_SERVERROOT . '/ensemblgenomes-api/modules',
     $SiteDefs::ENSEMBL_SERVERROOT . '/ensembl-io/modules',
   );
   
