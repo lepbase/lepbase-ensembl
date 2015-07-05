@@ -68,7 +68,7 @@ sub update_conf {
     $SiteDefs::__species_aliases{ 'Danaus_plexippus' } = [qw(danaus_plexippus)];    
     $SiteDefs::__species_aliases{ 'Bombyx_mori' } = [qw(bombys_mori)];    
     $SiteDefs::__species_aliases{ 'Melitaea_cinxia' } = [qw(melitaea_cinxia)];    
-    $SiteDefs::__species_aliases{ 'Manduca_sexta_prjna81037' } = [qw(melitaea_cinxia_prjna81037)];    
+    $SiteDefs::__species_aliases{ 'manduca_sexta_prjna81037' } = [qw(manduca_sexta_prjna81037)];    
     
 
 ## ...END LEPBASE MODIFICATIONS
