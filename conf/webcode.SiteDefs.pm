@@ -352,8 +352,8 @@ our $OBJECT_TO_SCRIPT = {
   CSS                 => 'CSS',  
 };
 
-$SiteDefs::ENSEMBL_LOGDIR = "$ENSEMBL_SERVERROOT/logs";
-$SiteDefs::ENSEMBL_TMP_DIR = "$ENSEMBL_SERVERROOT/tmp";
+logs("$ENSEMBL_SERVERROOT/logs");
+tmp("$ENSEMBL_SERVERROOT/tmp");
 
 ## Set log directory and files
 our $ENSEMBL_LOGDIR    = defer { "$ENSEMBL_SERVERROOT/logs" };
