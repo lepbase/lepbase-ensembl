@@ -550,10 +550,13 @@ sub transcript_table {
     }
     my $seq = $transcripts->[$index]->seq()->seq();
     $blast_html = sequenceserver_button($title,$seq,'Transcript');
+    $seq = undef;
     $seq = $transcripts->[$index]->spliced_seq();
     $blast_html .= sequenceserver_button($title,$seq,'cDNA') if $seq;
+    $seq = undef;
     $seq = $transcripts->[$index]->translateable_seq();
     $blast_html .= sequenceserver_button($title,$seq,'CDS') if $seq;
+    $seq = undef;
     $seq = $transcripts->[$index]->translate()->seq();
     $blast_html .= sequenceserver_button($transcripts->[$index]->stable_id,$seq,'Protein') if $seq;
   }
