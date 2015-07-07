@@ -59,9 +59,6 @@ sub update_conf {
   $SiteDefs::DOCSEARCH_INDEX_DIR = $SiteDefs::ENSEMBL_TMP_DIR . '/docsearch_index';
   
   $SiteDefs::OBJECT_TO_SCRIPT->{'Info'} = 'AltPage';
-
-# Database key name for tools db as defined in MULTI.ini
-  $SiteDefs::ENSEMBL_ORM_DATABASES->{'ticket'} = 'DATABASE_WEB_TOOLS';
   
   $SiteDefs::ENSEMBL_BLASTSCRIPT       = $SiteDefs::ENSEMBL_SERVERROOT."/utils/parse_blast.pl";
 ## BEGIN LEPBASE MODIFICATIONS...
@@ -103,24 +100,6 @@ sub update_conf {
 
   $SiteDefs::ENSEMBL_REST_URL     = 'http://rest.ensemblgenomes.org';
   $SiteDefs::ENSEMBL_REST_DOC_URL = 'http://ensemblgenomes.org/info/access/rest';
-
-  $SiteDefs::LARGE_SPECIES_SET = 1;
-
-  $SiteDefs::ENSEMBL_DATASETS = [
-    qw(
-      Heliconius_melpomene
-      Danaus_plexippus
-      Bombyx_mori
-      Melitaea_cinxia
-      manduca_sexta_prjna81037
-    ),
-    # collections
-    qw(
-      Lepidoptera_Papilionoidea
-      Lepidoptera_Geometroidea
-      Lepidoptera_Bombycoidea
-    )
-  ];
 
 }
 
