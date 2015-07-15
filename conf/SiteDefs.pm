@@ -64,12 +64,11 @@ sub update_conf {
 #    $SiteDefs::__species_aliases{'Manduca_sexta_PRJNA71235'} = [qw(manduca_sexta_PRJNA71235)];
 #    $SiteDefs::__species_aliases{'Chilo_suppressalis_PRJNA178139'} = [qw(chilo_suppressalis_PRJNA178139)];
 #    $SiteDefs::__species_aliases{'Pieris_napi_LBTMP10001'} = [qw(pieris_napi_LBTMP10001)];
-    $SiteDefs::__species_aliases{ 'Heliconius_melpomene' } = [qw(heliconius_melpomene)];    
-    $SiteDefs::__species_aliases{ 'Danaus_plexippus' } = [qw(danaus_plexippus)];    
-    $SiteDefs::__species_aliases{ 'Bombyx_mori' } = [qw(bombys_mori)];    
-    $SiteDefs::__species_aliases{ 'Melitaea_cinxia' } = [qw(melitaea_cinxia)];    
-    $SiteDefs::__species_aliases{ 'Manduca_sexta_prjna81037' } = [qw(manduca_sexta_prjna81037)];    
-    
+    $SiteDefs::__species_aliases{ 'Heliconius_melpomene' } = [qw(Heliconius_melpomene_PRJEA71053)];    
+    $SiteDefs::__species_aliases{ 'Danaus_plexippus' } = [qw(Danaus_plexippus_PRJNA72423)];    
+    $SiteDefs::__species_aliases{ 'Bombyx_mori' } = [qw(Bombyx_mori_PRJNA205630)];    
+    $SiteDefs::__species_aliases{ 'Melitaea_cinxia' } = [qw(Melitaea_cinxia_PRJNA191594)];
+    $SiteDefs::__species_aliases{ 'Heliconius_melpomene_LEPBA0003' } = [qw(Heliconius_melpomene_LEPBA0003)];    
 
 ## ...END LEPBASE MODIFICATIONS
     @SiteDefs::ENSEMBL_PERL_DIRS    = (
