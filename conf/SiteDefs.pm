@@ -68,15 +68,15 @@ sub update_conf {
     $SiteDefs::__species_aliases{ 'Danaus_plexippus' }                  = [qw(Danaus_plexippus_PRJNA72423)];    
     $SiteDefs::__species_aliases{ 'Bombyx_mori' }                       = [qw(Bombyx_mori_PRJNA205630)];    
     $SiteDefs::__species_aliases{ 'Melitaea_cinxia' }                   = [qw(Melitaea_cinxia_PRJNA191594)];
-    $SiteDefs::__species_aliases{ 'Heliconius_melpomene_LEPBA0003' }    = [qw(Heliconius_melpomene_LEPBA0003)];    
-    $SiteDefs::__species_aliases{ 'Bicyclus_anynana_PRJEB8426' }        = [qw(Bicyclus_anynana_PRJEB8426)];    
-    $SiteDefs::__species_aliases{ 'Chilo_suppressalis_PRJNA178139' }    = [qw(Chilo_suppressalis_PRJNA178139)];    
-    $SiteDefs::__species_aliases{ 'Lerema_accius_LEPBA0002' }           = [qw(Lerema_accius_LEPBA0002)];    
-    $SiteDefs::__species_aliases{ 'Manduca_sexta_PRJNA81037' }          = [qw(Manduca_sexta_PRJNA81037)];    
-    $SiteDefs::__species_aliases{ 'Papilio_glaucus_PRJNA270125' }       = [qw(Papilio_glaucus_PRJNA270125)];    
-    $SiteDefs::__species_aliases{ 'Pieris_napi_LEPBA0001' }             = [qw(Pieris_napi_LEPBA0001)];    
-    $SiteDefs::__species_aliases{ 'Plodia_interpunctella_PRJEB4874' }   = [qw(Plodia_interpunctella_PRJEB4874)];    
-    $SiteDefs::__species_aliases{ 'Plutella_xylostella_PRJNA78271' }    = [qw(Plutella_xylostella_PRJNA78271)];    
+    $SiteDefs::__species_aliases{ 'Heliconius_melpomene_LEPBA0003' }    = [qw(Heliconius_melpomene)];    
+    $SiteDefs::__species_aliases{ 'Bicyclus_anynana_PRJEB8426' }        = [qw(Bicyclus_anynana)];    
+    $SiteDefs::__species_aliases{ 'Chilo_suppressalis_PRJNA178139' }    = [qw(Chilo_suppressalis)];    
+    $SiteDefs::__species_aliases{ 'Lerema_accius_LEPBA0002' }           = [qw(Lerema_accius)];    
+    $SiteDefs::__species_aliases{ 'Manduca_sexta_PRJNA81037' }          = [qw(Manduca_sexta)];    
+    $SiteDefs::__species_aliases{ 'Papilio_glaucus_PRJNA270125' }       = [qw(Papilio_glaucus)];    
+    $SiteDefs::__species_aliases{ 'Pieris_napi_LEPBA0001' }             = [qw(Pieris_napi)];    
+    $SiteDefs::__species_aliases{ 'Plodia_interpunctella_PRJEB4874' }   = [qw(Plodia_interpunctella)];    
+    $SiteDefs::__species_aliases{ 'Plutella_xylostella_PRJNA78271' }    = [qw(Plutella_xylostella)];    
 
 ## ...END LEPBASE MODIFICATIONS
     @SiteDefs::ENSEMBL_PERL_DIRS    = (
