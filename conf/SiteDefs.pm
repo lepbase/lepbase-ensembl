@@ -78,7 +78,7 @@ sub update_conf {
     $SiteDefs::__species_aliases{ 'Plodia_interpunctella_PRJEB4874' }   = [qw(Plodia_interpunctella)];    
     $SiteDefs::__species_aliases{ 'Plutella_xylostella_PRJNA78271' }    = [qw(Plutella_xylostella)];    
     $SiteDefs::__species_aliases{ 'Heliconius_numata_LEPBA0004' }       = [qw(Heliconius%20numata%20LEPBA0004,Heliconius%20numata)];    
-    $SiteDefs::__species_aliases{ 'Heliconis_timareta_LEPBA0005' }      = [qw(Heliconis%20timareta%20LEPBA0005,Heliconis%20timareta)];    
+    $SiteDefs::__species_aliases{ 'Heliconius_timareta_LEPBA0005' }     = [qw(Heliconius%20timareta%20LEPBA0005,Heliconius%20timareta)];    
     $SiteDefs::__species_aliases{ 'Heliconius_erato_LEPBA0006' }        = [qw(Heliconius%20erato%20LEPBA0006,Heliconius%20erato)];    
 
 ## ...END LEPBASE MODIFICATIONS
