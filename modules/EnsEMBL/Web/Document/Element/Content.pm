@@ -288,10 +288,10 @@ sub content_panel {
   } else {
     $species_badge .= qq(<h1>$common_name</h1><p>$display_name</p>);
   }
-  $html .= '<p class="taxon-id">';
-  $html .= 'Data Source ' . $provider_link if $provider_link;
-  $html .= sprintf q{Taxonomy ID %s}, $hub->get_ExtURL_link("$taxid", 'UNIPROT_TAXONOMY', $taxid) if $taxid;
-  $html .= '</p>';
+  $species_badge .= '<p class="taxon-id">';
+  $species_badge .= 'Data Source ' . $provider_link if $provider_link;
+  $species_badge .= sprintf q{Taxonomy ID %s}, $hub->get_ExtURL_link("$taxid", 'UNIPROT_TAXONOMY', $taxid) if $taxid;
+  $species_badge .= '</p>';
   $species_badge .= '</div>'; #species-badge
   $self->add_panel_first(EnsEMBL::Web::Document::Panel->new(raw => $species_badge));
 }
