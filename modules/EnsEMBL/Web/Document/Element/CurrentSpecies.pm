@@ -45,7 +45,7 @@ sub content {
 
   $species_badge .= '</div>'; #species-badge
 
-      $content = qq{
+      my $content = qq{
         <div class="nav-heading">
           $species_badge
         </div>
