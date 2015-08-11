@@ -23,7 +23,7 @@ use strict;
 use base qw(EnsEMBL::Web::Document::Element);
 
 sub content {
-  my $self         = shift;
+  my $self = shift;
   my $hub          = $self->hub;
   my $species      = $hub->species;
   my $species_defs = $hub->species_defs;
@@ -31,7 +31,26 @@ sub content {
   my $common_name  = $species_defs->SPECIES_COMMON_NAME;
   my $display_name = $species_defs->SPECIES_SCIENTIFIC_NAME;
   
-  my $species_badge = '
+  return $self->{'raw'} if exists $self->{'raw'};
+  
+  my $hub        = $self->hub;
+  my $status     = $hub ? $hub->param($self->{'status'}) : undef;
+  my $content    = sprintf '%s<p class="invisible">.</p>', $status ne 'off' ? sprintf('<div class="content">%s</div>', $self->component_content) : '';
+  my $panel_type = $self->renderer->{'_modal_dialog_'} ? 'ModalContent' : 'Content';
+  
+  if (!$self->{'omit_header'}) {
+
+    my $caption = '';
+    if ($self->{'caption'}) {
+      my $summary = $self->{'code'} eq 'summary_panel' ? 1 : 0;
+      if ($summary) {
+        $caption = $self->_caption_h1;
+      }
+      else {
+        $caption = $self->_caption_h2_with_helplink;
+      }
+
+	my $species_badge = '
     <div class="species-badge">';
 
   $species_badge .= qq(<img src="${img_url}species/64/$species.png" alt="" title="" />);
@@ -43,9 +62,23 @@ sub content {
   }
 
   $species_badge .= '</div>'; #species-badge
+
+      $content = qq{
+        <div class="nav-heading">
+          $species_badge
+        </div>
+      };
+    }
+  }
   
-  return $species_badge;
+  return qq{
+    <div class="panel js_panel">
+      <input type="hidden" class="panel_type" value="$panel_type" />
+      $content
+    </div>
+  };
 }
+
 
 
 1;
