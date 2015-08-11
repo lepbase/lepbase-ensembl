@@ -51,7 +51,7 @@ sub content {
 <div class="column-wrapper">  
   <div class="column-one">
     <div class="column-padding no-left-margin">
-      <h1 class="no-bottom-margin">$common_name assembly and gene annotation</h1>
+      <h1 class="no-bottom-margin">Assembly and gene annotation</h1>
     </div>
   </div>
 </div>
