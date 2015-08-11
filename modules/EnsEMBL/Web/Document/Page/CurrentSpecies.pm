@@ -20,21 +20,7 @@ package EnsEMBL::Web::Document::Element::CurrentSpecies;
 
 use strict;
 
-use EnsEMBL::Web::Document::Panel;
-
-use base qw(EnsEMBL::Web::Document::Element);
-
-sub new {
-  return shift->SUPER::new({
-    %{$_[0]},
-    panels => [],
-    form   => ''
-  });
-}
-
-
-
-sub init {
+sub content {
   my $self         = shift;
   my $hub          = $self->hub;
   my $species      = $hub->species;
@@ -57,6 +43,7 @@ sub init {
   $species_badge .= '</div>'; #species-badge
   $self->add_panel(EnsEMBL::Web::Document::Panel->new(raw => $species_badge));
 
+  return $content;
 }
 
 
