@@ -162,23 +162,9 @@ sub content {
 
   my $html = '
     <div class="column-wrapper">  
-      <div class="box-left">
-        <div class="species-badge">';
+      <div class="box-left">';
 
-  $html .= qq(<img src="${img_url}species/64/$species.png" alt="" title="$sound" />) unless $self->is_bacteria;
-
-  if ($common_name =~ /\./) {
-    $html .= qq(<h1>$display_name</h1>);
-  } else {
-    $html .= qq(<h1>$common_name</h1><p>$display_name</p>);
-  }
-
-  $html .= '<p class="taxon-id">';
-  $html .= 'Data Source ' . $provider_link if $provider_link;
-  $html .= sprintf q{Taxonomy ID %s}, $hub->get_ExtURL_link("$taxid", 'UNIPROT_TAXONOMY', $taxid) if $taxid;
-  $html .= '</p>';
-  $html .= '</div>'; #species-badge
-
+  
   $html .= EnsEMBL::Web::Document::HTML::HomeSearch->new($hub)->render;
 
   $html .= '</div>'; #box-left
