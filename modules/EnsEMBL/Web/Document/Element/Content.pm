@@ -262,10 +262,24 @@ sub content_panel {
   my $img_url      = $self->img_url;
   my $common_name  = $species_defs->SPECIES_COMMON_NAME;
   my $display_name = $species_defs->SPECIES_SCIENTIFIC_NAME;
-  
+  my $taxid        = $species_defs->TAXONOMY_ID;
+  my $provider_link;
+
+  if ($species_defs->PROVIDER_NAME && ref $species_defs->PROVIDER_NAME eq 'ARRAY') {
+    my @providers;
+    push @providers, map { $hub->make_link_tag(text => $species_defs->PROVIDER_NAME->[$_], url => $species_defs->PROVIDER_URL->[$_]) } 0 .. scalar @{$species_defs->PROVIDER_NAME} - 1;
+
+    if (@providers) {
+      $provider_link = join ', ', @providers;
+      $provider_link .= ' | ';
+    }
+  }
+  elsif ($species_defs->PROVIDER_NAME) {
+    $provider_link = $hub->make_link_tag(text => $species_defs->PROVIDER_NAME, url => $species_defs->PROVIDER_URL) . " | ";
+  }
   
 	my $species_badge = '
-    <div class="species-badge">';
+    <div class="species-badge" style="padding: 0px 16px 16px 16px">';
 
   $species_badge .= qq(<img src="${img_url}species/64/$species.png" alt="" title="" />);
 
@@ -274,7 +288,10 @@ sub content_panel {
   } else {
     $species_badge .= qq(<h1>$common_name</h1><p>$display_name</p>);
   }
-
+  $html .= '<p class="taxon-id">';
+  $html .= 'Data Source ' . $provider_link if $provider_link;
+  $html .= sprintf q{Taxonomy ID %s}, $hub->get_ExtURL_link("$taxid", 'UNIPROT_TAXONOMY', $taxid) if $taxid;
+  $html .= '</p>';
   $species_badge .= '</div>'; #species-badge
   $self->add_panel_first(EnsEMBL::Web::Document::Panel->new(raw => $species_badge));
 }
