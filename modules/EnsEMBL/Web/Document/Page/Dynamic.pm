@@ -51,6 +51,7 @@ sub initialize_HTML {
     navigation       EnsEMBL::Web::Document::Element::Navigation
     tool_buttons     EnsEMBL::Web::Document::Element::ToolButtons
     summary          EnsEMBL::Web::Document::Element::Summary
+    species          EnsEMBL::Web::Document::Element::CurrentSpecies
     content          EnsEMBL::Web::Document::Element::Content
     modal            EnsEMBL::Web::Document::Element::Modal
     acknowledgements EnsEMBL::Web::Document::Element::Acknowledgements
