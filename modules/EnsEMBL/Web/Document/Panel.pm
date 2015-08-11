@@ -45,6 +45,7 @@ sub new {
 
 sub content {
   my $self = shift;
+  my $hub          = $self->hub;
   my $species_defs = $hub->species_defs;
   my $display_name = $species_defs->SPECIES_SCIENTIFIC_NAME;
   
