@@ -219,27 +219,7 @@ sub init {
     }
   }
   
-  my $hub          = $self->hub;
-  my $species      = $hub->species;
-  my $species_defs = $hub->species_defs;
-  my $img_url      = $self->img_url;
-  my $common_name  = $species_defs->SPECIES_COMMON_NAME;
-  my $display_name = $species_defs->SPECIES_SCIENTIFIC_NAME;
   
-  
-	my $species_badge = '
-    <div class="species-badge">';
-
-  $species_badge .= qq(<img src="${img_url}species/64/$species.png" alt="" title="" />);
-
-  if ($common_name =~ /\./) {
-    $species_badge .= qq(<h1>$display_name</h1>);
-  } else {
-    $species_badge .= qq(<h1>$common_name</h1><p>$display_name</p>);
-  }
-
-  $species_badge .= '</div>'; #species-badge
-  $self->add_panel(EnsEMBL::Web::Document::Panel->new(raw => $species_badge));
 }
 
 sub content_panel {
@@ -275,6 +255,28 @@ sub content_panel {
  
   $panel->add_components(@components);
   $self->add_panel($panel);
+  
+  $hub          = $self->hub;
+  my $species      = $hub->species;
+  my $species_defs = $hub->species_defs;
+  my $img_url      = $self->img_url;
+  my $common_name  = $species_defs->SPECIES_COMMON_NAME;
+  my $display_name = $species_defs->SPECIES_SCIENTIFIC_NAME;
+  
+  
+	my $species_badge = '
+    <div class="species-badge">';
+
+  $species_badge .= qq(<img src="${img_url}species/64/$species.png" alt="" title="" />);
+
+  if ($common_name =~ /\./) {
+    $species_badge .= qq(<h1>$display_name</h1>);
+  } else {
+    $species_badge .= qq(<h1>$common_name</h1><p>$display_name</p>);
+  }
+
+  $species_badge .= '</div>'; #species-badge
+  $self->add_panel_first(EnsEMBL::Web::Document::Panel->new(raw => $species_badge));
 }
 
 sub ajax_content {
