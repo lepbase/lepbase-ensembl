@@ -46,7 +46,10 @@ sub new {
 sub content {
   my $self = shift;
   my $hub          = $self->hub;
+  my $species      = $hub->species;
   my $species_defs = $hub->species_defs;
+  my $img_url      = $self->img_url;
+  my $common_name  = $species_defs->SPECIES_COMMON_NAME;
   my $display_name = $species_defs->SPECIES_SCIENTIFIC_NAME;
   
   return $self->{'raw'} if exists $self->{'raw'};
@@ -68,10 +71,23 @@ sub content {
         $caption = $self->_caption_h2_with_helplink;
       }
 
+	my $species_badge = '
+    <div class="species-badge">';
+
+  $species_badge .= qq(<img src="${img_url}species/64/$species.png" alt="" title="" />);
+
+  if ($common_name =~ /\./) {
+    $species_badge .= qq(<h1>$display_name</h1>);
+  } else {
+    $species_badge .= qq(<h1>$common_name</h1><p>$display_name</p>);
+  }
+
+  $species_badge .= '</div>'; #species-badge
+
       $content = qq{
+        $species_badge
         <div class="nav-heading">
           $caption
-          $display_name
           <p class="invisible">.</p>
         </div>
         $content
