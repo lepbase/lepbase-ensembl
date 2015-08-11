@@ -43,9 +43,8 @@ sub content {
   }
 
   $species_badge .= '</div>'; #species-badge
-  $self->add_panel(EnsEMBL::Web::Document::Panel->new(raw => $species_badge));
-
-  return $content;
+  
+  return $species_badge;
 }
 
 
