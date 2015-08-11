@@ -20,6 +20,8 @@ package EnsEMBL::Web::Document::Element::CurrentSpecies;
 
 use strict;
 
+use base qw(EnsEMBL::Web::Document::Element);
+
 sub content {
   my $self         = shift;
   my $hub          = $self->hub;
