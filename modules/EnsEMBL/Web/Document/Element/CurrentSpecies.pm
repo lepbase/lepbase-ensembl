@@ -31,25 +31,7 @@ sub content {
   my $common_name  = $species_defs->SPECIES_COMMON_NAME;
   my $display_name = $species_defs->SPECIES_SCIENTIFIC_NAME;
   
-  return $self->{'raw'} if exists $self->{'raw'};
   
-  my $hub        = $self->hub;
-  my $status     = $hub ? $hub->param($self->{'status'}) : undef;
-  my $content    = sprintf '%s<p class="invisible">.</p>', $status ne 'off' ? sprintf('<div class="content">%s</div>', $self->component_content) : '';
-  my $panel_type = $self->renderer->{'_modal_dialog_'} ? 'ModalContent' : 'Content';
-  
-  if (!$self->{'omit_header'}) {
-
-    my $caption = '';
-    if ($self->{'caption'}) {
-      my $summary = $self->{'code'} eq 'summary_panel' ? 1 : 0;
-      if ($summary) {
-        $caption = $self->_caption_h1;
-      }
-      else {
-        $caption = $self->_caption_h2_with_helplink;
-      }
-
 	my $species_badge = '
     <div class="species-badge">';
 
@@ -68,8 +50,7 @@ sub content {
           $species_badge
         </div>
       };
-    }
-  }
+
   
   return qq{
     <div class="panel js_panel">
