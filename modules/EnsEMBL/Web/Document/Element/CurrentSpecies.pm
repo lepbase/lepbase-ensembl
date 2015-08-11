@@ -54,7 +54,6 @@ sub content {
   
   return qq{
     <div class="panel js_panel">
-      <input type="hidden" class="panel_type" value="$panel_type" />
       $content
     </div>
   };
