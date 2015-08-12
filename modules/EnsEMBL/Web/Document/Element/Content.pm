@@ -255,7 +255,9 @@ sub content_panel {
  
   $panel->add_components(@components);
   $self->add_panel($panel);
-  
+
+###
+# BEGIN LEPBASE MODIFICATIONS...  
   $hub          = $self->hub;
   my $species      = $hub->species;
   my $species_defs = $hub->species_defs;
@@ -294,6 +296,8 @@ sub content_panel {
   $species_badge .= '</p>';
   $species_badge .= '</div>'; #species-badge
   $self->add_panel_first(EnsEMBL::Web::Document::Panel->new(raw => $species_badge));
+# ...END LEPBASE MODIFICATIONS
+###
 }
 
 sub ajax_content {

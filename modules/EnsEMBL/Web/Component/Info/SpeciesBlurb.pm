@@ -47,6 +47,8 @@ sub content {
   my $source_type       = $species_defs->ASSEMBLY_ACCESSION_TYPE;
   my $previous          = $current_assembly;
 
+###
+# BEGIN LEPBASE MODIFICATIONS...
   my $html = qq(
 <div class="column-wrapper">  
   <div class="column-one">
@@ -56,7 +58,8 @@ sub content {
   </div>
 </div>
           );
-
+# ...END LEPBASE MODIFICATIONS
+###
   $html .= '
 <div class="column-wrapper">  
   <div class="column-two">

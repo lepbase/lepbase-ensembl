@@ -160,11 +160,13 @@ sub content {
     $provider_link = $hub->make_link_tag(text => $species_defs->PROVIDER_NAME, url => $species_defs->PROVIDER_URL) . " | ";
   }
 
+###
+# BEGIN LEPBASE MODIFICATION...
   my $html = '
     <div class="column-wrapper">  
       <div class="box-left">';
-
-  
+# ...END LEPBASE MODIFICATION
+###  
   $html .= EnsEMBL::Web::Document::HTML::HomeSearch->new($hub)->render;
 
   $html .= '</div>'; #box-left
