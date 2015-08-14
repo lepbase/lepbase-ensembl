@@ -1,6 +1,6 @@
 =head1 LICENSE
 
-Copyright [1999-2014] Wellcome Trust Sanger Institute and the EMBL-European Bioinformatics Institute
+Copyright [1999-2015] Wellcome Trust Sanger Institute and the EMBL-European Bioinformatics Institute
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
@@ -13,14 +13,6 @@ distributed under the License is distributed on an "AS IS" BASIS,
 WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
-
-=cut
-
-=head1 MODIFICATIONS
-
-Copyright [2014-2015] University of Edinburgh
-
-All modifications licensed under the Apache License, Version 2.0, as above.
 
 =cut
 
@@ -60,7 +52,6 @@ use EnsEMBL::Web::Apache::SpeciesHandler;
 our $species_defs = EnsEMBL::Web::SpeciesDefs->new;
 our $MEMD         = EnsEMBL::Web::Cache->new;
 
-our $BLAST_LAST_RUN;
 our $LOAD_COMMAND;
 
 BEGIN {
@@ -69,190 +60,7 @@ BEGIN {
                                                    \&_load_command_null;
 };
 
-#======================================================================#
-# Perl apache handlers in order they get executed                      #
-#======================================================================#
 
-sub child_init_hook {}
-
-sub childInitHandler {
-## Initiates an Apache child process, sets up the web registry object,
-## and initializes the timer
-  my $r = shift;
- 
-  child_init_hook($r);
- 
-  my @X             = localtime;
-  my $temp_hostname = hostname;
-  my $temp_proc_id  = '' . reverse $$;
-  my $temp_seed     = ($temp_proc_id + $temp_proc_id << 15) & 0xffffffff
-  ;
-  
-  while ($temp_hostname =~ s/(.{1,4})//) {
-    $temp_seed = $temp_seed ^ unpack("%32L*", $1);
-  }
-  
-  srand(time ^ $temp_seed);
-  
-  # Create the Registry
-  $ENSEMBL_WEB_REGISTRY = EnsEMBL::Web::Registry->new;
-  $ENSEMBL_WEB_REGISTRY->timer->set_process_child_count(0);
-  $ENSEMBL_WEB_REGISTRY->timer->set_process_start_time(time);
-  
-  warn sprintf "Child initialised: %7d %04d-%02d-%02d %02d:%02d:%02d\n", $$, $X[5]+1900, $X[4]+1, $X[3], $X[2], $X[1], $X[0] if $SiteDefs::ENSEMBL_DEBUG_FLAGS & $SiteDefs::ENSEMBL_DEBUG_HANDLER_ERRORS;
-}
-
-
-sub redirect_to_nearest_mirror {
-## Redirects requests based on IP address - only used if the ENSEMBL_MIRRORS site parameter is configured
-## This does not do an actual HTTP redirect, but sets a cookie that tells the JavaScript to perform a client side redirect after specified time interval
-  my $r           = shift;
-  my $server_name = $species_defs->ENSEMBL_SERVERNAME;
-
-  # redirect only if we have mirrors, and the ENSEMBL_SERVERNAME is same as headers HOST (this is to prevent redirecting a static server request)
-  if (keys %{ $species_defs->ENSEMBL_MIRRORS || {} } && ( $r->headers_in->{'Host'} eq $server_name || $r->headers_in->{'X-Forwarded-Host'} eq $server_name )) {
-    my $unparsed_uri    = $r->unparsed_uri;
-    my $redirect_flag   = $unparsed_uri =~ /redirect=([^\&\;]+)/ ? $1 : '';
-    my $debug_ip        = $unparsed_uri =~ /debugip=([^\&\;]+)/ ?  $1 : '';
-    my $redirect_cookie = EnsEMBL::Web::Cookie->retrieve($r, {'name' => 'redirect_mirror'}) || EnsEMBL::Web::Cookie->new($r, {'name' => 'redirect_mirror'});
-
-    # If the user clicked on a link that's explicitly supposed to take him to
-    # another mirror, it should have an extra param 'redirect=no' in it. We save
-    # the 'redirect' cookie with value 'no' in that case to avoid redirecting
-    # any further requests. If there's a param in the url that says redirect=force,
-    # we always give precedence to that one. If debug ip param is set, ignore
-    # we any existing cookie, deal it as a forced redirect.
-    # IMPORTANT: To make debug ip work, make sure there's no cookie set with redirect address
-    if ($redirect_flag eq 'force' || $debug_ip) {
-
-      # If the cookie has already been set with its value as the nearest mirror,
-      # no further action is required, otherwise if cookie is 'no', clear it's value (don't remove it)
-      return DECLINED if $redirect_cookie->value && $redirect_cookie->value ne 'no';
-      $redirect_cookie->value('');
-      $redirect_cookie->bake;
-
-    } else {
-      if ($redirect_flag eq 'no') {
-        $redirect_cookie->value('no');
-        $redirect_cookie->bake;
-      }
-
-      # Now if the redirect_cookie has some value, it is either 'no' or the url path
-      # to which the JavaScript should redirect the browser (set later in this subroutine)
-      # Either ways, we don't need any further action.
-      return DECLINED if $redirect_cookie->value;
-    }
-
-    # Getting the correct remote IP address isn't straight forward. We check all the possible
-    # ip addresses to get the correct one that is valid and isn't an internal address.
-    # If debug ip is provided, then the others are ignored.
-    my ($remote_ip) = grep {
-      $_ =~ /(\d{1,3})\.(\d{1,3})\.(\d{1,3})\.(\d{1,3})/ && !($1 > 255 || $2 > 255 || $3 > 255 || $4 > 255 || $1 == 10 || $1 == 172 && $2 >= 16 && $2 <= 31 || $1 == 192 && $2 == 168);
-    } $debug_ip ? $debug_ip : (split(/\s*\,\s*/, $r->headers_in->{'X-Forwarded-For'}), $r->connection->remote_ip);
-
-    # If there is no IP address, don't do any redirect (there's a possibility this is Amazon's loadbalancer trying to do some healthcheck ping)
-    return DECLINED unless $remote_ip;
-
-    # Just leave another warning if the GEOCITY file is missing
-    my $geocity_file = $species_defs->GEOCITY_DAT || '';
-    unless ($geocity_file && -e $geocity_file) {
-      warn "MIRROR REDIRECTION FAILED: GEOCITY_DAT file ($geocity_file) was not found.";
-      return DECLINED;
-    }
-
-    # Get the location record the for remote IP
-    my $record;
-    eval {
-      require Geo::IP;
-      my $geo = Geo::IP->open($geocity_file, 'GEOIP_MEMORY_CACHE');
-      $record = $geo->record_by_addr($remote_ip) if $geo;
-    };
-    if ($@ || !$record) {
-      warn sprintf 'MIRROR REDIRECTION FAILED: %s', $@ || "Geo::IP could not find details for IP address $remote_ip";
-      return DECLINED;
-    }
-
-    # Find our the nearest mirror according to the remote IP's location
-    my $mirror_map  = $species_defs->ENSEMBL_MIRRORS;
-
-    my $destination = $mirror_map->{$record->country_code || 'MAIN'} || $mirror_map->{'MAIN'};
-       $destination = $destination->{$record->region} || $destination->{'DEFAULT'} if ref $destination eq 'HASH';
-
-    # If the user is already on the nearest mirror, save a cookie
-    # to avoid doing these checks for further requests from the same machine
-    if ($destination eq $server_name) {
-      $redirect_cookie->value('no');
-      $redirect_cookie->bake;
-      return DECLINED;
-    }
-
-    # Redirect if the destination mirror is up
-    if (grep { $_ eq $destination } @SiteDefs::ENSEMBL_MIRRORS_UP) { # ENSEMBL_MIRRORS_UP contains a list of mirrors that are currently up
-      $unparsed_uri   =~ s/(\&|\;)?redirect\=(force|no)//;
-      $unparsed_uri  .= $unparsed_uri =~ /\?/ ? ';redirect=no' : '?redirect=no';
-      $redirect_cookie->value(sprintf '%s|%s|http://%1$s%s', $destination, $species_defs->ENSEMBL_MIRRORS_REDIRECT_TIME || 9, $unparsed_uri);
-      $redirect_cookie->bake;
-    }
-  }
-
-  return DECLINED;
-}
-
-sub request_start_hook {}
-sub postReadRequestHandler {
-  my $r = shift; # Get the connection handler
-
-  request_start_hook($r);
-
-  # Nullify tags
-  $ENV{'CACHE_TAGS'} = {};
-  
-  # Manipulate the Registry
-  $ENSEMBL_WEB_REGISTRY->timer->new_child;
-  $ENSEMBL_WEB_REGISTRY->timer->clear_times;
-  $ENSEMBL_WEB_REGISTRY->timer_push('Handling script', undef, 'Apache');
-  
-  ## Ajax cookie
-  my $cookies = EnsEMBL::Web::Cookie->fetch($r);
-  my $width   = $cookies->{'ENSEMBL_WIDTH'} && $cookies->{'ENSEMBL_WIDTH'}->value ? $cookies->{'ENSEMBL_WIDTH'}->value : 0;  
-  my $window_width = $cookies->{'WINDOW_WIDTH'} && $cookies->{'WINDOW_WIDTH'}->value ? $cookies->{'WINDOW_WIDTH'}->value : 0;
-  
-#warn ">>$window_width";
-  $r->subprocess_env->{'WINDOW_WIDTH'}          = $window_width; # use for mobile website to determine device windows size
-  $r->subprocess_env->{'ENSEMBL_IMAGE_WIDTH'}   = $width || $SiteDefs::ENSEMBL_IMAGE_WIDTH || 800;
-  $r->subprocess_env->{'ENSEMBL_DYNAMIC_WIDTH'} = $cookies->{'DYNAMIC_WIDTH'} && $cookies->{'DYNAMIC_WIDTH'}->value ? 1 : $width ? 0 : 1;
-
-  $ENSEMBL_WEB_REGISTRY->timer_push('Post read request handler completed', undef, 'Apache');
-  
-  # Ensembl DEBUG cookie
-  $r->headers_out->add('X-MACHINE' => $SiteDefs::ENSEMBL_SERVER) if $cookies->{'ENSEMBL_DEBUG'};
-  
-  return;
-}
-
-sub cleanURI {
-  my $r = shift;
-  
-  # Void call to populate ENV
-  $r->subprocess_env;
-  
-  # Clean out the uri
-  my $uri = $ENV{'REQUEST_URI'};
-  
-  if ($uri =~ s/[;&]?time=\d+\.\d+//g + $uri =~ s!([^:])/{2,}!$1/!g) {
-    $r->parse_uri($uri);
-    $r->subprocess_env->{'REQUEST_URI'} = $uri;
-  }
-
-  # Clean out the referrer
-  my $referer = $ENV{'HTTP_REFERER'};
-  
-  if ($referer =~ s/[;&]?time=\d+\.\d+//g + $referer =~ s!([^:])/{2,}!$1/!g) {
-    $r->subprocess_env->{'HTTP_REFERER'} = $referer;
-  }
-  
-  return DECLINED;
-}
 
 sub handler {
   my $r = shift; # Get the connection handler
@@ -286,9 +94,21 @@ sub handler {
     $redirect = 1;
   }  
 
+  ## Redirect to blog from /jobs
+  if ($raw_path[0] eq 'jobs') {
+    $r->uri('http://www.ensembl.info/blog/category/jobs/');
+    $redirect = 1;
+  }
+
+  ## Fix for moved eHive documentation
+  if ($file =~ /info\/docs\/eHive\//) {
+    $r->uri('/info/docs/eHive.html');
+    $redirect = 1;
+  }
+
   ## Simple redirect to VEP
 
-  if ($SiteDefs::ENSEMBL_SITETYPE eq 'Pre' && $file =~ /\/vep/i) { ## Pre has no VEP, so redirect to tools page
+  if ($SiteDefs::ENSEMBL_SUBTYPE eq 'Pre' && $file =~ /\/vep/i) { ## Pre has no VEP, so redirect to tools page
     $r->uri('/info/docs/tools/index.html');
     $redirect = 1;
   } elsif ($file =~ /\/info\/docs\/variation\/vep\/vep_script.html/) {
@@ -299,13 +119,6 @@ sub handler {
     $redirect = 1;
   }
 
-  ## Redirect moved documentation
-  if ($file =~ /\/info\/docs\/(variation|funcgen|compara|genebuild|microarray)/) {
-    $file =~ s/docs/genome/;
-    $r->uri($file);
-    $redirect = 1;
-  }
-  
   if ($redirect) {
     $r->headers_out->add('Location' => $r->uri);
     $r->child_terminate;
@@ -332,7 +145,7 @@ sub handler {
   ## Check for stable id URL (/id/ENSG000000nnnnnn) 
   ## and malformed Gene/Summary URLs from external users
   if (($raw_path[0] && $raw_path[0] =~ /^id$/i && $raw_path[1]) || ($raw_path[0] eq 'Gene' && $querystring =~ /g=/ )) {
-    my ($stable_id, $object_type, $db_type, $uri);
+    my ($stable_id, $object_type, $db_type, $retired, $uri);
     
     if ($raw_path[0] =~ /^id$/i) {
       $stable_id = $raw_path[1];
@@ -360,11 +173,11 @@ sub handler {
       );
     }
 
-    ($species, $object_type, $db_type) = Bio::EnsEMBL::Registry->get_species_and_object_type($stable_id);
+    ($species, $object_type, $db_type, $retired) = Bio::EnsEMBL::Registry->get_species_and_object_type($stable_id, undef, undef, undef, undef, 1);
     
     if (!$species || !$object_type) {
       ## Maybe that wasn't versioning after all!
-      ($species, $object_type, $db_type) = Bio::EnsEMBL::Registry->get_species_and_object_type($unstripped_stable_id);
+      ($species, $object_type, $db_type, $retired) = Bio::EnsEMBL::Registry->get_species_and_object_type($unstripped_stable_id, undef, undef, undef, undef, 1);
       $stable_id = $unstripped_stable_id if($species && $object_type);
     }
     
@@ -372,37 +185,29 @@ sub handler {
       $uri = $species ? "/$species/" : '/Multi/';
       
       if ($object_type eq 'Gene') {
-        $uri .= "Gene/Summary?g=$stable_id";
+        $uri .= sprintf 'Gene/%s?g=%s', $retired ? 'Idhistory' : 'Summary', $stable_id;
       } elsif ($object_type eq 'Transcript') {
-        $uri .= "Transcript/Summary?t=$stable_id";
+        $uri .= sprintf 'Transcript/%s?t=%s',$retired ? 'Idhistory' : 'Summary', $stable_id;
       } elsif ($object_type eq 'Translation') {
-        $uri .= "Transcript/ProteinSummary?t=$stable_id";
+        $uri .= sprintf 'Transcript/%s?t=%s', $retired ? 'Idhistory/Protein' : 'ProteinSummary', $stable_id;
       } elsif ($object_type eq 'GeneTree') {
-        $uri = "/Multi/GeneTree/Image?gt=$stable_id";
+        $uri = "/Multi/GeneTree/Image?gt=$stable_id"; # no history page!
       } elsif ($object_type eq 'Family') {
-        $uri = "/Multi/Family/Details?fm=$stable_id";
+        $uri = "/Multi/Family/Details?fm=$stable_id"; # no history page!
       } else {
         $uri .= "psychic?q=$stable_id";
       }
-      
-      $r->uri($uri);
-      $r->headers_out->add('Location' => $r->uri);
-      $r->child_terminate;
-      
-      $ENSEMBL_WEB_REGISTRY->timer_push('Handler "REDIRECT"', undef, 'Apache');
-    
-      return HTTP_MOVED_PERMANENTLY;
     }
-    
-    ## In case the given ID is retired, which means no species 
-    ## can be returned by the API call above
-    $r->uri('/');
+
+    $uri ||= "/Multi/psychic?q=$stable_id";
+
+    $r->uri($uri);
     $r->headers_out->add('Location' => $r->uri);
     $r->child_terminate;
-    
+
     $ENSEMBL_WEB_REGISTRY->timer_push('Handler "REDIRECT"', undef, 'Apache');
-    
-    return NOT_FOUND;
+
+    return HTTP_MOVED_PERMANENTLY;
   }
 
   my %lookup = map { $_ => 1 } $species_defs->valid_species;
@@ -452,11 +257,8 @@ sub handler {
     @tags = map {( "/$species$_", $_ )} @tags;
     push @tags, "/$species";
   }
-## BEGIN LEPBASE MODIFICATIONS...
- 
-# comment out to prevent server error  
-#  $ENV{'CACHE_TAGS'}{$_} = $_ for @tags;
-## ...END LEPBASE MODIFICATIONS
+  
+  #$ENV{'CACHE_TAGS'}{$_} = $_ for @tags;
   
   my $Tspecies  = $species;
   my $script    = undef;
@@ -501,14 +303,16 @@ sub handler {
   $script = join '/', @path_segments;
 
   # Permanent redirect for old species home pages:
-  # e.g. /Homo_sapiens or Homo_sapiens/index.html -> /Homo_sapiens/Info/Index
-  if ($species && $species_name && (!$script || $script eq 'index.html')) {
-    $r->uri($species_name eq 'common' ? 'index.html' : $species_defs->ENSEMBL_SITETYPE eq 'Ensembl mobile' ? "/$species_name/Info/Annotation#assembly" : "/$species_name/Info/Index"); #additional if for mobile site different species home page
+  # e.g. /Homo_sapiens or Homo_sapiens/index.html -> /Homo_sapiens/Info/Index  
+  if ($species && $species_name && (!$script || $script eq 'index.html')) {      
+    my $species_uri = redirect_species_page($species_name); #move to separate function so that it can be overwritten in mobile plugin
+
+    $r->uri($species_uri);
     $r->headers_out->add('Location' => $r->uri);
     $r->child_terminate;
     $ENSEMBL_WEB_REGISTRY->timer_push('Handler "REDIRECT"', undef, 'Apache');
     
-    return HTTP_MOVED_PERMANENTLY;
+    return HTTP_MOVED_PERMANENTLY;  
   }
   
   #commenting this line out because we do want biomart to redirect. If this is causing problem put it back.
@@ -517,26 +321,9 @@ sub handler {
   my $path = join '/', $species || (), $script || (), $path_info || ();
   
   $r->uri("/$path");
-  
-  my $filename = $MEMD ? $MEMD->get("::STATIC::$path") : '';
-  
-  # Search the htdocs dirs for a file to return
-  # Exclude static files (and no, html is not a static file in ensembl)
-  if ($path !~ /\.(\w{2,3})$/) {
-    if (!$filename) {
-      foreach my $dir (grep { -d $_ && -r $_ } @SiteDefs::ENSEMBL_HTDOCS_DIRS) {
-        my $f = "$dir/$path";
-        
-        if (-d $f || -r $f) {
-          $filename = -d $f ? '! ' . $f : $f;
-          $MEMD->set("::STATIC::$path", $filename, undef, 'STATIC') if $MEMD;
-          
-          last;
-        }
-      }
-    }
-  }
-  
+
+  my $filename = get_static_file_for_path($r, $path);
+
   if ($filename =~ /^! (.*)$/) {
     $r->uri($r->uri . ($r->uri      =~ /\/$/ ? '' : '/') . 'index.html');
     $r->filename($1 . ($r->filename =~ /\/$/ ? '' : '/') . 'index.html');
@@ -561,249 +348,8 @@ sub handler {
   return DECLINED;
 }
 
-sub _check_species {
-## Do this in a private function so it's more easily pluggable, e.g. on Pre!
-## This default version just checks if this is a valid species for the site
-  my $args = shift;
-  return $args->{'lookup'}{$args->{'map'}{lc $args->{'dir'}}};
-}
 
-sub logHandler {
-  my $r = shift;
-  my $T = time;
-  
-  $r->subprocess_env->{'ENSEMBL_CHILD_COUNT'}  = $ENSEMBL_WEB_REGISTRY->timer->get_process_child_count;
-  $r->subprocess_env->{'ENSEMBL_SCRIPT_START'} = sprintf '%0.6f', $T;
-  $r->subprocess_env->{'ENSEMBL_SCRIPT_END'}   = sprintf '%0.6f', $ENSEMBL_WEB_REGISTRY->timer->get_script_start_time;
-  $r->subprocess_env->{'ENSEMBL_SCRIPT_TIME'}  = sprintf '%0.6f', $T - $ENSEMBL_WEB_REGISTRY->timer->get_script_start_time;
-  
-  return DECLINED;
-}
 
-sub request_end_hook {}
-sub cleanupHandler {
-  my $r = shift;  # Get the connection handler
-  
-  request_end_hook($r);
-  return if $r->subprocess_env->{'ENSEMBL_ENDTIME'};
-  
-  my $end_time   = time;
-  my $start_time = $ENSEMBL_WEB_REGISTRY->timer->get_script_start_time;
-  my $length     = $end_time - $start_time;
-  
-  if ($length >= $SiteDefs::ENSEMBL_LONGPROCESS_MINTIME) {
-    my $u      = $r->parsed_uri;
-    my $file   = $u->path;
-    my $query  = $u->query . $r->subprocess_env->{'ENSEMBL_REQUEST'};
-    my $size;
-    
-    if ($Apache2::SizeLimit::HOW_BIG_IS_IT) {
-      $size = &$Apache2::SizeLimit::HOW_BIG_IS_IT();
-    } else {
-      ($size) = Apache2::SizeLimit->_check_size;
-    }
-    
-    $r->subprocess_env->{'ENSEMBL_ENDTIME'} = $end_time;
-    
-    if ($SiteDefs::ENSEMBL_DEBUG_FLAGS & $SiteDefs::ENSEMBL_DEBUG_HANDLER_ERRORS) {
-      my @X = localtime($start_time);
-      
-      warn sprintf(
-        "LONG PROCESS: %12s DT:  %04d-%02d-%02d %02d:%02d:%02d Time: %10s Size: %10s\nLONG PROCESS: %12s REQ: %s\nLONG PROCESS: %12s IP:  %s  UA: %s\n", 
-        $$, $X[5]+1900, $X[4]+1, $X[3], $X[2], $X[1], $X[0], $length, $size, 
-        $$, "$file?$query", 
-        $$, $r->subprocess_env->{'HTTP_X_FORWARDED_FOR'}, $r->headers_in->{'User-Agent'}
-      );
-    }
-  }
 
-  # Now we check if the die file has been touched...
-  my $die_file = $SiteDefs::ENSEMBL_SERVERROOT . '/logs/ensembl.die';
-  
-  if (-e $die_file) {
-    my @temp = stat $die_file;
-    my $file_mod_time = $temp[9];
-    if ($file_mod_time >= $ENSEMBL_WEB_REGISTRY->timer->get_process_start_time) {
-      warn sprintf "KILLING CHILD %10s\n", $$;
-      
-      if ($Apache2::SizeLimit::IS_WIN32 || $Apache2::SizeLimit::WIN32) {
-        CORE::exit(-2);
-      } else {
-        $r->child_terminate;
-      }
-    }
-    
-    return DECLINED;
-  }
-}
-
-sub cleanupHandler_script {
-  my $r = shift;
-  
-  $ENSEMBL_WEB_REGISTRY->timer_push('Cleaned up', undef, 'Cleanup');
-  
-  warn $ENSEMBL_WEB_REGISTRY->timer->render if $SiteDefs::ENSEMBL_DEBUG_FLAGS & $SiteDefs::ENSEMBL_DEBUG_PERL_PROFILER;
-  
-  push_script_line($r, 'ENDSCR', sprintf '%10.3f', time - $r->subprocess_env->{'LOG_TIME'}) if $SiteDefs::ENSEMBL_DEBUG_FLAGS & $SiteDefs::ENSEMBL_DEBUG_HANDLER_ERRORS;
-  
-  cleanupHandler_blast($r) if $SiteDefs::ENSEMBL_BLASTSCRIPT;
-}
-
-sub cleanupHandler_blast {
-  my $r = shift;
-  
-  my $directory = $SiteDefs::ENSEMBL_TMP_DIR_BLAST . '/pending';
-  my $FLAG  = 0;
-  my $count = 0;
-  my $ticket;
-  my $_process_blast_called_at = time;
-
-  $ticket = $ENV{'ticket'};
-  
-  # Lets work out when to run this!
-  my $run_blast;
-  my $loads = _get_loads();
-  my $seconds_since_last_run = (time - $BLAST_LAST_RUN);
-
-  if ($ticket) {
-    if (_run_blast_ticket($loads, $seconds_since_last_run)) {
-      $FLAG = 1;
-      $BLAST_LAST_RUN = time;
-    }
-  } else {
-    # Current run blasts
-    if (_run_blast_no_ticket($loads, $seconds_since_last_run)) {
-      $BLAST_LAST_RUN = time;
-      $FLAG = 1;
-    }
-  }
-  
-  while ($FLAG) {
-    $count++;
-    $FLAG = 0;
-    
-    if (opendir(DH, $directory)) {
-      while (my $FN = readdir(DH)) {
-        my $file = "$directory/$FN";
-        
-        next unless -f $file; # File
-        next if -z $file;     # Contains something
-        
-        my @STAT = stat $file;
-        
-        next if $STAT[8]+5 > time; # Was last modified more than 5 seconds ago
-        next if $ticket && $file !~ /$ticket/;
-        
-        # We have a ticket
-        open  FH, $file;
-        
-        flock FH, LOCK_EX;
-        my $blast_file = <FH>;
-        chomp $blast_file;
-        
-        $blast_file = $1 if $blast_file =~ /^([\/\w\.-]+)/;
-        
-        (my $FILE2 = $file) =~ s/pending/parsing/;
-        
-        rename $file, $FILE2;
-        
-        (my $FILE3 = $file) =~ s/pending/sent/;
-        
-        unlink $FILE3;
-        
-        flock FH, LOCK_UN;
-        
-        my $COMMAND = "$SiteDefs::ENSEMBL_BLASTSCRIPT $blast_file $FILE2";
-        
-        warn "BLAST: $COMMAND";
-        
-        `$COMMAND`; # Now we parse the blast file
-        
-        if ($ticket && ($_process_blast_called_at + 30 > time)) {
-          $loads = _get_loads();
-          $FLAG = 1 if $count < 15;
-        }
-        
-        last;
-      }
-      
-      closedir(DH);
-    }
-  }
-}
-
-sub childExitHandler {
-  my $r = shift;
-  
-  if ($SiteDefs::ENSEMBL_DEBUG_FLAGS & $SiteDefs::ENSEMBL_DEBUG_HANDLER_ERRORS) {
-    my $size;
-    
-    if ($Apache2::SizeLimit::HOW_BIG_IS_IT) {
-      $size = &$Apache2::SizeLimit::HOW_BIG_IS_IT();
-    } else {
-      ($size) = Apache2::SizeLimit->_check_size;
-    }
-    
-    warn sprintf "Child %9d: - reaped at      %30s;  Time: %11.6f;  Req:  %4d;  Size: %8dK\n",
-      $$, '' . gmtime, time-$ENSEMBL_WEB_REGISTRY->timer->get_process_start_time,
-      $ENSEMBL_WEB_REGISTRY->timer->get_process_child_count,
-      $size
-  }
-}
-
-sub push_script_line {
-  my $r      = shift;
-  my $prefix = shift || 'SCRIPT';
-  my $extra  = shift;
-  my @X      = localtime;
-  
-  warn sprintf(
-    "%s: %s%9d %04d-%02d-%02d %02d:%02d:%02d %s %s\n",
-    $prefix, hostname, $$,
-    $X[5] + 1900, $X[4] + 1, $X[3], $X[2], $X[1], $X[0],
-    $r->subprocess_env->{'REQUEST_URI'}, $extra
-  );
-  
-  $r->subprocess_env->{'LOG_TIME'} = time;
-}
-
-#======================================================================#
-# BLAST Support functionality - TODO: update before implementing!      #
-#======================================================================#
-
-sub _run_blast_no_ticket {
-  my ($loads, $seconds_since_last_run) = @_;
-  return $loads->{'blast'} < 3 && rand $loads->{'httpd'} < 10 && rand $seconds_since_last_run > 1;
-}
-
-sub _run_blast_ticket {
-  my ($loads, $seconds_since_last_run) = @_;
-  return $loads->{'blast'} < 8;
-}
-
-sub _get_loads {
-  return {
-    blast => &$LOAD_COMMAND('parse_blast.pl'),
-    httpd => &$LOAD_COMMAND('httpd')
-  };
-}
-
-sub  _load_command_null {
-  return 1;
-}
-
-sub _load_command_alpha {
-  my $command = shift;
-  my $VAL = `ps -A | grep $command | wc -l`;
-  
-  return $VAL - 1;
-}
-
-sub _load_command_linux {
-  my $command = shift;
-  my $VAL = `ps --no-heading -C $command  | wc -l`;
-  
-  return $VAL + 0;
-}
 
 1;

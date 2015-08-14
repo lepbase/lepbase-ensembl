@@ -16,14 +16,6 @@ limitations under the License.
 
 =cut
 
-=head1 MODIFICATIONS
-
-Copyright [2014-2015] University of Edinburgh
-
-All modifications licensed under the Apache License, Version 2.0, as above.
-
-=cut
-
 # $Id: Genome.pm,v 1.12 2014-01-15 10:36:13 jh15 Exp $
 
 package EnsEMBL::Web::Component::Location::Genome;
@@ -42,9 +34,6 @@ sub _configure_Gene_table {
     my $count     = scalar @{$feature_set->[0]};
     my $plural    = $count > 1 ? 'genes' : 'gene';
     $header       = "Domain $domain_id maps to $count $plural:";
-## BEGIN LEPBASE MODIFICATIONS...
-    print STDERR $header,"\n";
-## ...END LEPBASE MODIFICATIONS
   }
 
   my $column_order = [qw(names loc extname)];
@@ -77,10 +66,13 @@ sub content {
   }
 
   #configure two Vega tracks in one
-  my $config = $self->hub->get_imageconfig('Vkaryotype');
-  if ($config->get_node('Vannotation_status_left') & $config->get_node('Vannotation_status_right')) {
-    $config->get_node('Vannotation_status_left')->set('display', $config->get_node('Vannotation_status_right')->get('display'));
-  }
+
+#### BEGIN LEPBASE MODIFICATION #### because we don't have Vkaryotypes Vannotation
+  #my $config = $self->hub->get_imageconfig('Vkaryotype');
+  #if ($config->get_node('Vannotation_status_left') & $config->get_node('Vannotation_status_right')) {
+  #  $config->get_node('Vannotation_status_left')->set('display', $config->get_node('Vannotation_status_right')->get('display'));
+  #}
+#### END LEPBASE MODIFICATION ####
 
   if ($self->hub->param('ftype') eq 'Gene') {
     my $dba = Bio::EnsEMBL::Registry->get_DBAdaptor( $self->hub->species, 'core' ) || die("Can't connect to database");
