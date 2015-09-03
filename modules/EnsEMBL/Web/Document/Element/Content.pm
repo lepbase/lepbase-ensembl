@@ -279,7 +279,7 @@ sub content_panel {
   elsif ($species_defs->PROVIDER_NAME) {
     $provider_link = $hub->make_link_tag(text => $species_defs->PROVIDER_NAME, url => $species_defs->PROVIDER_URL) . " | ";
   }
-  if ($species ne 'MULTI'){
+  if ($species ne 'Multi'){
 	my $species_badge = '
     <div class="species-badge" style="padding: 0px 16px 16px 16px">';
 
