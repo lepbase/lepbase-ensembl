@@ -279,23 +279,25 @@ sub content_panel {
   elsif ($species_defs->PROVIDER_NAME) {
     $provider_link = $hub->make_link_tag(text => $species_defs->PROVIDER_NAME, url => $species_defs->PROVIDER_URL) . " | ";
   }
-  
+  if ($species ne 'MULTI'){
 	my $species_badge = '
     <div class="species-badge" style="padding: 0px 16px 16px 16px">';
 
-  $species_badge .= qq(<img src="${img_url}species/64/$species.png" alt="" title="" />);
+  	$species_badge .= qq(<img src="${img_url}species/64/$species.png" alt="" title="" />);
 
-  if ($common_name =~ /\./) {
-    $species_badge .= qq(<h1>$display_name</h1>);
-  } else {
-    $species_badge .= qq(<h1>$common_name</h1><p>$display_name</p>);
+  	if ($common_name =~ /\./) {
+   		$species_badge .= qq(<h1>$display_name</h1>);
+  	}
+  	else {
+  	  $species_badge .= qq(<h1>$common_name</h1><p>$display_name</p>);
+  	}
+  	$species_badge .= '<p class="taxon-id">';
+  	$species_badge .= 'Data Source ' . $provider_link if $provider_link;
+  	$species_badge .= sprintf q{Taxonomy ID %s}, $hub->get_ExtURL_link("$taxid", 'UNIPROT_TAXONOMY', $taxid) if $taxid;
+  	$species_badge .= '</p>';
+  	$species_badge .= '</div>'; #species-badge
+  	$self->add_panel_first(EnsEMBL::Web::Document::Panel->new(raw => $species_badge));
   }
-  $species_badge .= '<p class="taxon-id">';
-  $species_badge .= 'Data Source ' . $provider_link if $provider_link;
-  $species_badge .= sprintf q{Taxonomy ID %s}, $hub->get_ExtURL_link("$taxid", 'UNIPROT_TAXONOMY', $taxid) if $taxid;
-  $species_badge .= '</p>';
-  $species_badge .= '</div>'; #species-badge
-  $self->add_panel_first(EnsEMBL::Web::Document::Panel->new(raw => $species_badge));
 # ...END LEPBASE MODIFICATIONS
 ###
 }
