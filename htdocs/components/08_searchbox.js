@@ -11,6 +11,21 @@ String.prototype.hashCode = function() {
 };
 
 
+function GetQueryStringParams(sParam)
+{
+	// http://jquerybyexample.blogspot.com/2012/05/how-to-get-querystring-value-using.html
+    var sPageURL = window.location.search.substring(1);
+    var sURLVariables = sPageURL.split('&');
+    for (var i = 0; i < sURLVariables.length; i++) 
+    {
+        var sParameterName = sURLVariables[i].split('=');
+        if (sParameterName[0] == sParam) 
+        {
+            return sParameterName[1];
+        }
+    }
+}
+
 window.onload = function(){
     $(function() {
     	var url = window.location.pathname.split('/');
@@ -26,11 +41,19 @@ window.onload = function(){
   				},
                 minLength: 3,
                 select: function(event, ui) {
-                	window.location = prefix+'search.html';
+                	window.location = prefix+'search.html'+"?term="+request.term+"&table="+$('#search_table').val();
         		}
             });
          });
-         
+    
+    if (window.location.pathname.match('search.html')){
+    	if (!$("#term").val()){
+    		var term = GetQueryStringParams('term');
+    		var table = GetQueryStringParams('table');
+    		if (term) $("#term").val(term);
+    	}
+    }
+    
     $("form").on("submit", function (e) {
     e.preventDefault();
     });
