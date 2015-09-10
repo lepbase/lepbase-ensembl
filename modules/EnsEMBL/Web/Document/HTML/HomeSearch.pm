@@ -43,7 +43,7 @@ sub render {
   my $hub                 = $self->hub;
   my $species_defs        = $hub->species_defs;
   my $page_species        = $hub->species || 'Multi';
-  my $lc_sp               = lc $species;
+  my $lc_sp               = lc $page_species;
   my $species_name        = $page_species eq 'Multi' ? '' : $species_defs->DISPLAY_NAME;
   my $search_url          = $species_defs->ENSEMBL_WEB_ROOT . "search.html";
   my $is_home_page        = $page_species eq 'Multi';
