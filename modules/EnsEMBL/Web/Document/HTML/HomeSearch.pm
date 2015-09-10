@@ -76,7 +76,7 @@ sub render {
   if (keys %$sample_data) {
     my $collection_param = $collection ? ";collection=$collection" : '';
     $examples = join ' or ', map { $sample_data->{$_}
-      ? qq(<a class="nowrap" href="$search_url?q=$sample_data->{$_};sp=$lc_sp">$sample_data->{$_}</a>)
+      ? qq(<a class="nowrap" href="$search_url?q=$sample_data->{$_}&sp=$lc_sp">$sample_data->{$_}</a>)
       : ()
     } qw(GENE_TEXT LOCATION_TEXT SEARCH_TEXT);
     $examples = qq(<p class="search-example">Find features using the search box in the top right of the page.<br/>Suggested search terms: $examples</p>) if $examples;
