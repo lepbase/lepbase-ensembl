@@ -7,6 +7,7 @@ window.onload = function(){
               		response);
   				},
                 minLength: 3,
+                appendTo: $('#auto_search'),
                 select: function(event, ui) {
                 	//do_search(ui.item.value);
         		}

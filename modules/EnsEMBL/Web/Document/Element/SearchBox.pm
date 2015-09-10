@@ -74,6 +74,8 @@ sub content {
   my $self            = shift;
   my $img_url         = $self->img_url;
   my $species         = $self->species;
+ ## BEGIN LEPBASE MODIFICATIONS...
+  my $autocomplete_url = 'autocomplete.pl'
   my $search_url      = sprintf '%s%s/psychic', $self->home_url, $species || 'Multi';
   my $options         = $self->search_options;
   my %options_hash    = @$options;
@@ -87,7 +89,6 @@ sub content {
     }
   } 0..scalar @$options - 1;
 
-## BEGIN LEPBASE MODIFICATIONS...
   return qq(
     <div id="searchPanel" class="js_panel">
       <input type="hidden" class="panel_type" value="SearchBox" />
@@ -98,7 +99,7 @@ sub content {
             <img src="${img_url}search/down.gif" style="width:7px" alt="" />
             <input type="hidden" name="site" value="$search_code" />
           </div>
-          <div>
+          <div id="auto_search">
             <label class="hidden" for="se_q">Search terms</label>
             <input class="query inactive" id="se_q" type="text" name="q" value="$options_hash{$search_code}{'label'}&hellip;" data-role="none" />
           </div>
