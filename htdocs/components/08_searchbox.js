@@ -49,7 +49,7 @@ window.onload = function(){
     if (window.location.pathname.match('search.html')){
     	if (!$("#term").val()){
     		var term = GetQueryStringParams('q');
-    		if (term) $("#term").val(term);
+    		if (term) $("#term").val(decodeURIComponent(term));
     	}
     }
     
@@ -89,7 +89,7 @@ window.onload = function(){
               });
               var table = GetQueryStringParams('sp');
               if (table){
-              	console.log('trying to select table');
+              	console.log('trying to select table '+table);
             	  $('[name=options] option').filter(function() { 
     					return ($(this).val() == table);
 					}).prop('selected', true);
