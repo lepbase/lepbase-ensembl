@@ -89,11 +89,11 @@ window.onload = function(){
               	  if (index == msg.length-1){
               	    var table = GetQueryStringParams('sp');
                     if (table){
-              	      console.log('trying to select table '+table);
-            	      $('#table option').filter(function() { 
+              	      $('#table option').filter(function() { 
     					  return ($(this).val() == table);
 					    }).prop('selected', true);
 			         }
+			         do_search($("#term").val());
               	  }
               });
               
