@@ -86,14 +86,17 @@ window.onload = function(){
               $("#table").get(0).options[0] = new Option("All", "multi");   
               $.each(msg, function(index, item) {
               	  $("#table").get(0).options[$("#table").get(0).options.length] = new Option(item, item);
+              	  if (index == msg.length-1){
+              	    var table = GetQueryStringParams('sp');
+                    if (table){
+              	      console.log('trying to select table '+table);
+            	      $('[name=options] option').filter(function() { 
+    					  return ($(this).val() == table);
+					    }).prop('selected', true);
+			         }
+              	  }
               });
-              var table = GetQueryStringParams('sp');
-              if (table){
-              	console.log('trying to select table '+table);
-            	  $('[name=options] option').filter(function() { 
-    					return ($(this).val() == table);
-					}).prop('selected', true);
-			  }
+              
           },
           error: function() {
         	  $("#table").get(0).options.length = 0;
