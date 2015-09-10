@@ -81,7 +81,7 @@ sub render {
     } qw(GENE_TEXT LOCATION_TEXT SEARCH_TEXT);
     $examples = qq(<p class="search-example">Find features using the search box in the top right of the page.<br/>Suggested search terms: $examples</p>) if $examples;
   }
-  return sprintf '<div class="ff-inline ff-right"><div class="ff-notes">%s</div></div>',$examples;
+  return sprintf '<div class="ff-notes">%s</div>',$examples;
   # form field
   my $f_params = {'notes' => $examples};
   $f_params->{'label'} = 'Search' if $is_home_page;
