@@ -6,7 +6,7 @@ window.onload = function(){
     				url.pop();
     				var prefix = '';
     				url.forEach(function(i){
-    					prefix .= '../';
+    					prefix += '../';
     				});
     				$.getJSON(prefix+"autocomplete", { term: request.term, table: $('#search_table').val() }, 
               		response);
