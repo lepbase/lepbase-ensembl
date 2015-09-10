@@ -41,7 +41,7 @@ window.onload = function(){
   				},
                 minLength: 3,
                 select: function(event, ui) {
-                	window.location = prefix+'search.html'+"?term="+request.term+"&table="+$('#search_table').val();
+                	window.location = prefix+'search.html'+"?term="+$("#se_q").val()+"&table="+$('#search_table').val();
         		}
             });
          });
