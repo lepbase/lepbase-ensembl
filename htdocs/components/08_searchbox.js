@@ -27,13 +27,13 @@ function GetQueryStringParams(sParam)
 }
 
 window.onload = function(){
-    $(function() {
-    	var url = window.location.pathname.split('/');
+    var url = window.location.pathname.split('/');
     				url.pop();
     				var prefix = '';
     				url.forEach(function(i){
     					prefix += '../';
     				});
+    $(function() {
           $("#se_q").autocomplete({
                 source: function(request, response) {
     				$.getJSON(prefix+"autocomplete", { term: request.term, table: $('#search_table').val() }, 
@@ -41,7 +41,7 @@ window.onload = function(){
   				},
                 minLength: 3,
                 select: function(event, ui) {
-                	window.location = prefix+'search.html'+"?q="+$("#se_q").val()+"&sp="+$('#search_table').val();
+                	window.location = prefix+'search.html'+"?q="+ui.item.value+"&sp="+$('#search_table').val();
         		}
             });
          });
@@ -53,9 +53,14 @@ window.onload = function(){
     	}
     }
     
-    $("form").on("submit", function (e) {
-    e.preventDefault();
+    $("#autocompleteForm").on("submit", function (e) {
+      e.preventDefault();
     });
+    $("#searchbox_form").on("submit", function (e) {
+    e.preventDefault();
+      window.location = prefix+'search.html'+"?q="+$('#se_q').val()+"&sp="+$('#search_table').val();
+    });
+	
 	  $("#autocompleteForm").submit(function(){do_search();});
       $("#table").change(function(){do_search();});
       $("#page_size").change(function(){do_search();});
@@ -92,8 +97,8 @@ window.onload = function(){
               	      $('#table option').filter(function() { 
     					  return ($(this).val() == table);
 					    }).prop('selected', true);
+					    do_search($("#term").val());
 			         }
-			         do_search($("#term").val());
               	  }
               });
               

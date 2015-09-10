@@ -92,7 +92,7 @@ sub content {
   return qq(
     <div id="searchPanel" class="js_panel">
       <input type="hidden" class="panel_type" value="SearchBox" />
-      <form action="$search_url">
+      <form id="searchbox_form">
         <div class="search print_hide">
           <div class="sites button">
             <img class="search_image" src="${img_url}$options_hash{$search_code}{'icon'}" alt="" />
