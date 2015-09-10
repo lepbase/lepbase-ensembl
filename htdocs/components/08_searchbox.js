@@ -12,7 +12,6 @@ String.prototype.hashCode = function() {
 
 
 window.onload = function(){
-	var base_url = '';
     $(function() {
     	var url = window.location.pathname.split('/');
     				url.pop();
@@ -117,7 +116,7 @@ function show_results (msg){
 	$.each(msg.results, function(index, item) {
 		$('#results').append('<div class="lbs_result" id="result_'+index+'">');
 		if (item.gene && item.gene.stable_id){
-			var url = base_url + '/' + item.gene.production_name;
+			var url = item.gene.production_name;
 			var gene_url = url + '/Gene/Summary?db=core;g=' + item.gene.stable_id;
 			var header = '<div class="lbs_species">' + item.gene.production_name + '</div> <span class="lbs_large"><a href="' + gene_url + '"> ' + item.gene.stable_id + '</a></span>';
 			if (item.gene.description){
@@ -193,7 +192,7 @@ function show_results (msg){
 			}
 		}
 		if (item.seq_region && item.seq_region.name){
-			var url = base_url + '/' + item.seq_region.production_name;
+			var url = item.seq_region.production_name;
 			var region_url = url + '/Location/View?db=core;r=' + item.seq_region.name + ':1-' + item.seq_region.length;
 			var header = '<div class="lbs_species">' + item.seq_region.production_name + '</div> <span class="lbs_large"><a href="' + region_url + '"> ' + item.seq_region.name + '</a></span>';
 			header += ' - ' + item.seq_region.seq_length + 'bp';
