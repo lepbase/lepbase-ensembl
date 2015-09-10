@@ -75,7 +75,7 @@ sub content {
   my $img_url         = $self->img_url;
   my $species         = $self->species;
  ## BEGIN LEPBASE MODIFICATIONS...
-  my $autocomplete_url = 'autocomplete.pl'
+  my $search_table    = $species ? lc $species : 'multi'
   my $search_url      = sprintf '%s%s/psychic', $self->home_url, $species || 'Multi';
   my $options         = $self->search_options;
   my %options_hash    = @$options;
@@ -99,9 +99,10 @@ sub content {
             <img src="${img_url}search/down.gif" style="width:7px" alt="" />
             <input type="hidden" name="site" value="$search_code" />
           </div>
-          <div id="auto_search">
+          <div>
             <label class="hidden" for="se_q">Search terms</label>
             <input class="query inactive" id="se_q" type="text" name="q" value="$options_hash{$search_code}{'label'}&hellip;" data-role="none" />
+            <input type="hidden" id="search_table" name="table" value ="$search_table" />
           </div>
           <!--div class="button"><input type="image" src="${img_url}16/search.png" alt="Search&nbsp;&raquo;" /></div-->
         </div>
