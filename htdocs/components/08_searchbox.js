@@ -3,7 +3,7 @@ window.onload = function(){
           $("#se_q").autocomplete({
                 source: function(request, response) {
     				console.log(request);
-    				$.getJSON("autocomplete", { term: request.term, table: $('search_table').val() }, 
+    				$.getJSON("autocomplete", { term: request.term, table: $('#search_table').val() }, 
               		response);
   				},
                 minLength: 3,

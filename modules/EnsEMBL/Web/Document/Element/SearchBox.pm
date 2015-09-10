@@ -76,7 +76,6 @@ sub content {
   my $species         = $self->species;
  ## BEGIN LEPBASE MODIFICATIONS...
   my $search_table    = $species ? lc $species : 'multi';
-  $search_table       = 'multi';
   my $search_url      = sprintf '%s%s/psychic', $self->home_url, $species || 'Multi';
   my $options         = $self->search_options;
   my %options_hash    = @$options;
