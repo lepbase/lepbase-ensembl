@@ -96,8 +96,8 @@ sub content {
         <div class="search print_hide">
           <div class="sites button">
             <img class="search_image" src="${img_url}$options_hash{$search_code}{'icon'}" alt="" />
-            <img src="${img_url}search/down.gif" style="width:7px" alt="" />
-            <input type="hidden" name="site" value="$search_code" />
+            <!--img src="${img_url}search/down.gif" style="width:7px" alt="" />
+            <input type="hidden" name="site" value="$search_code" /-->
           </div>
           <div>
             <label class="hidden" for="se_q">Search terms</label>
@@ -106,9 +106,9 @@ sub content {
           </div>
           <!--div class="button"><input type="image" src="${img_url}16/search.png" alt="Search&nbsp;&raquo;" /></div-->
         </div>
-        <div class="site_menu hidden">
+        <!--div class="site_menu hidden">
           $search_options
-        </div>
+        </div-->
       </form>
     </div>
     <a href="/Multi/Search/New"><img src="/i/32/rev/search.png" title="Search this site" class="mobile-search mobile-only" /></a>
