@@ -85,12 +85,12 @@ sub render {
   my $f_params = {'notes' => $examples};
   $f_params->{'label'} = 'Search' if $is_home_page;
   my $field = $form->add_field($f_params);
-
-  # species dropdown
-  if ($page_species eq 'Multi') {
 ## BEGIN LEPBASE MODIFICATIONS...
   	return;
 ## ...END LEPBASE MODIFICATIONS
+
+  # species dropdown
+  if ($page_species eq 'Multi') {
     if ($is_bacteria) {
       $self->_add_collection_dropdown($field, $collection);
     } else {
