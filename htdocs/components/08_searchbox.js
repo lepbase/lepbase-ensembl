@@ -91,7 +91,7 @@ window.onload = function(){
               });
               if (table){
             	  $('[name=options] option').filter(function() { 
-    					return ($(this).text() == table);
+    					return ($(this).val() == table);
 					}).prop('selected', true);
 			  }
           },
