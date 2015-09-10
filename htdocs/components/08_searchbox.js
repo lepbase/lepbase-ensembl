@@ -13,7 +13,7 @@ window.onload = function(){
   				},
                 minLength: 3,
                 select: function(event, ui) {
-                	//do_search(ui.item.value);
+                	window.location = prefix+'search.html';
         		}
             });
          });
