@@ -32,6 +32,7 @@ my $feature_type = $cgi->param('feature_type') || undef;
 my $count = $cgi->param('count') || undef;
 my $offset = $cgi->param('offset') ? $cgi->param('offset') -1 : 0;
 my $page = $offset / $page_size + 1;
+ print STDERR $tablename,"\n";
 
 # Prepare the queries
 my %query;

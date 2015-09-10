@@ -32,7 +32,7 @@ window.onload = function(){
             });
          });
          
-             $("form").on("submit", function (e) {
+    $("form").on("submit", function (e) {
     e.preventDefault();
     });
 	  $("#autocompleteForm").submit(function(){do_search();});
