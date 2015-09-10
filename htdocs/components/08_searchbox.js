@@ -89,8 +89,9 @@ window.onload = function(){
             success: function(msg) {
             		show_results(msg);
             },
-            error: function() {
+            error: function(error) {
             	  console.log("Error: failed to execute search");
+            	  console.log(error);
             }
            });
         }
