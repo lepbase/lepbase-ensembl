@@ -90,7 +90,7 @@ window.onload = function(){
               	    var table = GetQueryStringParams('sp');
                     if (table){
               	      console.log('trying to select table '+table);
-            	      $('[name=options] option').filter(function() { 
+            	      $('#table option').filter(function() { 
     					  return ($(this).val() == table);
 					    }).prop('selected', true);
 			         }
