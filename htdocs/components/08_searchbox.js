@@ -210,3 +210,24 @@ function show_results (msg){
          
          
     }
+    
+       function toggle_wildcards(){
+    	  search_term = $('#term').val();
+    	  if (search_term.match(/^%/) || search_term.match(/%$/)){
+    	  	  search_term = search_term.replace(/^%/,'');
+    	      search_term = search_term.replace(/%$/,'');
+    	  }
+    	  else {
+    	      search_term = '%' + search_term + '%';
+    	  }
+          $('#term').val(search_term);
+        }
+    function reset_toggle(){
+    	  search_term = $('#term').val();
+    	  if (search_term.match(/^%/) || search_term.match(/%$/)){
+    	  	  $('#wildcards').prop('checked',true); 
+    	  }
+    	  else {
+    	      $('#wildcards').prop('checked',false); 
+    	  }
+        }
