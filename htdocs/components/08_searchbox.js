@@ -41,7 +41,7 @@ window.onload = function(){
   				},
                 minLength: 3,
                 select: function(event, ui) {
-                	window.location = prefix+'search.html'+"?q="+ui.item.value+"&sp="+$('#search_table').val();
+                	window.location = prefix+'search.html'+"?q="+encodeURIComponent(ui.item.value)+"&sp="+$('#search_table').val();
         		}
             });
          });
@@ -58,7 +58,7 @@ window.onload = function(){
     });
     $("#searchbox_form").on("submit", function (e) {
     e.preventDefault();
-      window.location = prefix+'search.html'+"?q="+$('#se_q').val()+"&sp="+$('#search_table').val();
+      window.location = prefix+'search.html'+"?q="+encodeURIComponent($('#se_q').val())+"&sp="+$('#search_table').val();
     });
 	
 	  $("#autocompleteForm").submit(function(){do_search();});
