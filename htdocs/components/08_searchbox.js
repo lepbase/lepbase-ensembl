@@ -79,11 +79,10 @@ window.onload = function(){
     function do_search(search_term){
     	  search_term = search_term ? search_term : $('#term').val();
     	  if (!search_term) return;
-    	  console.log(search_term);
     	  var offset = $('#offset') ? $('#offset').val() : 1;
     	  $.ajax({
             type: "GET",
-            url: "search",
+            url: "lbsearch",
             data: { term: search_term, table: $('#table').val(), page_size: $('#page_size').val(), offset: offset },
             contentType: "application/json; charset=utf-8",
             dataType: "json",
