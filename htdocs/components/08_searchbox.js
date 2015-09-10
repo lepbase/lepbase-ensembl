@@ -2,7 +2,7 @@ window.onload = function(){
     $(function() {
           $("#se_q").autocomplete({
                 source: function(request, response) {
-    				console.log(request);
+    				console.log(request.term + ' ' + $('#search_table').val());
     				$.getJSON("autocomplete", { term: request.term, table: $('#search_table').val() }, 
               		response);
   				},
