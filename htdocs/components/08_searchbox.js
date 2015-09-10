@@ -27,6 +27,7 @@ function GetQueryStringParams(sParam)
 }
 
 window.onload = function(){
+    var table;
     $(function() {
     	var url = window.location.pathname.split('/');
     				url.pop();
@@ -41,15 +42,15 @@ window.onload = function(){
   				},
                 minLength: 3,
                 select: function(event, ui) {
-                	window.location = prefix+'search.html'+"?term="+$("#se_q").val()+"&table="+$('#search_table').val();
+                	window.location = prefix+'search.html'+"?q="+$("#se_q").val()+"&sp="+$('#search_table').val();
         		}
             });
          });
     
     if (window.location.pathname.match('search.html')){
     	if (!$("#term").val()){
-    		var term = GetQueryStringParams('term');
-    		var table = GetQueryStringParams('table');
+    		var term = GetQueryStringParams('q');
+    		table = GetQueryStringParams('sp');
     		if (term) $("#term").val(term);
     	}
     }
@@ -88,6 +89,11 @@ window.onload = function(){
               $.each(msg, function(index, item) {
               	  $("#table").get(0).options[$("#table").get(0).options.length] = new Option(item, item);
               });
+              if (table){
+            	  $('[name=options] option').filter(function() { 
+    					return ($(this).text() == table);
+					}).prop('selected', true);
+			  }
           },
           error: function() {
         	  $("#table").get(0).options.length = 0;
