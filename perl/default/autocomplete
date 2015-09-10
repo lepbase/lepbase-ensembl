@@ -45,7 +45,7 @@ if($list){
 # or autocomplete search terms
 my $term = $cgi->param('term');
 my $tablename = $cgi->param('table');
- 
+ print STDERR $tablename,"\n";
 # Prepare the queries
 my $table_32 = $tablename."_32";
 my $table_255 = $tablename."_255";
