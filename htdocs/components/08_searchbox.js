@@ -149,7 +149,10 @@ function show_results (msg){
 							}).appendTo($('#offset'));
 		}
 	}
+	$('#results').append('<input type="checkbox" id="toggle_xrefs" name="toggle_xrefs">');
+	$('#results').append('<label for="toggle_xrefs">(toggle external references)</label>');
 	$('#offset').change(function(){do_search()});
+	$('#toggle_xrefs').click(function(){toggleClass("hidden")});
 	$.each(msg.results, function(index, item) {
 		$('#results').append('<div class="lbs_result" id="result_'+index+'">');
 		if (item.gene && item.gene.stable_id){
@@ -161,7 +164,7 @@ function show_results (msg){
 			}
 			$('#result_'+index).append('<div class="lbs_result_header">' + header + '</div>');
 			if (item.gene.dbs){
-				$('#result_'+index).append('<div id="result_'+index+'_xrefs" class="lbs_xrefs"></div>');
+				$('#result_'+index).append('<div id="result_'+index+'_xrefs" class="lbs_xrefs hidden"></div>');
 				$.each(item.gene.dbs, function(db_i, db_item) {
 					db_i = db_i.toString().hashCode();
 					$('#result_'+index+'_xrefs').append('<div id="result_'+index+'_'+db_i+'" class="lbs_xrefs_db"><span class="lbs_xrefs_db_name">' + db_item + '</span></div>');
@@ -188,7 +191,7 @@ function show_results (msg){
 					$('#result_'+index+'_transcripts').append('<span class="lbs_transcript"><a href="' + tsc_url +'">' + tsc_item + '</a></span>');
 				});
 				if (item.gene.transcripts.dbs){
-					$('#result_'+index).append('<div id="result_'+index+'_tsc_xrefs" class="lbs_xrefs"></div>');
+					$('#result_'+index).append('<div id="result_'+index+'_tsc_xrefs" class="lbs_xrefs hidden"></div>');
 					$.each(item.gene.transcripts.dbs, function(db_i, db_item) {
 						db_i = db_i.toString().hashCode();
 						$('#result_'+index+'_tsc_xrefs').append('<div id="result_'+index+'_tsc_'+db_i+'" class="lbs_xrefs_db"><span class="lbs_xrefs_db_name">' + db_item + '</span></div>');
@@ -213,7 +216,7 @@ function show_results (msg){
 				$('#result_'+index+'_translations').append('<span class="lbs_translation"><a href="' + tsl_url +'">' + tsl_item + '<\a></span>');
 			});
 			if (item.gene.translations.dbs){
-				$('#result_'+index).append('<div id="result_'+index+'_tsl_xrefs" class="lbs_xrefs"></div>');
+				$('#result_'+index).append('<div id="result_'+index+'_tsl_xrefs" class="lbs_xrefs hidden"></div>');
 				$.each(item.gene.translations.dbs, function(db_i, db_item) {
 					db_i = db_i.toString().hashCode();
 					$('#result_'+index+'_tsl_xrefs').append('<div id="result_'+index+'_tsl_'+db_i+'" class="lbs_xrefs_db"><span class="lbs_xrefs_db_name">' + db_item + '</span></div>');
