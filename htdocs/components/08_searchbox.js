@@ -152,7 +152,7 @@ function show_results (msg){
 	$('#results').append('<input type="checkbox" id="toggle_xrefs" name="toggle_xrefs">');
 	$('#results').append('<label for="toggle_xrefs">(toggle external references)</label>');
 	$('#offset').change(function(){do_search()});
-	$('#toggle_xrefs').click(function(){toggleClass("hidden")});
+	$('#toggle_xrefs').click(function(){$('.lbs_xrefs').toggleClass("hidden")});
 	$.each(msg.results, function(index, item) {
 		$('#results').append('<div class="lbs_result" id="result_'+index+'">');
 		if (item.gene && item.gene.stable_id){
