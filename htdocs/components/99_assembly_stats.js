@@ -1,18 +1,5 @@
 
-/*
- * range.genome = [0,500Gb]
- * range.scaffolds = [0,5Gb]
- * scale.genome = 'linear'
- * scale.scaffolds = 'sqrt'
- * plot_area.genome.width = 550px
- * plot_area.genome.height = 550px
- * plot_area.genome.margin = 25px
- * plot_area.scaffold.width = 550px
- * plot_area.scaffold.height = 550px
- * plot_area.scaffold.margin = 25px
- * axis.genome.y = true
- * axis.scaffold.y = true
- */
+
  
 function Assembly( stats,scaffolds ) { 
   var sum = scaffolds.reduce(function(previousValue, currentValue, index, array) {
@@ -92,14 +79,14 @@ Assembly.prototype.drawPlot = function(parent,size,margin,tick){
     
   this.seq.forEach(function(i,index){
   	if (i <= 1000){
-  		var css = npct[i] == scaffolds[0] ? 'longest_pie' : 'pie';
+  		var css = npct[i] == scaffolds[0] ? 'asm-longest_pie' : 'asm-pie';
   		plot_arc(g,radii.core[1] - lScale(npct[i]),radii.core[1],0,i * 360 / 1000 * (Math.PI/180),css);
   	  }
   });
   
     
-  plot_arc(g,radii.core[1] - lScale(npct[500]),radii.core[1],0,500 * 360 / 1000 * (Math.PI/180),'n50_pie');
-  plot_arc(g,radii.core[1] - lScale(npct[900]),radii.core[1],0,900 * 360 / 1000 * (Math.PI/180),'n90_pie');
+  plot_arc(g,radii.core[1] - lScale(npct[500]),radii.core[1],0,500 * 360 / 1000 * (Math.PI/180),'asm-n50_pie');
+  plot_arc(g,radii.core[1] - lScale(npct[900]),radii.core[1],0,900 * 360 / 1000 * (Math.PI/180),'asm-n90_pie');
   main_axis(g,radii);
   
   var power = 6;
@@ -109,7 +96,7 @@ Assembly.prototype.drawPlot = function(parent,size,margin,tick){
   this.seq.forEach(function(i,index){
   	if (i <= 1000){
   		//plot_arc(g,radii.core[1] - cScale(npct_len[i]),radii.core[1] - cScale(npct_len[i]),i * 360 / 1000 * (Math.PI/180),(i+1) * 360 / 1000 * (Math.PI/180),'count');
-		plot_arc(g,radii.core[0],radii.core[1] - cScale(npct_len[i]),i * 360 / 1000 * (Math.PI/180),360 * (Math.PI/180),'count');
+		plot_arc(g,radii.core[0],radii.core[1] - cScale(npct_len[i]),i * 360 / 1000 * (Math.PI/180),360 * (Math.PI/180),'asm-count');
   	  }
   });
   this.seq.forEach(function(i,index){
@@ -117,7 +104,7 @@ Assembly.prototype.drawPlot = function(parent,size,margin,tick){
   		//plot_arc(g,radii.core[1] - cScale(npct_len[i]),radii.core[1] - cScale(npct_len[i]),i * 360 / 1000 * (Math.PI/180),(i+1) * 360 / 1000 * (Math.PI/180),'count');
 		if (npct_len[i] < Math.pow(10,power)){
 			console.log(i+' '+power);
-			plot_arc(g,radii.core[1] - cScale(Math.pow(10,power)),radii.core[1] - cScale(Math.pow(10,power)),i * 360 / 1000 * (Math.PI/180),360 * (Math.PI/180),'count_axis');
+			plot_arc(g,radii.core[1] - cScale(Math.pow(10,power)),radii.core[1] - cScale(Math.pow(10,power)),i * 360 / 1000 * (Math.PI/180),360 * (Math.PI/180),'asm-count_axis');
 			power--;
 		}
   	  }
@@ -131,7 +118,7 @@ Assembly.prototype.drawPlot = function(parent,size,margin,tick){
   	power++;
   }
   var lg = g.append("g")
-		.attr("class","length axis");
+		.attr("class","asm-length asm-axis");
   lg.append('line')
   		.attr('x1',0)
   		.attr('y1',-radii.core[1])
@@ -145,16 +132,15 @@ Assembly.prototype.drawPlot = function(parent,size,margin,tick){
   		.attr('y1',-radii.core[1]+lScale(Math.pow(10,i)))
   		.attr('x2',-Math.pow(1.5,i))
   		.attr('y2',-radii.core[1]+lScale(Math.pow(10,i)))
-        .attr('class', 'majorTick');
+        .attr('class', 'asm-majorTick');
   	});
   
-  plot_arc(g,radii.proportion[0],radii.proportion[1],this.scale['proportion'](1),this.scale['proportion'](this.assembly/this.scaffolds[0]),'genome');
+  plot_arc(g,radii.proportion[0],radii.proportion[1],this.scale['proportion'](1),this.scale['proportion'](this.assembly/this.scaffolds[0]),'asm-genome');
   proportion_axis(g,radii,this.scale['proportion']);
 
   plot_arc(g,radii.percent[0],radii.percent[1],this.scale['percent'](0),this.scale['percent'](100),'ns');
-  plot_arc(g,radii.percent[0],radii.percent[1],this.scale['percent']((1-this.ATGC)/2*100),this.scale['percent'](100*this.ATGC + (1-this.ATGC)/2*100),'atgc');
-  console.log(this.GC);
-  plot_arc(g,radii.percent[0],radii.percent[1],this.scale['percent']((1-this.ATGC)/2*100),this.scale['percent'](this.GC),'gc');
+  plot_arc(g,radii.percent[0],radii.percent[1],this.scale['percent']((1-this.ATGC)/2*100),this.scale['percent'](100*this.ATGC + (1-this.ATGC)/2*100),'asm-atgc');
+  plot_arc(g,radii.percent[0],radii.percent[1],this.scale['percent']((1-this.ATGC)/2*100),this.scale['percent'](this.GC),'asm-gc');
   percent_axis(g,radii,this.scale['percent']);
 
 
@@ -174,7 +160,7 @@ function main_axis (parent,radii){
         .endAngle(i);
 		g.append('path')
         .attr('d', tick)
-        .attr('class', 'minorTick');
+        .attr('class', 'asm-minorTick');
   	});
   	var seq = Array.apply(0, Array(10)).map(function (x, y) { return y * 36 * (Math.PI/180); });
   	seq.forEach(function(i,index){
@@ -185,7 +171,7 @@ function main_axis (parent,radii){
         .endAngle(i);
 		g.append('path')
         .attr('d', tick)
-        .attr('class', 'majorTick');
+        .attr('class', 'asm-majorTick');
   	});
 }
 
@@ -198,7 +184,7 @@ function proportion_axis (parent,radii,scale){
         .endAngle(scale(100000));
       g.append('path')
         .attr('d', axis)
-        .attr('class', 'axis');
+        .attr('class', 'asm-axis');
   var seq = Array.apply(0, Array(6)).map(function (x, y) { return Math.pow(10,y); });
   seq.forEach(function(d){
     var arc = d3.svg.arc()
@@ -208,7 +194,7 @@ function proportion_axis (parent,radii,scale){
         		.endAngle(scale(d));
   	g.append('path')
   		.attr('d',arc)
-        .attr('class', 'majorTick');
+        .attr('class', 'asm-majorTick');
     });
 
 
@@ -227,7 +213,7 @@ function proportion_axis (parent,radii,scale){
         		.endAngle(scale(d));
   	g.append('path')
   		.attr('d',arc)
-        .attr('class', 'minorTick');
+        .attr('class', 'asm-minorTick');
     });
     
   
@@ -244,7 +230,7 @@ function percent_axis (parent,radii,scale){
         .endAngle(scale(100));
       g.append('path')
         .attr('d', axis)
-        .attr('class', 'axis');
+        .attr('class', 'asm-axis');
   var seq = Array.apply(0, Array(11)).map(function (x, y) { return y * 10; });
   seq.forEach(function(d){
     var arc = d3.svg.arc()
@@ -254,7 +240,7 @@ function percent_axis (parent,radii,scale){
         		.endAngle(scale(d));
   	g.append('path')
   		.attr('d',arc)
-        .attr('class', 'majorTick');
+        .attr('class', 'asm-majorTick');
     });
 
 
@@ -267,7 +253,7 @@ function percent_axis (parent,radii,scale){
         		.endAngle(scale(d));
   	g.append('path')
   		.attr('d',arc)
-        .attr('class', 'minorTick');
+        .attr('class', 'asm-minorTick');
     });
 
     
