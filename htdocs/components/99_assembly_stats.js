@@ -8,7 +8,7 @@ function Assembly( stats,scaffolds ) {
   this.assembly = stats.assembly; 
   this.N = stats.N ? stats.N < 100 ? stats.N < 1 ? stats.N : stats.N / 100 : stats.N / this.assembly : 0;
   this.ATGC = stats.ATGC ? stats.ATGC < 100 ? stats.ATGC < 1 ? stats.ATGC : stats.ATGC / 100 : stats.ATGC / this.assembly : 1 - this.N;
-  this.GC = stats.GC < 100 ? stats.GC < 1 ? stats.GC : stats.GC / 100 : 50; // TODO: fix last condition 
+  this.GC = stats.GC < 100 ? stats.GC < 1 ? stats.GC * 100 : stats.GC : 50; // TODO: fix last condition 
   this.scaffolds = scaffolds.sort(function(a, b){return b-a});
   var npct = {};
   var npct_len = {};
@@ -138,7 +138,7 @@ Assembly.prototype.drawPlot = function(parent,size,margin,tick){
   plot_arc(g,radii.proportion[0],radii.proportion[1],this.scale['proportion'](1),this.scale['proportion'](this.assembly/this.scaffolds[0]),'asm-genome');
   proportion_axis(g,radii,this.scale['proportion']);
 
-  plot_arc(g,radii.percent[0],radii.percent[1],this.scale['percent'](0),this.scale['percent'](100),'ns');
+  plot_arc(g,radii.percent[0],radii.percent[1],this.scale['percent'](0),this.scale['percent'](100),'asm-ns');
   plot_arc(g,radii.percent[0],radii.percent[1],this.scale['percent']((1-this.ATGC)/2*100),this.scale['percent'](100*this.ATGC + (1-this.ATGC)/2*100),'asm-atgc');
   plot_arc(g,radii.percent[0],radii.percent[1],this.scale['percent']((1-this.ATGC)/2*100),this.scale['percent'](this.GC),'asm-gc');
   percent_axis(g,radii,this.scale['percent']);
