@@ -123,7 +123,25 @@ window.onload = function(){
             contentType: "application/json; charset=utf-8",
             dataType: "json",
             success: function(msg) {
-            		show_results(msg);
+            		if (msg.count == 0){
+            		  search_term = $('#term').val();
+    	  			  if (!search_term.match(/%$/)){
+    	  			  	search_term = search_term + '%';
+          			    $('#term').val(search_term);
+          			    do_search(search_term);
+    	  			  }
+    	  			  else if (!search_term.match(/^%/)){
+    	  			  	search_term = '%' + search_term;
+          			    $('#term').val(search_term);
+          			    do_search(search_term);
+    	  			  }
+    	  			  else {
+    	     		    show_results(msg);
+    	  			  }
+            		}
+            		else {
+            		  show_results(msg);
+            		}
             },
             error: function(error) {
             	  console.log("Error: failed to execute search");
