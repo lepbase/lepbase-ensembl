@@ -94,7 +94,7 @@ Assembly.prototype.drawPlot = function(parent,size,margin,tick){
 			//console.log(i+' '+power);
 			//plot_arc(g,radii.core[1] - cScale(Math.pow(10,power)),radii.core[1] - cScale(Math.pow(10,power)),i * 360 / 1000 * (Math.PI/180),360 * (Math.PI/180),'asm-count_axis');
 			g.append('circle')
-		      .attr('r',radii.core[1] - cScale(Math.pow(10,power))
+		      .attr('r',radii.core[1] - cScale(Math.pow(10,power)))
 		      .attr('class','asm-count_axis');
 			power--;
 		}
