@@ -150,7 +150,7 @@ function main_axis (parent,radii){
 	var g = parent.append('g');
 	g.append('circle')
 		.attr('r',radii.core[1])
-		.attr('class','axis');
+		.attr('class','asm-axis');
 	var seq = Array.apply(0, Array(50)).map(function (x, y) { return y * 7.2 * (Math.PI/180); });
   	seq.forEach(function(i,index){
   		var tick = d3.svg.arc()
