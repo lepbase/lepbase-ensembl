@@ -77,19 +77,7 @@ Assembly.prototype.drawPlot = function(parent,size,margin,tick){
 		.attr('class','axis');
     });*/
     
-  this.seq.forEach(function(i,index){
-  	if (i <= 1000){
-  		var css = npct[i] == scaffolds[0] ? 'asm-longest_pie' : 'asm-pie';
-  		plot_arc(g,radii.core[1] - lScale(npct[i]),radii.core[1],0,i * 360 / 1000 * (Math.PI/180),css);
-  	  }
-  });
-  
-    
-  plot_arc(g,radii.core[1] - lScale(npct[500]),radii.core[1],0,500 * 360 / 1000 * (Math.PI/180),'asm-n50_pie');
-  plot_arc(g,radii.core[1] - lScale(npct[900]),radii.core[1],0,900 * 360 / 1000 * (Math.PI/180),'asm-n90_pie');
-  main_axis(g,radii);
-  
-  var power = 6;
+      var power = 6;
   while (npct_len[1000] < Math.pow(10,power)){
   	power--;
   }
@@ -103,12 +91,29 @@ Assembly.prototype.drawPlot = function(parent,size,margin,tick){
   	if (i <= 1000){
   		//plot_arc(g,radii.core[1] - cScale(npct_len[i]),radii.core[1] - cScale(npct_len[i]),i * 360 / 1000 * (Math.PI/180),(i+1) * 360 / 1000 * (Math.PI/180),'count');
 		if (npct_len[i] < Math.pow(10,power)){
-			console.log(i+' '+power);
-			plot_arc(g,radii.core[1] - cScale(Math.pow(10,power)),radii.core[1] - cScale(Math.pow(10,power)),i * 360 / 1000 * (Math.PI/180),360 * (Math.PI/180),'asm-count_axis');
+			//console.log(i+' '+power);
+			//plot_arc(g,radii.core[1] - cScale(Math.pow(10,power)),radii.core[1] - cScale(Math.pow(10,power)),i * 360 / 1000 * (Math.PI/180),360 * (Math.PI/180),'asm-count_axis');
+			g.append('circle')
+		      .attr('r',radii.core[1] - cScale(Math.pow(10,power))
+		      .attr('class','asm-count_axis');
 			power--;
 		}
   	  }
   });
+    
+  this.seq.forEach(function(i,index){
+  	if (i <= 1000){
+  		var css = npct[i] == scaffolds[0] ? 'asm-longest_pie' : 'asm-pie';
+  		plot_arc(g,radii.core[1] - lScale(npct[i]),radii.core[1],0,i * 360 / 1000 * (Math.PI/180),css);
+  	  }
+  });
+  
+    
+  plot_arc(g,radii.core[1] - lScale(npct[500]),radii.core[1],0,500 * 360 / 1000 * (Math.PI/180),'asm-n50_pie');
+  plot_arc(g,radii.core[1] - lScale(npct[900]),radii.core[1],0,900 * 360 / 1000 * (Math.PI/180),'asm-n90_pie');
+  main_axis(g,radii);
+  
+
   
   
   var length_seq = [];
