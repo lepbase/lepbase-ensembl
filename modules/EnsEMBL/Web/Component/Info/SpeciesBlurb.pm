@@ -68,6 +68,20 @@ sub content {
   $html .= '<h2 id="assembly">Assembly</h2>';
   $html .= EnsEMBL::Web::Controller::SSI::template_INCLUDE($self, "/ssi/species/${species}_assembly.html");
 
+  
+  $html .= '<p>The assembly plot above is a representation of genome assembly quality which condenses a number of key metrics into a single scale independent visualisation.
+  <ul>
+    <li>The green bar in the upper left indicates the size of the full assembly relative to the longest scaffold</li>
+    <li>The radius of the circular plot represents the length of the longest scaffold in the assembly</li>
+    <li>The angle subtended by the first (red) segment within this plot indicates the percentage of the assembly that is in the longest scaffold</li>
+    <li>The radial axis originates at the circumference and indicates scaffold length</li>
+    <li>Subsequent (grey) segments are plotted from the circumference and the length of segment at a given percentage indicates the cumulative percentage of the assembly that is contained within scaffolds of at least that length</li>
+    <li>The N50 and N90 scaffold lengths are indicated respectively by dark and light orange arcs that connect to the radial axis for ease of comparison</li>
+    <li>The cumulative number of scaffolds within a given percentge of the genome is plotted in purple originating at the centre of the plot</li>
+    <li>White scale lines are drawn at successive orders of magnitude from 10 scaffolds onwards</li>
+    <li>The plot in the lower right indicates the percentage base composition of the assembly: ACGT = light blue; GC = dark blue; N = grey</li>
+  </ul>
+  </p>'; 
   $html .= sprintf '<p>The genome assembly represented here corresponds to %s %s</p>', $source_type, $hub->get_ExtURL_link($accession, "ASSEMBLY_ACCESSION_SOURCE_$source", $accession) if $accession; ## Add in GCA link
   
   $html .= '<h2 id="genebuild">Gene annotation</h2>';
