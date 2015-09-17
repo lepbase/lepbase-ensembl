@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<OpenSearchDescription
+      xmlns="http://a9.com/-/spec/opensearch/1.1/">
+ <ShortName>LepBase (Mandu)</ShortName>
+ <Description>Search LepBase - Manduca sexta PRJNA81037 - Manduca sexta</Description>
+ <InputEncoding>UTF-8</InputEncoding>
+ <Tags>Ensembl genome browser LepBase Manduca sexta PRJNA81037 Manduca sexta</Tags>
+ <Image width="16" height="16" type="image/png">/i/ensembl-favicon.png</Image>
+ <Url type="text/html"
+      template="http://localhost.localdomain/Manduca_sexta_prjna81037/psychic?q={searchTerms};site=ensembl"/>
+</OpenSearchDescription>
