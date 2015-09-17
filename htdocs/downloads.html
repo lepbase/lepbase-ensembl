@@ -3,29 +3,60 @@
 <title>LepBase: Downloads</title>
 </head>
 <body>
+<script type="text/javascript" src="/components/00_jquery.min.js"></script>
+<script type="text/javascript" src="/ftp-downloads.js"></script>
 
 <script>
-  files = [ {size: 1025437, file:'Heliconius_melponene_Hmel2.scaffolds.fa.gz'},
-            {size: 12378, file:'Heliconius_melponene_Hmel2.cds.fa.gz'},
-            {size: 94748, file:'Heliconius_melponene_Hmel2.protein.fa.gz'},
-            {size: 9405836, file:'Heliconius_melponene_Hmel2.gff.fa.gz'},
-            {size: 6583283, file:'Danaus_plexippus_Dplex1.scaffolds.fa.gz'},
-            {size: 5834573, file:'Danaus_plexippus_Dplex1.cds.fa.gz'},
-            {size: 98473249, file:'Danaus_plexippus_Dplex1.protein.fa.gz'},
-            {size: 83749284, file:'Danaus_plexippus_Dplex1.gff.fa.gz'}
-          ];
-            
+           
+
+function getReadableFileSizeString(fileSizeInBytes) {
+//http://stackoverflow.com/questions/10420352/converting-file-size-in-bytes-to-human-readable
+    var i = -1;
+    var byteUnits = [' kB', ' MB', ' GB', ' TB', 'PB', 'EB', 'ZB', 'YB'];
+    do {
+        fileSizeInBytes = fileSizeInBytes / 1024;
+        i++;
+    } while (fileSizeInBytes > 1024);
+
+    return Math.max(fileSizeInBytes, 0.1).toFixed(1) + byteUnits[i];
+};
+
+var rows = {};
+files.forEach(function(d,index,array){
+	var parts = d.file.split('_-_');
+    var type = parts[1].replace(/\..+/,'');
+    if (!rows[parts[0]]){
+    	rows[parts[0]] = {};
+    }
+    rows[parts[0]][type] = {};
+    rows[parts[0]][type].file = d.file;
+    rows[parts[0]][type].size = getReadableFileSizeString(d.size);
+    
+  });
+
+$(document).ready(function(){
+      var table = $('#tbody');
+      $.each(rows,function(id,d){
+      	table.append('<tr id="'+id+'"><td>' + id.replace(/_/g,' ') + '</td></tr>');
+      	var tr = $('#'+id);
+      	$('#tbody > tr:last-child').append('<td><a>' + (rows[id].scaffolds ? rows[id].scaffolds.size : ''));
+      	$('#tbody > tr:last-child').append('<td><a>' + (rows[id].cds ? rows[id].cds.size : ''));
+      	$('#tbody > tr:last-child').append('<td><a>' + (rows[id].proteins ? rows[id].proteins.size : ''));
+      	$('#tbody > tr:last-child').append('<td><a>' + (rows[id].gff ? rows[id].gff.size : ''));
+      	$('#tbody > tr:last-child').append('<td>' + '<img src="i/External-link.png" width="25px" height="25px"/>' + '</td>');
+      });
+    });
 </script>
 
 <div id="static">
 
-Coming soon...
-<table class="blobs">
+<table>
   <thead>
     <tr>
       <td rowspan="2">Species (assembly)</td>
       <td colspan="3">FASTA</td>
       <td rowspan="2">GFF</td>
+      <td rowspan="2">Web Apollo</td>
     </tr>
     <tr>
       <td>Scaffold</td>
@@ -35,7 +66,7 @@ Coming soon...
   </thead>
   <tfoot>
   </tfoot>
-  <tbody>
+  <tbody id="tbody">
   </tbody>
 </table>
 
