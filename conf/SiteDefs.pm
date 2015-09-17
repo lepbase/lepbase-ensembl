@@ -64,10 +64,10 @@ sub update_conf {
 #    $SiteDefs::__species_aliases{'Manduca_sexta_PRJNA71235'} = [qw(manduca_sexta_PRJNA71235)];
 #    $SiteDefs::__species_aliases{'Chilo_suppressalis_PRJNA178139'} = [qw(chilo_suppressalis_PRJNA178139)];
 #    $SiteDefs::__species_aliases{'Pieris_napi_LBTMP10001'} = [qw(pieris_napi_LBTMP10001)];
-    $SiteDefs::__species_aliases{ 'Heliconius_melpomene_PRJEA71053' }   = [qw(Heliconius%20melpomene%20PRJEA71053 Heliconius%20melpomene)];    
-    $SiteDefs::__species_aliases{ 'Danaus_plexippus_PRJNA72423' }       = [qw(Danaus%20plexippus%20PRJNA72423 Danaus%20plexippus)];    
-    $SiteDefs::__species_aliases{ 'Bombyx_mori_PRJNA205630' }           = [qw(Bombyx%20mori%20PRJNA205630 Bombyx%20mori)];    
-    $SiteDefs::__species_aliases{ 'Melitaea_cinxia_PRJNA191594' }       = [qw(Melitaea%20cinxia%20PRJNA191594 Melitaea%20cinxia)];
+    $SiteDefs::__species_aliases{ 'Heliconius_melpomene' }   = [qw(Heliconius%20melpomene%20PRJEA71053 Heliconius%20melpomene)];    
+    $SiteDefs::__species_aliases{ 'Danaus_plexippus' }       = [qw(Danaus%20plexippus%20PRJNA72423 Danaus%20plexippus)];    
+    $SiteDefs::__species_aliases{ 'Bombyx_mori' }           = [qw(Bombyx%20mori%20PRJNA205630 Bombyx%20mori)];    
+    $SiteDefs::__species_aliases{ 'Melitaea_cinxia' }       = [qw(Melitaea%20cinxia%20PRJNA191594 Melitaea%20cinxia)];
     $SiteDefs::__species_aliases{ 'Heliconius_melpomene_LEPBA0003' }    = [qw(Heliconius%20melpomene%20LEPBA0003)];    
     $SiteDefs::__species_aliases{ 'Bicyclus_anynana_PRJEB8426' }        = [qw(Bicyclus%20anynana%20PRJEB8426 Bicyclus%20anynana)];    
     $SiteDefs::__species_aliases{ 'Chilo_suppressalis_PRJNA178139' }    = [qw(Chilo%20suppressalis%20PRJNA178139 Chilo%20suppressalis)];    

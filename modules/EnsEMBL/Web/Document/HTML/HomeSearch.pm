@@ -43,8 +43,9 @@ sub render {
   my $hub                 = $self->hub;
   my $species_defs        = $hub->species_defs;
   my $page_species        = $hub->species || 'Multi';
+  my $lc_sp               = lc $page_species;
   my $species_name        = $page_species eq 'Multi' ? '' : $species_defs->DISPLAY_NAME;
-  my $search_url          = $species_defs->ENSEMBL_WEB_ROOT . "$page_species/psychic";
+  my $search_url          = $species_defs->ENSEMBL_WEB_ROOT . "search.html";
   my $is_home_page        = $page_species eq 'Multi';
   my $is_bacteria         = $species_defs->GENOMIC_UNIT =~ /bacteria/i;
   my $default_search_code = $is_home_page ? 'ensemblunit' : 'ensemblthis';
@@ -75,22 +76,22 @@ sub render {
   if (keys %$sample_data) {
     my $collection_param = $collection ? ";collection=$collection" : '';
     $examples = join ' or ', map { $sample_data->{$_}
-      ? qq(<a class="nowrap" href="$search_url?q=$sample_data->{$_};site=$default_search_code$collection_param">$sample_data->{$_}</a>)
+      ? qq(<a class="nowrap" href="$search_url?q=$sample_data->{$_}&sp=$lc_sp">$sample_data->{$_}</a>)
       : ()
     } qw(GENE_TEXT LOCATION_TEXT SEARCH_TEXT);
-    $examples = qq(<p class="search-example">e.g. $examples</p>) if $examples;
+    $examples = qq(<p class="search-example">Find features using the search box in the top right of the page.<br/>Suggested search terms: $examples</p>) if $examples;
   }
-
+  return sprintf '<div>%s</div>',$examples;
   # form field
   my $f_params = {'notes' => $examples};
   $f_params->{'label'} = 'Search' if $is_home_page;
   my $field = $form->add_field($f_params);
-
-  # species dropdown
-  if ($page_species eq 'Multi') {
 ## BEGIN LEPBASE MODIFICATIONS...
   	return;
 ## ...END LEPBASE MODIFICATIONS
+
+  # species dropdown
+  if ($page_species eq 'Multi') {
     if ($is_bacteria) {
       $self->_add_collection_dropdown($field, $collection);
     } else {

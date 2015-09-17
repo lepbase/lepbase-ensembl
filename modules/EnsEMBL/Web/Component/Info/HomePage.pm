@@ -188,13 +188,26 @@ sub content {
     $html .= qq(<p><a href="/$species/Info/Annotation/#about" class="nodeco"><img src="${img_url}24/info.png" alt="" class="homepage-link" />More information and statistics</a></p>);
     $html .= '</div></div>';
   }
-
-  my (@sections);
+  
+my (@sections);
+  
+  my $assembly_text = $self->_other_text('assembly', $species);
+  if ($assembly_text) {
+    push(@sections, $assembly_text);
+  }
+  my $annotation_text = $self->_other_text('annotation', $species);
+  if ($annotation_text) {
+    push(@sections, $annotation_text);
+  }
+  my $reference_text = $self->_other_text('references', $species);
+  if ($reference_text) {
+    push(@sections, $reference_text);
+  }
   
 
-  push(@sections, $self->_assembly_text);
+#  push(@sections, $assembly_text);
 # $html .= '<div class="box-left"><div class="round-box tinted-box unbordered">' . $self->_assembly_text . '</div></div>';
-  push(@sections, $self->_genebuild_text) if $species_defs->SAMPLE_DATA->{GENE_PARAM};
+#  push(@sections, $self->_genebuild_text) if $species_defs->SAMPLE_DATA->{GENE_PARAM};
  #$html .= '<div class="box-right"><div class="round-box tinted-box unbordered">' . $self->_genebuild_text . '</div></div>' if $species_defs->SAMPLE_DATA->{GENE_PARAM};
 
 # my @box_class = ('box-left', 'box-right');
