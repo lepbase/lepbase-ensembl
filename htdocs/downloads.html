@@ -4,8 +4,12 @@
 </head>
 <body>
 <script type="text/javascript" src="/components/00_jquery.min.js"></script>
-<script type="text/javascript" src="/ftp-downloads.js"></script>
-
+<script type="text/javascript" src="/components/00_jquery_ui.min.js"></script>
+<script type="text/javascript" src="/downloads.js"></script>
+<style>
+  a { cursor:pointer; }
+  thead { font-weight: bold; }
+</style>
 <script>
            
 
@@ -33,6 +37,7 @@ files.forEach(function(d,index,array){
     rows[parts[0]][type].size = getReadableFileSizeString(d.size);
     
   });
+  
 
 $(document).ready(function(){
       var table = $('#tbody');
@@ -42,26 +47,32 @@ $(document).ready(function(){
       	var css = ctr%2 == 0 ? 'class="bg2"' : '';
       	table.append('<tr '+css+' id="'+id+'"><td>' + id.replace(/_/g,' ') + '</td></tr>');
       	var tr = $('#'+id);
-      	$('#tbody > tr:last-child').append('<td><a>' + (rows[id].scaffolds ? rows[id].scaffolds.size : ''));
-      	$('#tbody > tr:last-child').append('<td><a>' + (rows[id].cds ? rows[id].cds.size : ''));
-      	$('#tbody > tr:last-child').append('<td><a>' + (rows[id].proteins ? rows[id].proteins.size : ''));
-      	$('#tbody > tr:last-child').append('<td><a>' + (rows[id].gff ? rows[id].gff.size : ''));
-      	$('#tbody > tr:last-child').append('<td>' + '<img src="i/External-link.png" width="25px" height="25px"/>' + '</td>');
+      	$('#tbody > tr:last-child').append('<td>' + (rows[id].scaffolds ? '<a class="download-link" rel="'+rows[id].scaffolds.file+'">' + rows[id].scaffolds.size : ''));
+      	$('#tbody > tr:last-child').append('<td>' + (rows[id].cds ? '<a class="download-link" rel="'+rows[id].cds.file+'">' + rows[id].cds.size : ''));
+      	$('#tbody > tr:last-child').append('<td>' + (rows[id].proteins ? '<a class="download-link" rel="'+rows[id].proteins.file+'">' + rows[id].proteins.size : ''));
+      	$('#tbody > tr:last-child').append('<td>' + (rows[id].gff ? '<a class="download-link" rel="'+rows[id].gff.file+'">' + rows[id].gff.size : ''));
+      });
+      $('.download-link').on('click',function(){
+      	console.log($(this).parent().parent().attr("id"));
+      	console.log($(this).attr("rel"));
+      	//parent.attr("id"));
       });
     });
 </script>
 
 <div id="static">
 
+
+
+<h2>Bulk data downloads</h2>
 <table class="ss tint">
   <thead>
     <tr class="bg2">
-      <td rowspan="1">Species (assembly)</td>
+      <td rowspan="1">Species/Assembly</td>
       <td>Scaffold</td>
       <td>CDS</td>
       <td>Protein</td>
       <td rowspan="1">GFF</td>
-      <td rowspan="1">Web Apollo</td>
     </tr>
     
   </thead>
