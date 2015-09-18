@@ -168,7 +168,7 @@ our $ENSEMBL_GROUP             = getgrgid($)); # Auto-set web server group
 our $ENSEMBL_IMAGE_WIDTH       = 800;
 our $ENSEMBL_JSCSS_TYPE        = 'minified';
 our $ENSEMBL_MINIFIED_FILES_PATH = '/minified'; # path for saving the minified files
-our $ENSEMBL_DEBUG_JS            = 1; # change these to 1 to prevent js minification
+our $ENSEMBL_DEBUG_JS            = 0; # change these to 1 to prevent js minification
 our $ENSEMBL_DEBUG_CSS           = 0; # change these to 1 to prevent css minification
 
 our $ENSEMBL_EXTERNAL_SEARCHABLE = 0; # No external bots allowed by default
@@ -186,7 +186,7 @@ our $ENSEMBL_ORM_DATABASES     = {};
 # 4000 INFO
 # *1e6 ON ALL
 our $ENSEMBL_API_VERBOSITY        = 'WARNING';
-our $ENSEMBL_DEBUG_FLAGS          = 1;
+our $ENSEMBL_DEBUG_FLAGS          = 0;
 our $ENSEMBL_DEBUG_VERBOSE_ERRORS = 0;
 our $ENSEMBL_DEBUG_FLAG_NAMES     = [qw(
   GENERAL_ERRORS
