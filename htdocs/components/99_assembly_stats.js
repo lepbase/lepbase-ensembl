@@ -55,7 +55,7 @@ Assembly.prototype.drawPlot = function(parent,size,margin,tick){
   
   size = 600;
   margin = 100;
-  tick = 100;
+  tick = 10;
   parent.attr('width', size).attr('height', size)
   var radii = {};
   radii.core = [0,(size-margin*2-tick*2)/2];
