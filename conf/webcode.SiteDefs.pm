@@ -169,7 +169,7 @@ our $ENSEMBL_IMAGE_WIDTH       = 800;
 our $ENSEMBL_JSCSS_TYPE        = 'minified';
 our $ENSEMBL_MINIFIED_FILES_PATH = '/minified'; # path for saving the minified files
 our $ENSEMBL_DEBUG_JS            = 1; # change these to 1 to prevent js minification
-our $ENSEMBL_DEBUG_CSS           = 1; # change these to 1 to prevent css minification
+our $ENSEMBL_DEBUG_CSS           = 0; # change these to 1 to prevent css minification
 
 our $ENSEMBL_EXTERNAL_SEARCHABLE = 0; # No external bots allowed by default
 
@@ -352,8 +352,6 @@ our $OBJECT_TO_SCRIPT = {
   CSS                 => 'CSS',  
 };
 
-logs("$ENSEMBL_SERVERROOT/logs");
-tmp("$ENSEMBL_SERVERROOT/tmp");
 
 ## Set log directory and files
 our $ENSEMBL_LOGDIR    = defer { "$ENSEMBL_SERVERROOT/logs" };
