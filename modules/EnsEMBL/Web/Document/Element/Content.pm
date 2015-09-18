@@ -285,7 +285,7 @@ sub content_panel {
 
   	$species_badge .= qq(<img src="${img_url}species/64/$species.png" alt="" title="" />);
 
-  	if ($common_name =~ /\./) {
+  	if (1){#$common_name =~ /\./) {
    		$species_badge .= qq(<h1>$display_name</h1>);
   	}
   	else {
