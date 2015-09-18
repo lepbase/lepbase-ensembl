@@ -52,6 +52,7 @@ Assembly.prototype.setScale = function(element,scaling,domain,range){
 }
 
 Assembly.prototype.drawPlot = function(parent,size,margin,tick){
+  size = 600;
   var radii = {};
   radii.core = [0,(size-margin*2-tick*2)/2];
   radii.core.majorTick = [radii.core[1],radii.core[1]+tick];
@@ -282,7 +283,7 @@ function proportion_axis (parent,radii,scale){
         .endAngle(scale(100000));
       g.append('path')
         .attr('d', axis)
-        .attr('class', 'axis');
+        .attr('class', 'asm-axis');
   var seq = Array.apply(0, Array(6)).map(function (x, y) { return Math.pow(10,y); });
   seq.forEach(function(d,index){
     var arc = d3.svg.arc()
