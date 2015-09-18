@@ -52,7 +52,11 @@ Assembly.prototype.setScale = function(element,scaling,domain,range){
 }
 
 Assembly.prototype.drawPlot = function(parent,size,margin,tick){
+  
   size = 600;
+  margin = 100;
+  tick = 100;
+  parent.attr('width', size).attr('height', size)
   var radii = {};
   radii.core = [0,(size-margin*2-tick*2)/2];
   radii.core.majorTick = [radii.core[1],radii.core[1]+tick];
