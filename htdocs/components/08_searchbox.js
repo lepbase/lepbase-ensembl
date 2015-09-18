@@ -101,8 +101,8 @@ window.onload = function(){
 					    do_search($("#term").val());
 			         }
               	  }
-              	  }
-              });
+              	  });
+              }
               
           },
           error: function() {
