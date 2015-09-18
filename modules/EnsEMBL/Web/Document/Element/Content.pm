@@ -263,7 +263,7 @@ sub content_panel {
   my $species_defs = $hub->species_defs;
   my $img_url      = $self->img_url;
   my $common_name  = $species_defs->SPECIES_COMMON_NAME;
-  my $display_name = $species_defs->SPECIES_DISPLAY_NAME;
+  my $display_name = $species_defs->SPECIES_SCIENTIFIC_NAME.' '.$species_defs->ASSEMBLY_NAME;
   my $taxid        = $species_defs->TAXONOMY_ID;
   my $provider_link;
 
