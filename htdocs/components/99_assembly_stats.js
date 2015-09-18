@@ -1,5 +1,15 @@
 
+ function getReadableSeqSizeString(seqSizeInBases) {
+//http://stackoverflow.com/questions/10420352/converting-file-size-in-bytes-to-human-readable
+    var i = -1;
+    var baseUnits = [' kB', ' MB', ' GB', ' TB', 'PB', 'EB', 'ZB', 'YB'];
+    do {
+        seqSizeInBases = seqSizeInBases / 1000;
+        i++;
+    } while (seqSizeInBases > 1000);
 
+    return Math.max(seqSizeInBases, 0.1).toFixed(1) + baseUnits[i];
+};
  
 function Assembly( stats,scaffolds ) { 
   var sum = scaffolds.reduce(function(previousValue, currentValue, index, array) {
@@ -8,7 +18,7 @@ function Assembly( stats,scaffolds ) {
   this.assembly = stats.assembly; 
   this.N = stats.N ? stats.N < 100 ? stats.N < 1 ? stats.N : stats.N / 100 : stats.N / this.assembly : 0;
   this.ATGC = stats.ATGC ? stats.ATGC < 100 ? stats.ATGC < 1 ? stats.ATGC : stats.ATGC / 100 : stats.ATGC / this.assembly : 1 - this.N;
-  this.GC = stats.GC < 100 ? stats.GC < 1 ? stats.GC * 100 : stats.GC : 50; // TODO: fix last condition 
+  this.GC = stats.GC < 100 ? stats.GC < 1 ? stats.GC : stats.GC / 100 : 50; // TODO: fix last condition 
   this.scaffolds = scaffolds.sort(function(a, b){return b-a});
   var npct = {};
   var npct_len = {};
@@ -77,7 +87,19 @@ Assembly.prototype.drawPlot = function(parent,size,margin,tick){
 		.attr('class','axis');
     });*/
     
-      var power = 6;
+  this.seq.forEach(function(i,index){
+  	if (i <= 1000){
+  		var css = npct[i] == scaffolds[0] ? 'asm-longest_pie' : 'asm-pie';
+  		plot_arc(g,radii.core[1] - lScale(npct[i]),radii.core[1],0,i * 360 / 1000 * (Math.PI/180),css);
+  	  }
+  });
+  
+    
+  plot_arc(g,radii.core[1] - lScale(npct[500]),radii.core[1],0,500 * 360 / 1000 * (Math.PI/180),'asm-n50_pie');
+  plot_arc(g,radii.core[1] - lScale(npct[900]),radii.core[1],0,900 * 360 / 1000 * (Math.PI/180),'asm-n90_pie');
+  main_axis(g,radii);
+  
+  var power = 6;
   while (npct_len[1000] < Math.pow(10,power)){
   	power--;
   }
@@ -91,29 +113,16 @@ Assembly.prototype.drawPlot = function(parent,size,margin,tick){
   	if (i <= 1000){
   		//plot_arc(g,radii.core[1] - cScale(npct_len[i]),radii.core[1] - cScale(npct_len[i]),i * 360 / 1000 * (Math.PI/180),(i+1) * 360 / 1000 * (Math.PI/180),'count');
 		if (npct_len[i] < Math.pow(10,power)){
-			//console.log(i+' '+power);
-			//plot_arc(g,radii.core[1] - cScale(Math.pow(10,power)),radii.core[1] - cScale(Math.pow(10,power)),i * 360 / 1000 * (Math.PI/180),360 * (Math.PI/180),'asm-count_axis');
-			g.append('circle')
-		      .attr('r',radii.core[1] - cScale(Math.pow(10,power)))
-		      .attr('class','asm-count_axis');
+			console.log(i+' '+power);
+			plot_arc(g,radii.core[1] - cScale(Math.pow(10,power)),radii.core[1] - cScale(Math.pow(10,power)),i * 360 / 1000 * (Math.PI/180),360 * (Math.PI/180),'asm-count_axis');
+			g.append('text')
+        		.text(Math.pow(10,power))
+        		.attr('transform', 'translate(-5,'+(-radii.core[1] + cScale(Math.pow(10,power))+15)+')')
+        		.attr('class','asm-count_label');
 			power--;
 		}
   	  }
   });
-    
-  this.seq.forEach(function(i,index){
-  	if (i <= 1000){
-  		var css = npct[i] == scaffolds[0] ? 'asm-longest_pie' : 'asm-pie';
-  		plot_arc(g,radii.core[1] - lScale(npct[i]),radii.core[1],0,i * 360 / 1000 * (Math.PI/180),css);
-  	  }
-  });
-  
-    
-  plot_arc(g,radii.core[1] - lScale(npct[500]),radii.core[1],0,500 * 360 / 1000 * (Math.PI/180),'asm-n50_pie');
-  plot_arc(g,radii.core[1] - lScale(npct[900]),radii.core[1],0,900 * 360 / 1000 * (Math.PI/180),'asm-n90_pie');
-  main_axis(g,radii);
-  
-
   
   
   var length_seq = [];
@@ -139,16 +148,95 @@ Assembly.prototype.drawPlot = function(parent,size,margin,tick){
   		.attr('y2',-radii.core[1]+lScale(Math.pow(10,i)))
         .attr('class', 'asm-majorTick');
   	});
+  	/*var x = -Math.pow(1.5,length_seq[length_seq.length-1])
+  	var y = -radii.core[1]+lScale(Math.pow(10,length_seq[length_seq.length-1]))
+  	g.append('text')
+        .text(Math.pow(10,length_seq[length_seq.length-1]))
+        .attr('transform', 'translate('+x+','+y+')')
+        .attr('class','asm-length_label');*/
+    g.append('text')
+        .text(this.scaffolds[0])
+        .attr('transform', 'translate('+10+','+-radii.core[1]/2+') rotate(90)')
+        .attr('class','asm-length_label');
+  	
   
   plot_arc(g,radii.proportion[0],radii.proportion[1],this.scale['proportion'](1),this.scale['proportion'](this.assembly/this.scaffolds[0]),'asm-genome');
   proportion_axis(g,radii,this.scale['proportion']);
+  	var x = Math.cos(this.scale['proportion'](25)-90)*(radii.proportion[1]+20);
+    var y = Math.sin(this.scale['proportion'](25)-90)*(radii.proportion[1]+20);
+	g.append('text')
+        .text(this.assembly)
+        .attr('transform', 'translate('+x+','+-y+') rotate('+(276)+')')
+        .attr('class','asm-assembly_label');
+  	var txt = g.append('text')
+        .attr('transform', 'translate('+(-size/2+30)+','+(-size/2+40)+')')
+        .attr('class','asm-tl_title');
+  	txt.append('tspan').text('Relative assembly');
+  	txt.append('tspan').text('size').attr('x',0).attr('dy',18);
+  	//txt.append('tspan').text('size').attr('x',0).attr('dy',18);
+     var w = 12;
+  	  var key = g.append('g').attr('transform', 'translate('+(-size/2+30)+','+(-size/2+70)+')');
+  	key.append('rect').attr('height',w).attr('width',w).attr('class','asm-genome');
+  	key.append('text').attr('x',w+2).attr('y',w-1).text(getReadableSeqSizeString(this.assembly)).attr('class','asm-key');
+  	 
 
   plot_arc(g,radii.percent[0],radii.percent[1],this.scale['percent'](0),this.scale['percent'](100),'asm-ns');
   plot_arc(g,radii.percent[0],radii.percent[1],this.scale['percent']((1-this.ATGC)/2*100),this.scale['percent'](100*this.ATGC + (1-this.ATGC)/2*100),'asm-atgc');
+  console.log(this.GC);
   plot_arc(g,radii.percent[0],radii.percent[1],this.scale['percent']((1-this.ATGC)/2*100),this.scale['percent'](this.GC),'asm-gc');
   percent_axis(g,radii,this.scale['percent']);
+  var txt = g.append('text')
+        .attr('transform', 'translate('+(size/2-30)+','+(size/2-64)+')')
+        .attr('class','asm-br_title');
+  	txt.append('tspan').text('Assembly');
+  	txt.append('tspan').text('base composition').attr('x',0).attr('dy',18);
+  	//txt.append('tspan').text('composition').attr('x',0).attr('dy',18);
+  	
+  	var key = g.append('g').attr('transform', 'translate('+(size/2-140)+','+(size/2-37)+')');
+  	key.append('rect').attr('height',w).attr('width',w).attr('class','asm-gc');
+  	key.append('text').attr('x',w+2).attr('y',w-1).text('GC').attr('class','asm-key');
+  	key.append('rect').attr('x',w*3.5).attr('height',w).attr('width',w).attr('class','asm-atgc');
+  	key.append('text').attr('x',w*4.5+2).attr('y',w-1).text('AT').attr('class','asm-key');
+  	key.append('rect').attr('x',w*7).attr('height',w).attr('width',w).attr('class','asm-ns');
+  	key.append('text').attr('x',w*8+2).attr('y',w-1).text('N').attr('class','asm-key');
+  	
 
+  var txt = g.append('text')
+        .attr('transform', 'translate('+(size/2-180)+','+(-size/2+40)+')')
+        .attr('class','asm-tr_title');
+  	txt.append('tspan').text('Scaffold length');
+  	txt.append('tspan').text('distribution').attr('x',0).attr('dy',20);
+  	//txt.append('tspan').text('distribution').attr('x',0).attr('dy',20);
+  	
+  	var key = g.append('g').attr('transform', 'translate('+(size/2-180)+','+(-size/2+70)+')');
+  	key.append('rect').attr('height',w).attr('width',w).attr('class','asm-pie');
+  	key.append('text').attr('x',w+2).attr('y',w-1).text('(Scaffold length)').attr('class','asm-key').append('tspan').attr('baseline-shift','super').attr('font-size','75%').text(0.5);
+  	key.append('rect').attr('y',w*1.5).attr('height',w).attr('width',w).attr('class','asm-pie');
+  	key.append('rect').attr('y',w*1.5).attr('height',w).attr('width',w).attr('class','asm-longest_pie');
+  	key.append('text').attr('x',w+2).attr('y',w*2.5-1).text('Longest scaffold ('+getReadableSeqSizeString(this.scaffolds[0])+')').attr('class','asm-key');
+  	key.append('rect').attr('y',w*3).attr('height',w).attr('width',w).attr('class','asm-pie');
+  	key.append('rect').attr('y',w*3).attr('height',w).attr('width',w).attr('class','asm-n50_pie');
+  	key.append('text').attr('x',w+2).attr('y',w*4-1).text('/').attr('class','asm-key');
+  	key.append('rect').attr('y',w*3).attr('x',w+8).attr('height',w).attr('width',w).attr('class','asm-pie');
+  	key.append('rect').attr('y',w*3).attr('x',w+8).attr('height',w).attr('width',w).attr('class','asm-n90_pie');
+  	key.append('text').attr('x',w*2+10).attr('y',w*4-1).text('N50/N90 length').attr('class','asm-key');
+  	
 
+    var txt = g.append('text')
+        .attr('transform', 'translate('+(-size/2+30)+','+(size/2-64)+')')
+        .attr('class','asm-bl_title');
+  	txt.append('tspan').text('Cumulative');
+  	txt.append('tspan').text('scaffold number').attr('x',0).attr('dy',20);
+  	//txt.append('tspan').text('distribution').attr('x',0).attr('dy',20);
+  	
+  	var key = g.append('g').attr('transform', 'translate('+(-size/2+30)+','+(size/2-37)+')');
+  	key.append('rect').attr('height',w).attr('width',w).attr('class','asm-count');
+  	var count_txt = key.append('text').attr('x',w+2).attr('y',w-1).attr('class','asm-key')
+  		count_txt.append('tspan').text('Log')
+  		count_txt.append('tspan').attr('baseline-shift','sub').attr('font-size','75%').text(10)
+  		count_txt.append('tspan').text(' scaffold count');
+  	
+  	
 }
 
 function main_axis (parent,radii){
@@ -177,6 +265,11 @@ function main_axis (parent,radii){
 		g.append('path')
         .attr('d', tick)
         .attr('class', 'asm-majorTick');
+        var x = Math.cos(i-Math.PI/2)*(radii.core.majorTick[1]+10);
+        var y = Math.sin(i-Math.PI/2)*(radii.core.majorTick[1]+10);
+        g.append('text')
+        .text(function(){return index > 0 ? index*10 : '0%'})
+        .attr('transform', 'translate('+x+','+y+') rotate('+i/(Math.PI/180)+')');
   	});
 }
 
@@ -189,17 +282,22 @@ function proportion_axis (parent,radii,scale){
         .endAngle(scale(100000));
       g.append('path')
         .attr('d', axis)
-        .attr('class', 'asm-axis');
+        .attr('class', 'axis');
   var seq = Array.apply(0, Array(6)).map(function (x, y) { return Math.pow(10,y); });
-  seq.forEach(function(d){
+  seq.forEach(function(d,index){
     var arc = d3.svg.arc()
       			.innerRadius(radii.proportion.majorTick[0])
         		.outerRadius(radii.proportion.majorTick[1])
         		.startAngle(scale(d) )
         		.endAngle(scale(d));
-  	g.append('path')
-  		.attr('d',arc)
-        .attr('class', 'asm-majorTick');
+  	    g.append('path')
+  	  	  .attr('d',arc)
+          .attr('class', 'asm-majorTick');
+        var x = Math.cos(scale(d)-Math.PI/2)*(radii.proportion.majorTick[1]+10);
+        var y = Math.sin(scale(d)-Math.PI/2)*(radii.proportion.majorTick[1]+10);
+        g.append('text')
+          .text(function(){return index < 6 ? Math.pow(10,index) : 10 + '^' +index})
+          .attr('transform', 'translate('+x+','+y+')  rotate('+scale(d)/(Math.PI/180)+')');
     });
 
 
@@ -237,17 +335,26 @@ function percent_axis (parent,radii,scale){
         .attr('d', axis)
         .attr('class', 'asm-axis');
   var seq = Array.apply(0, Array(11)).map(function (x, y) { return y * 10; });
-  seq.forEach(function(d){
+  seq.forEach(function(d,index){
     var arc = d3.svg.arc()
       			.innerRadius(radii.percent.majorTick[0])
         		.outerRadius(radii.percent.majorTick[1])
         		.startAngle(scale(d) )
         		.endAngle(scale(d));
-  	g.append('path')
-  		.attr('d',arc)
-        .attr('class', 'asm-majorTick');
+  	    g.append('path')
+  		    .attr('d',arc)
+            .attr('class', 'asm-majorTick');
+        
     });
-
+    var seq = Array.apply(0, Array(11)).map(function (x, y) { return y * 10; });
+  seq.forEach(function(d,index){
+  
+    var x = Math.cos(scale(d)-Math.PI/2)*(radii.percent.majorTick[1]+10);
+    var y = Math.sin(scale(d)-Math.PI/2)*(radii.percent.majorTick[1]+10);
+        g.append('text')
+          .text(function(){return d > 0 && d < 100 ? d : d+'%'})
+          .attr('transform', 'translate('+x+','+y+') rotate('+(180+scale(d)/(Math.PI/180))+')');
+	})
 
 	var seq = Array.apply(0, Array(50)).map(function (x, y) { return y*2; });
   seq.forEach(function(d){
