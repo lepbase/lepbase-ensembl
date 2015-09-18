@@ -18,7 +18,7 @@ function Assembly( stats,scaffolds ) {
   this.assembly = stats.assembly; 
   this.N = stats.N ? stats.N < 100 ? stats.N < 1 ? stats.N : stats.N / 100 : stats.N / this.assembly : 0;
   this.ATGC = stats.ATGC ? stats.ATGC < 100 ? stats.ATGC < 1 ? stats.ATGC : stats.ATGC / 100 : stats.ATGC / this.assembly : 1 - this.N;
-  this.GC = stats.GC < 100 ? stats.GC < 1 ? stats.GC : stats.GC / 100 : 50; // TODO: fix last condition 
+  this.GC = stats.GC;// < 100 ? stats.GC < 1 ? stats.GC : stats.GC / 100 : 50; // TODO: fix last condition 
   this.scaffolds = scaffolds.sort(function(a, b){return b-a});
   var npct = {};
   var npct_len = {};
