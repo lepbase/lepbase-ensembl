@@ -87,6 +87,7 @@ window.onload = function(){
           contentType: "application/json; charset=utf-8",
           dataType: "json",
           success: function(msg) {
+            if ($("#table")){
           	  $("#table").get(0).options.length = 0;
               $("#table").get(0).options[0] = new Option("All", "multi");   
               $.each(msg, function(index, item) {
@@ -100,12 +101,15 @@ window.onload = function(){
 					    do_search($("#term").val());
 			         }
               	  }
-              });
+              	  });
+              }
               
           },
           error: function() {
+          	if ($("#table")){
         	  $("#table").get(0).options.length = 0;
               $("#table").get(0).options[0] = new Option("All", "multi");   
+            }
               console.log("Error: failed to load tables");
           }
         });
