@@ -47,15 +47,15 @@ $(document).ready(function(){
       	var css = ctr%2 == 0 ? 'class="bg2"' : '';
       	table.append('<tr '+css+' id="'+id+'"><td>' + id.replace(/_/g,' ') + '</td></tr>');
       	var tr = $('#'+id);
-      	$('#tbody > tr:last-child').append('<td>' + (rows[id].scaffolds ? '<a class="download-link" rel="'+rows[id].scaffolds.file+'">' + rows[id].scaffolds.size : ''));
-      	$('#tbody > tr:last-child').append('<td>' + (rows[id].cds ? '<a class="download-link" rel="'+rows[id].cds.file+'">' + rows[id].cds.size : ''));
-      	$('#tbody > tr:last-child').append('<td>' + (rows[id].proteins ? '<a class="download-link" rel="'+rows[id].proteins.file+'">' + rows[id].proteins.size : ''));
-      	$('#tbody > tr:last-child').append('<td>' + (rows[id].gff ? '<a class="download-link" rel="'+rows[id].gff.file+'">' + rows[id].gff.size : ''));
+      	$('#tbody > tr:last-child').append('<td>' + (rows[id].scaffolds ? '<a class="download-link fasta" rel="'+rows[id].scaffolds.file+'">' + rows[id].scaffolds.size : ''));
+      	$('#tbody > tr:last-child').append('<td>' + (rows[id].cds ? '<a class="download-link fasta" rel="'+rows[id].cds.file+'">' + rows[id].cds.size : ''));
+      	$('#tbody > tr:last-child').append('<td>' + (rows[id].proteins ? '<a class="download-link fasta" rel="'+rows[id].proteins.file+'">' + rows[id].proteins.size : ''));
+      	$('#tbody > tr:last-child').append('<td>' + (rows[id].gff ? '<a class="download-link fasta" rel="'+rows[id].gff.file+'">' + rows[id].gff.size : ''));
       });
       $('.download-link').on('click',function(){
-      	console.log($(this).parent().parent().attr("id"));
-      	console.log($(this).attr("rel"));
-      	//parent.attr("id"));
+        var type = $(this).hasClass('fasta') ? 'fasta' : $(this).hasClass('gff') ? 'gff' : 'txt';
+        
+        location.href = 'http://download.lepbase.org/'+type+'/'+$(this).attr('rel');
       });
     });
 </script>
