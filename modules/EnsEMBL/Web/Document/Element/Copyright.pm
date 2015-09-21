@@ -47,8 +47,8 @@ sub content {
   <div class="column-two left">
 		   %s release %s - %s
 		  &copy; <span class="print_hide"><a href="http://www.ed.ac.uk/" style="white-space:nowrap">Edinburgh University</a><a>/</a><a href="http://www.ebi.ac.uk/" style="white-space:nowrap">EBI</a></span>
-      <span class="screen_hide_inline">LepBase</span>
-  </div>),     $sd->SITE_NAME, 0.5, "February 2015"
+      <span class="screen_hide_inline">Lepbase</span>
+  </div>),     $sd->SITE_NAME, 1.0, "September 2015"
 ## ...END LEPBASE MODIFICATIONS
 	       );
 

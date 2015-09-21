@@ -8,7 +8,7 @@
   </p>
   <p>
     As research questions in the Lepidoptera are increasingly being approached using genomic
-    data, LepBase offers a platform that integrates these data, focusing on the specific 
+    data, Lepbase offers a platform that integrates these data, focusing on the specific 
     needs of the Lepidopteran research community to open up this diverse clade to 
     comparative analysis.
   </p>
