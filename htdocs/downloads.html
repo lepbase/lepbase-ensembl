@@ -8,10 +8,17 @@
 <script type="text/javascript" src="/downloads.js"></script>
 <style>
   a { cursor:pointer; }
+  .about { cursor:auto; text-decoration:none; font-weight:bold; }
+  .download-warning { cursor:auto; color:#dd0000; font-weight:bold; }
+  .accepted { color:#666666; }
+  .download-link { }
+  .inactive { cursor:auto; color:#cccccc; pointer-events:none; }
+  .active{ cursor:pointer; pointer-events:auto; }
   thead { font-weight: bold; }
 </style>
 <script>
            
+
 
 function getReadableFileSizeString(fileSizeInBytes) {
 //http://stackoverflow.com/questions/10420352/converting-file-size-in-bytes-to-human-readable
@@ -45,18 +52,25 @@ $(document).ready(function(){
       $.each(rows,function(id,d){
       	ctr++;
       	var css = ctr%2 == 0 ? 'class="bg2"' : '';
-      	table.append('<tr '+css+' id="'+id+'"><td>' + id.replace(/_/g,' ') + '</td></tr>');
+      	table.append('<tr '+css+' id="'+id+'"><td><a class="about" href="/'+id.replace(/\./g,'x').replace(/x0$/,'')+'/Info/Index?db=core">' + id.replace(/_/g,' ') + '</a></td></tr>');
       	var tr = $('#'+id);
-      	$('#tbody > tr:last-child').append('<td>' + (rows[id].scaffolds ? '<a class="download-link fasta" rel="'+rows[id].scaffolds.file+'">' + rows[id].scaffolds.size : ''));
-      	$('#tbody > tr:last-child').append('<td>' + (rows[id].cds ? '<a class="download-link fasta" rel="'+rows[id].cds.file+'">' + rows[id].cds.size : ''));
-      	$('#tbody > tr:last-child').append('<td>' + (rows[id].proteins ? '<a class="download-link fasta" rel="'+rows[id].proteins.file+'">' + rows[id].proteins.size : ''));
-      	$('#tbody > tr:last-child').append('<td>' + (rows[id].gff ? '<a class="download-link fasta" rel="'+rows[id].gff.file+'">' + rows[id].gff.size : ''));
+      	$('#tbody > tr:last-child').append('<td>' + (rows[id].scaffolds ? '<a class="download-link inactive fasta" rel="'+rows[id].scaffolds.file+'">' + rows[id].scaffolds.size : ''));
+      	$('#tbody > tr:last-child').append('<td>' + (rows[id].cds ? '<a class="download-link inactive fasta" rel="'+rows[id].cds.file+'">' + rows[id].cds.size : ''));
+      	$('#tbody > tr:last-child').append('<td>' + (rows[id].proteins ? '<a class="download-link inactive fasta" rel="'+rows[id].proteins.file+'">' + rows[id].proteins.size : ''));
+      	$('#tbody > tr:last-child').append('<td>' + (rows[id].gff ? '<a class="download-link inactive fasta" rel="'+rows[id].gff.file+'">' + rows[id].gff.size : ''));
       });
-      $('.download-link').on('click',function(){
-        var type = $(this).hasClass('fasta') ? 'fasta' : $(this).hasClass('gff') ? 'gff' : 'txt';
+      $('#download-accept').on('click',function(){
+        console.log('?');
+      	$('.download-link').toggleClass('active');
+        $('.download-warning').toggleClass('accepted');
+        $('.download-link').toggleClass('inactive');
+        $('.download-link').on('click',function(){
+         var type = $(this).hasClass('fasta') ? 'fasta' : $(this).hasClass('gff') ? 'gff' : 'txt';
         
-        location.href = 'http://download.lepbase.org/'+type+'/'+$(this).attr('rel');
+         location.href = 'http://download.lepbase.org/'+type+'/'+$(this).attr('rel');
+        });
       });
+      
     });
 </script>
 
@@ -65,14 +79,19 @@ $(document).ready(function(){
 
 
 <h2>Bulk data downloads</h2>
+<span class="download-warning"><a class="download-warning">The data available for download on this page include unpublished genome assemblies and annotations. If you wish to download bulk datasets you must agree to any usage conditions on the relevant species/assembly page.</a>
+</span> 
+<p>
+  <label for="download-accept">I agree to the conditions of usage for any datasets that I download </label><input type="checkbox" name="download-accept" id="download-accept"/>
+</p>
 <table class="ss tint">
   <thead>
     <tr class="bg2">
-      <td rowspan="1">Species/Assembly</td>
+      <td>Species/Assembly</td>
       <td>Scaffold</td>
       <td>CDS</td>
       <td>Protein</td>
-      <td rowspan="1">GFF</td>
+      <td>GFF</td>
     </tr>
     
   </thead>
