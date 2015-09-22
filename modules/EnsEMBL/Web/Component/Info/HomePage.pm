@@ -25,6 +25,9 @@ use strict;
 use EnsEMBL::Web::Document::HTML::HomeSearch;
 use EnsEMBL::Web::DBSQL::ProductionAdaptor;
 use EnsEMBL::Web::Component::GenomicAlignments;
+use EnsEMBL::Web::Controller::SSI;
+use EnsEMBL::Web::Document::Table;
+
 
 use LWP::UserAgent;
 use JSON;
@@ -185,19 +188,24 @@ sub content {
   if ($about_text) {
     $html .= '<div class="column-wrapper"><div class="round-box tinted-box unbordered">'; 
     $html .= $about_text;
-    $html .= qq(<p><a href="/$species/Info/Annotation/#about" class="nodeco"><img src="${img_url}24/info.png" alt="" class="homepage-link" />More information and statistics</a></p>);
+    #$html .= qq(<p><a href="/$species/Info/Annotation/#about" class="nodeco"><img src="${img_url}24/info.png" alt="" class="homepage-link" />More information and statistics</a></p>);
     $html .= '</div></div>';
   }
   
 my (@sections);
   
-  my $assembly_text = $self->_other_text('assembly', $species);
+  
+  
+  my $assembly_text = EnsEMBL::Web::Controller::SSI::template_INCLUDE($self, "/ssi/species/${species}_assembly.html");
+  $assembly_text .= $self->_other_text('assembly', $species);
   if ($assembly_text) {
-    push(@sections, $assembly_text);
+    push(@sections, 'no-tint'.$assembly_text);
   }
-  my $annotation_text = $self->_other_text('annotation', $species);
+  
+  my $annotation_text = EnsEMBL::Web::Controller::SSI::template_INCLUDE($self, "/ssi/species/stats_${species}.html");
+  $annotation_text .= $self->_other_text('annotation', $species);
   if ($annotation_text) {
-    push(@sections, $annotation_text);
+    push(@sections, 'no-tint'.$annotation_text);
   }
   my $reference_text = $self->_other_text('references', $species);
   if ($reference_text) {
@@ -240,8 +248,15 @@ my (@sections);
   
   my @box_class = ('box-left', 'box-right');
   my $side = 0;
-  for my $section (@sections){
-    $html .= sprintf(qq{<div class="%s"><div class="round-box tinted-box unbordered">%s</div></div>}, $box_class[$side++ %2],$section);
+  foreach my $section (@sections){
+  	
+  	if ($section =~ m/^(no-tint)/){
+  	    $section =~ s/^(no-tint)//;
+    	$html .= sprintf(qq{<div class="%s"><div class="round-box unbordered">%s</div></div>}, $box_class[$side++ %2],$section);
+    }
+    else {
+    	$html .= sprintf(qq{<div class="%s"><div class="round-box tinted-box unbordered">%s</div></div>}, $box_class[$side++ %2],$section);
+  	}
   }
     
 
