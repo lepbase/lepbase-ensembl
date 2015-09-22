@@ -157,7 +157,7 @@ window.onload = function(){
 function show_results (msg){  
 	$('#results').empty();
 	var results_txt = msg.count != 1 ? 'results' : 'result';
-	var page_size = $('#page_size').val()
+	var page_size = $('#page_size').val();
 	$('#results').append('<div>' + msg.count + ' ' + results_txt + ':</div>');
 	if (msg.count > page_size){
 		var pages = Math.ceil(msg.count / page_size);
@@ -177,7 +177,8 @@ function show_results (msg){
 	$('#toggle_xrefs').click(function(){$('.lbs_xrefs').toggleClass("hidden")});
 	$.each(msg.results, function(index, item) {
 		$('#results').append('<div class="lbs_result" id="result_'+index+'">');
-		if (item.gene && item.gene.stable_id){
+		if (item.gene){
+		  if (item.gene.stable_id){
 			var url = item.gene.production_name;
 			var gene_url = url + '/Gene/Summary?db=core;g=' + item.gene.stable_id;
 			var header = '<div class="lbs_species">' + item.gene.production_name + '</div> <span class="lbs_large"><a href="' + gene_url + '"> ' + item.gene.stable_id + '</a></span>';
@@ -227,9 +228,9 @@ function show_results (msg){
 						});
 					});
 				}
-			}
-		}
-		if (item.gene.translations){
+			  }
+		    }
+		  if (item.gene.translations){
 			var translations = item.gene.translations.length != 1 ? 'Translations' : 'Translation';
 			$('#result_'+index).append('<div id="result_'+index+'_translations" class="lbs_translations"></div>');
 			$('#result_'+index+'_translations').append('<span class="lbs_translations_title">' + translations +':</span>');
@@ -253,14 +254,22 @@ function show_results (msg){
 				});
 			}
 		}
+		}
 		if (item.seq_region && item.seq_region.name){
 			var url = item.seq_region.production_name;
-			var region_url = url + '/Location/View?db=core;r=' + item.seq_region.name + ':1-' + item.seq_region.length;
+			var region_url = url + '/Location/View?db=core;r=' + item.seq_region.name
+			if (item.seq_region.coords){
+	    	    region_url += ':' + item.seq_region.coords[0] + '-' + item.seq_region.coords[1];
+	    	    location.href=region_url;
+	    	}
+			else {
+				region_url += ':1-' + item.seq_region.length;
+			}
 			var header = '<div class="lbs_species">' + item.seq_region.production_name + '</div> <span class="lbs_large"><a href="' + region_url + '"> ' + item.seq_region.name + '</a></span>';
 			header += ' - ' + item.seq_region.seq_length + 'bp';
 			$('#result_'+index).append('<div class="lbs_result_header">' + header + '</div>');
 			if (item.seq_region.synonyms){
-				var synonyms = item.gene.synonyms.length != 1 ? 'Synonyms' : 'synonym';
+				var synonyms = item.seq_region.synonyms.length != 1 ? 'Synonyms' : 'synonym';
 				$('#result_'+index).append('<br/><span class="lbs_large">' + synonyms +' -</span>');
 				$.each(item.seq_region.synonyms, function(syn_i, syn_item) {
 					$('#result_'+index).append(' ' + syn_item);

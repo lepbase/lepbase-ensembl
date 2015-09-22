@@ -33,6 +33,12 @@ my $feature_type = $cgi->param('feature_type') || undef;
 my $count = $cgi->param('count') || undef;
 my $offset = $cgi->param('offset') ? $cgi->param('offset') -1 : 0;
 my $page = $offset / $page_size + 1;
+$term =~ s/\*/\%/g;
+my @coords;
+if ($term =~ m/(.+):(\d+)-(\d+)$/){
+  @coords = ($2,$3);
+  $term = $1;
+}
 
 # Prepare the queries
 my %query;
@@ -81,6 +87,7 @@ while ( my $row = $sth->fetchrow_hashref ){
 	    $output{'seq_region'}->{'production_name'} = $row->{'production_name'};
 		$output{'seq_region'}->{'name'} = $strings{'seq_region.name'}[0]->{string};
 		$output{'seq_region'}->{'seq_length'} = $strings{'seq_region.name'}[0]->{detail};
+		$output{'seq_region'}->{'coords'} = \@coords if @coords;
 		if ($strings{'seq_region_synonym.synonym'}){
 			for (my $i = 0; $i < @{$strings{'seq_region_synonym.synonym'}}; $i++){
 				push @{$output{'seq_region'}->{'synonyms'}},$strings{'seq_region_synonym.synonym'}[$i]->{string};
