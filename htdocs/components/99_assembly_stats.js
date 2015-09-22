@@ -174,13 +174,13 @@ Assembly.prototype.drawPlot = function(parent,size,margin,tick){
         .attr('transform', 'translate('+x+','+-y+') rotate('+(276)+')')
         .attr('class','asm-assembly_label');
   	var txt = g.append('text')
-        .attr('transform', 'translate('+(-size/2+30)+','+(-size/2+40)+')')
+        .attr('transform', 'translate('+(-size/2+10)+','+(-size/2+20)+')')
         .attr('class','asm-tl_title');
   	txt.append('tspan').text('Relative assembly');
   	txt.append('tspan').text('size').attr('x',0).attr('dy',18);
   	//txt.append('tspan').text('size').attr('x',0).attr('dy',18);
      var w = 12;
-  	  var key = g.append('g').attr('transform', 'translate('+(-size/2+30)+','+(-size/2+70)+')');
+  	  var key = g.append('g').attr('transform', 'translate('+(-size/2+10)+','+(-size/2+50)+')');
   	key.append('rect').attr('height',w).attr('width',w).attr('class','asm-genome');
   	key.append('text').attr('x',w+2).attr('y',w-1).text(getReadableSeqSizeString(this.assembly)).attr('class','asm-key');
   	 
@@ -191,13 +191,13 @@ Assembly.prototype.drawPlot = function(parent,size,margin,tick){
   plot_arc(g,radii.percent[0],radii.percent[1],this.scale['percent']((1-this.ATGC)/2*100),this.scale['percent'](this.GC),'asm-gc');
   percent_axis(g,radii,this.scale['percent']);
   var txt = g.append('text')
-        .attr('transform', 'translate('+(size/2-30)+','+(size/2-64)+')')
+        .attr('transform', 'translate('+(size/2-10)+','+(size/2-49)+')')
         .attr('class','asm-br_title');
   	txt.append('tspan').text('Assembly');
   	txt.append('tspan').text('base composition').attr('x',0).attr('dy',18);
   	//txt.append('tspan').text('composition').attr('x',0).attr('dy',18);
   	
-  	var key = g.append('g').attr('transform', 'translate('+(size/2-140)+','+(size/2-37)+')');
+  	var key = g.append('g').attr('transform', 'translate('+(size/2-120)+','+(size/2-22)+')');
   	key.append('rect').attr('height',w).attr('width',w).attr('class','asm-gc');
   	key.append('text').attr('x',w+2).attr('y',w-1).text('GC').attr('class','asm-key');
   	key.append('rect').attr('x',w*3.5).attr('height',w).attr('width',w).attr('class','asm-atgc');
@@ -207,13 +207,13 @@ Assembly.prototype.drawPlot = function(parent,size,margin,tick){
   	
 
   var txt = g.append('text')
-        .attr('transform', 'translate('+(size/2-180)+','+(-size/2+40)+')')
+        .attr('transform', 'translate('+(size/2-180)+','+(-size/2+20)+')')
         .attr('class','asm-tr_title');
   	txt.append('tspan').text('Scaffold length');
   	txt.append('tspan').text('distribution').attr('x',0).attr('dy',20);
   	//txt.append('tspan').text('distribution').attr('x',0).attr('dy',20);
   	
-  	var key = g.append('g').attr('transform', 'translate('+(size/2-180)+','+(-size/2+70)+')');
+  	var key = g.append('g').attr('transform', 'translate('+(size/2-180)+','+(-size/2+50)+')');
   	key.append('rect').attr('height',w).attr('width',w).attr('class','asm-pie');
   	key.append('text').attr('x',w+2).attr('y',w-1).text('(Scaffold length)').attr('class','asm-key').append('tspan').attr('baseline-shift','super').attr('font-size','75%').text(0.5);
   	key.append('rect').attr('y',w*1.5).attr('height',w).attr('width',w).attr('class','asm-pie');
@@ -221,25 +221,25 @@ Assembly.prototype.drawPlot = function(parent,size,margin,tick){
   	key.append('text').attr('x',w+2).attr('y',w*2.5-1).text('Longest scaffold ('+getReadableSeqSizeString(this.scaffolds[0])+')').attr('class','asm-key');
   	key.append('rect').attr('y',w*3).attr('height',w).attr('width',w).attr('class','asm-pie');
   	key.append('rect').attr('y',w*3).attr('height',w).attr('width',w).attr('class','asm-n50_pie');
-  	key.append('text').attr('x',w+2).attr('y',w*4-1).text('/').attr('class','asm-key');
-  	key.append('rect').attr('y',w*3).attr('x',w+8).attr('height',w).attr('width',w).attr('class','asm-pie');
-  	key.append('rect').attr('y',w*3).attr('x',w+8).attr('height',w).attr('width',w).attr('class','asm-n90_pie');
-  	key.append('text').attr('x',w*2+10).attr('y',w*4-1).text('N50/N90 length').attr('class','asm-key');
+  	key.append('text').attr('x',w+2).attr('y',w*4-1).text('N50 length ('+getReadableSeqSizeString(this.npct[500])+')').attr('class','asm-key');
+  	key.append('rect').attr('y',w*4.5).attr('height',w).attr('width',w).attr('class','asm-pie');
+  	key.append('rect').attr('y',w*4.5).attr('height',w).attr('width',w).attr('class','asm-n90_pie');
+  	key.append('text').attr('x',w+2).attr('y',w*5.5-1).text('N90 length ('+getReadableSeqSizeString(this.npct[900])+')').attr('class','asm-key');
   	
 
     var txt = g.append('text')
-        .attr('transform', 'translate('+(-size/2+30)+','+(size/2-64)+')')
+        .attr('transform', 'translate('+(-size/2+10)+','+(size/2-49)+')')
         .attr('class','asm-bl_title');
   	txt.append('tspan').text('Cumulative');
   	txt.append('tspan').text('scaffold number').attr('x',0).attr('dy',20);
   	//txt.append('tspan').text('distribution').attr('x',0).attr('dy',20);
   	
-  	var key = g.append('g').attr('transform', 'translate('+(-size/2+30)+','+(size/2-37)+')');
+  	var key = g.append('g').attr('transform', 'translate('+(-size/2+10)+','+(size/2-22)+')');
   	key.append('rect').attr('height',w).attr('width',w).attr('class','asm-count');
   	var count_txt = key.append('text').attr('x',w+2).attr('y',w-1).attr('class','asm-key')
   		count_txt.append('tspan').text('Log')
   		count_txt.append('tspan').attr('baseline-shift','sub').attr('font-size','75%').text(10)
-  		count_txt.append('tspan').text(' scaffold count');
+  		count_txt.append('tspan').text(' scaffold count (total '+this.scaffolds.length+')');
   	
   	
 }
