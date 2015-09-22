@@ -8,7 +8,7 @@
         i++;
     } while (seqSizeInBases > 1000);
 
-    return Math.max(seqSizeInBases, 0.1).toFixed(1) + baseUnits[i];
+    return Math.max(seqSizeInBases, 0.1).toPrecision(3) + baseUnits[i];
 };
  
 function Assembly( stats,scaffolds ) { 
