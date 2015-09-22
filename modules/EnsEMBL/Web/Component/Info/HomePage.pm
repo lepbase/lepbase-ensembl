@@ -165,32 +165,24 @@ sub content {
 
 ###
 # BEGIN LEPBASE MODIFICATION...
-  my $html = '
-    <div class="column-wrapper">  
-      <div class="box-left">';
-# ...END LEPBASE MODIFICATION
-###  
-  $html .= EnsEMBL::Web::Document::HTML::HomeSearch->new($hub)->render;
-
-  $html .= '</div>'; #box-left
-  $html .= '<div class="box-right">';
-  
-  if ($hub->species_defs->multidb->{'DATABASE_PRODUCTION'}{'NAME'}) {
-    $html .= '<div class="round-box info-box unbordered">' . $self->_whatsnew_text . '</div>';
-  } elsif (my $ack_text = $self->_other_text('acknowledgement', $species)) {
-    $html .= '<div class="plain-box round-box unbordered">' . $ack_text . '</div>';
-  }
-
-  $html .= '</div>'; # box-right
-  $html .= '</div>'; # column-wrapper
+  my $html = '';
   
   my $about_text = $self->_other_text('about', $species);
-  if ($about_text) {
-    $html .= '<div class="column-wrapper"><div class="round-box tinted-box unbordered">'; 
+  $html .= '<div class="column-wrapper">'; 
+    if ($about_text) {
+    $html .= '<div class="round-box tinted-box unbordered">';
     $html .= $about_text;
     #$html .= qq(<p><a href="/$species/Info/Annotation/#about" class="nodeco"><img src="${img_url}24/info.png" alt="" class="homepage-link" />More information and statistics</a></p>);
-    $html .= '</div></div>';
+    $html .= '</div>';
   }
+  my $search_text = EnsEMBL::Web::Document::HTML::HomeSearch->new($hub)->render;
+  if ($search_text) {
+    $html .= '<div class="round-box tinted-box unbordered">'; 
+    $html .= '<h2>Getting started</h2>'.$search_text.'<br/>';
+    $html .= '</div>';
+  }
+  $html .= '</div>';
+  
   
 my (@sections);
   
@@ -259,6 +251,8 @@ my (@sections);
   	}
   }
     
+# ...END LEPBASE MODIFICATION
+###  
 
   my $ext_source_html = $self->external_sources;
   $html .= '<div class="column-wrapper"><div class="round-box tinted-box unbordered">' . $ext_source_html . '</div></div>' if $ext_source_html;
