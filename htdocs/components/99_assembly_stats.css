@@ -11,7 +11,7 @@
   .asm-majorTick { stroke:#666666; stroke-width:2px; fill:none; }
   .asm-minorTick { stroke:#666666; fill:none; }
   .asm-axis { stroke:#666666; stroke-width:2px; fill:none; }  
-  text { dominant-baseline:middle; text-anchor:left; font-size:8pt; font-family:sans-serif; fill:#666666; }
+  text { dominant-baseline:middle; text-anchor:middle; font-size:8pt; font-family:sans-serif; fill:#666666; }
   text.asm-count_label { dominant-baseline:middle; text-anchor:end; fill:white; visibility:hidden; }
   text.asm-length_label { dominant-baseline:middle; text-anchor:end; fill:white; visibility:hidden; }
   text.asm-assembly_label { dominant-baseline:middle; text-anchor:start; fill:white; visibility:hidden; }
