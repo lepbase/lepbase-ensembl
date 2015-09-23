@@ -1,5 +1,5 @@
 
-$('#asm-toggle_description').on('.click',function(){
+$('#asm-toggle_description').on('click',function(){
 	$('#asm-description').toggleClass('hidden');
 });
 
