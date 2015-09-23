@@ -264,6 +264,7 @@ sub content_panel {
   my $img_url      = $self->img_url;
   my $common_name  = $species_defs->SPECIES_COMMON_NAME;
   my $display_name = $species_defs->SPECIES_SCIENTIFIC_NAME.' '.$species_defs->ASSEMBLY_NAME;
+  $display_name =~ s/_/ /g;
   my $taxid        = $species_defs->TAXONOMY_ID;
   my $provider_link;
 
