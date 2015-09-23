@@ -49,7 +49,7 @@ sub content {
   push @links,   '<a class="constant" href="/downloads.html" title="Downloads">Downloads</a>';
   push @links,   '<a class="constant" href="http://webapollo.lepbase.org" title="Web Apollo">Web Apollo</a>';
   push @links,   '<a class="constant" href="'.$blog.'" title="lepbase.org">Blog</a>'                  if $blog;
-  push @links,   '<a class="constant" href="/source.html" title="Source code">Source code</a>';
+  push @links,   '<a class="constant" href="/source.html" title="Source Code">Source Code</a>';
   
 ## ...END LEPBASE MODIFICATIONS
   my $last  = pop @links;
