@@ -78,7 +78,6 @@ Assembly.prototype.drawPlot = function(parent,size,margin,tick){
   this.radii = radii;
   
   this.scale['length'].domain([1,this.scaffolds[0]])
-  console.log(this.scale['length'].domain());
   this.scale['length'].range([radii.core[0],radii.core[1]])
   this.scale['count'].range([radii.core[1],radii.core[0]+radii.core[1]/3])
   
@@ -87,7 +86,6 @@ Assembly.prototype.drawPlot = function(parent,size,margin,tick){
   this.scale['percent'].range([radii.core[0],radii.core[1]*2])
   
   //this.scale['count'].range([radii.core[0],radii.core[1]])
-  console.log(this.scale['length'].range());
   var lScale = this.scale['length'];
   var cScale = this.scale['count'];
   var npct = this.npct;
@@ -155,7 +153,6 @@ Assembly.prototype.drawPlot = function(parent,size,margin,tick){
   	if (i <= 1000){
   		//plot_arc(g,radii.core[1] - cScale(npct_len[i]),radii.core[1] - cScale(npct_len[i]),i * 360 / 1000 * (Math.PI/180),(i+1) * 360 / 1000 * (Math.PI/180),'count');
 		if (npct_len[i] < Math.pow(10,power)){
-			console.log(i+' '+power);
 			plot_arc(g,radii.core[1] - cScale(Math.pow(10,power)),radii.core[1] - cScale(Math.pow(10,power)),i * 360 / 1000 * (Math.PI/180),360 * (Math.PI/180),'asm-count_axis');
 			
 			g.append('text')
@@ -520,7 +517,6 @@ function plot_arc (parent,inner,outer,start,end,css){
 }
 
 function plot_rect (parent,x1,y1,width,height,css){
-    console.log('here');
 	parent.append('rect')
 	    .attr('x', x1)
 	    .attr('y', y1-height+20)
