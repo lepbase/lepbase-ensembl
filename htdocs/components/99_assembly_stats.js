@@ -1,4 +1,8 @@
 
+$('#asm-toggle_description').on('.click',function(){
+	$('#asm-description').toggleClass('hidden');
+});
+
  function getReadableSeqSizeString(seqSizeInBases,fixed) {
 //http://stackoverflow.com/questions/10420352/converting-file-size-in-bytes-to-human-readable
     
