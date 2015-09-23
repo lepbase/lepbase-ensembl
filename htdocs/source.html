@@ -1,0 +1,81 @@
+<html>
+<head>
+<title>LepBase: Source code</title>
+</head>
+<body>
+           
+
+
+<div id="static">
+
+
+
+<h2>Source code</h2>
+<table class="blobs">
+  <thead>
+  </thead>
+  <tfoot>
+  </tfoot>
+  <tbody id="tbody">
+    <tr>
+      <td>
+        The Lepbase ensembl instance is built on the 
+        <a href="https://github.com/Ensembl"><span>Ensembl<img src="i/GitHub-Mark-32px.png" height="16px"/></span></a>
+        and 
+        <a href="https://github.com/EnsemblGenomes"><span>EnsemblGenomes<img src="i/GitHub-Mark-32px.png" height="16px"/></span></a>
+        codebase, available on <a href="https://github.com">GitHub</a>
+        <br/>
+      </td>
+      <td>
+        Our Ensembl-specific modifications to the webcode and our data import pipeline (which includes search indexing) are hosted in the  
+        <a href="https://bitbucket.org/lepbase/lepbase-ensembl"><span>lepbase-ensembl<img src="i/bitbucket-logo.png" height="16px"/></span></a>
+        and 
+        <a href="https://bitbucket.org/lepbase/lepbase-import"><span>lepbase-import<img src="i/bitbucket-logo.png" height="16px"/></span></a>
+        repositories on <a href="https://bitbucket.org">BitBucket</a>
+        <br/>
+      </td>
+      <td>
+        We have written a generic GFF parser,
+        <a href="https://github.com/rjchallis/gff_parser"><span>gff_parser<img src="i/GitHub-Mark-32px.png" height="16px"/></span></a>,
+        which we use in our import pipeline to accommodate, validate and correct the diversity of GFF formats used in Lepidopteran genome projects
+        <br/>
+      </td>
+    </tr>
+    <tr>
+      <td>
+        Our BLAST server is powered by 
+        <a href="https://github.com/wurmlab/sequenceserver"><span>SequenceServer<img src="i/GitHub-Mark-32px.png" height="16px"/></span></a>
+        with modifications to allow closer integration with our Ensembl instance in the 
+        <a href="https://bitbucket.org/lepbase/lepbase-sequenceserver"><span>lepbase-sequenceserver<img src="i/bitbucket-logo.png" height="16px"/></span></a>
+        repository
+        <br/>
+      </td>
+      <td>
+        We use  
+        <a href="https://github.com/GMOD/Apollo"><span>Web Apollo<img src="i/GitHub-Mark-32px.png" height="16px"/></span></a>
+        to allow community annotation of each genome that we host
+        <br/>
+      </td>
+      <td>
+        Our assembly statistic visualisations are based on our 
+        <a href="https://github.com/rjchallis/assembly_stats"><span>assembly_stats<img src="i/GitHub-Mark-32px.png" height="16px"/></span></a>
+        javascript project
+        <br/>
+      </td>
+    </tr>
+    <tr>
+      <td colspan="3">
+        As an Ensembl site, we have an API which is available but any lepbase-specific details are currently undocumented. We have written an API training environment,
+        <a href="https://bitbucket.org/lepbase/lepbase-workshop"><span>lepbase-workshop<img src="i/bitbucket-logo.png" height="16px"/></span></a>,
+        for use in training workshops, which we intend to make more widely available as an introduction to the Lepbase API
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+
+
+</div>
+
+</body>
+</html>
