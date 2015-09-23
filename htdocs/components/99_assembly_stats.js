@@ -2,7 +2,7 @@
 $('#asm-toggle_description').on('click',function(){
 	$('#asm-description').toggleClass('hidden');
 	var html = $(this).html;
-	if (html.match(/hide/){
+	if (html.match(/hide/)){
 		$(this).html(html.replace(/hide/,'show'));
 	}
 	else {
