@@ -190,7 +190,7 @@ my (@sections);
   
   my $assembly_text = EnsEMBL::Web::Controller::SSI::template_INCLUDE($self, "/ssi/species/${species}_assembly.html");
   $assembly_text .= '<p>The assembly plot above is a representation of genome assembly quality which condenses a number of key metrics into a single scale independent visualisation. 
-  <a id="asm-toggle_description">show/hide full description</a><\p>
+  <a id="asm-toggle_description">show/hide full description</a></p>
   <div id="asm-description" class="hidden">
   <ul>
     <li>The green bar on the left indicates the size of the full assembly relative to the longest scaffold</li>
