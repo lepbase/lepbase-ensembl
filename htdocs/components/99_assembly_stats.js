@@ -129,7 +129,7 @@ Assembly.prototype.drawPlot = function(parent,size,margin,tick){
   var lg = g.append("g")
 		.attr("class","asm-length asm-axis");
   length_seq.forEach(function(i,index){
-  if(Math.pow(10,i+4) > this.scaffolds[0] && Math.pow(10,i+1) > npct[900] && Math.pow(10,i) < npct[50]){
+  if(Math.pow(10,i+4) > this.scaffolds[0] && Math.pow(10,i+1) > npct[900] && Math.pow(10,i) < npct[100]){
      lg.append('circle')
   		.attr('r',radii.core[1]-lScale(Math.pow(10,i)))
   		.attr('cx',0)
