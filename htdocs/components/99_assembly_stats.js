@@ -3,6 +3,8 @@ $('#asm-toggle_description').on('click',function(){
 	$('.asm-description').toggleClass('hidden');
 });
 
+
+
  function getReadableSeqSizeString(seqSizeInBases,fixed) {
 //http://stackoverflow.com/questions/10420352/converting-file-size-in-bytes-to-human-readable
     
@@ -71,9 +73,9 @@ Assembly.prototype.drawPlot = function(parent,size,margin,tick){
   radii.proportion.majorTick = [radii.proportion[0],radii.proportion[0]+tick];
   radii.proportion.minorTick = [radii.proportion[0],radii.proportion[0]+tick/2];
   
-  radii.percent = radii.proportion;
-  radii.percent.majorTick = radii.proportion.majorTick;
-  radii.percent.minorTick = radii.proportion.minorTick;
+  radii.percent = [radii.core[1]+tick*4,radii.core[1]];;
+  radii.percent.majorTick = [radii.percent[0],radii.percent[0]-tick];
+  radii.percent.minorTick = [radii.percent[0],radii.percent[0]-tick/2];
   
   this.radii = radii;
   
@@ -84,6 +86,9 @@ Assembly.prototype.drawPlot = function(parent,size,margin,tick){
   //square_mod
   this.scale['proportion'].range([radii.core[0],radii.core[1]*2])
   this.scale['percent'].range([radii.core[0],radii.core[1]*2])
+  
+  //round_mod
+  this.scale['percent'].range([0,(2 * Math.PI)])
   
   //this.scale['count'].range([radii.core[0],radii.core[1]])
   var lScale = this.scale['length'];
@@ -99,11 +104,24 @@ Assembly.prototype.drawPlot = function(parent,size,margin,tick){
 		.attr('r',radii.core[1] - cScale(i))
 		.attr('class','axis');
     });*/
-    
+   
+   
+   plot_arc(g,radii.percent[0],radii.percent[1],this.scale['percent'](0),this.scale['percent'](100),'asm-ns');
+  var atgc = this.ATGC * 100;
+  var n = 100 - atgc;
+  var gc_start = n / 100 * this.GC;
+  plot_arc(g,radii.percent[0],radii.percent[1],this.scale['percent'](gc_start),this.scale['percent'](gc_start+atgc),'asm-atgc');
+  plot_arc(g,radii.percent[0],radii.percent[1],this.scale['percent'](gc_start),this.scale['percent'](this.GC),'asm-gc');
+  
+  
+  percent_axis(g,radii,this.scale['percent']);
+  
+   
+    var long_pct = -1;
   this.seq.forEach(function(i,index){
   	if (i <= 1000){
-  		if (npct[i] == scaffolds[0]){
-  		  plot_arc(g,radii.core[1] - lScale(npct[i]),radii.core[1],0,i * 360 / 1000 * (Math.PI/180),'asm-longest_pie');
+  		if (npct[i] == scaffolds[0] && npct[(i+1)] < scaffolds[0]){
+  		  long_pct = i;
   		}
   		else if (npct[i] < scaffolds[0]){
   		  plot_arc(g,radii.core[1] - lScale(npct[i]),radii.core[1],0,i * 360 / 1000 * (Math.PI/180),'asm-pie');
@@ -111,10 +129,12 @@ Assembly.prototype.drawPlot = function(parent,size,margin,tick){
   	  }
   });
   
-    
   plot_arc(g,radii.core[1] - lScale(npct[500]),radii.core[1],0,500 * 360 / 1000 * (Math.PI/180),'asm-n50_pie');
   plot_arc(g,radii.core[1] - lScale(npct[900]),radii.core[1],0,900 * 360 / 1000 * (Math.PI/180),'asm-n90_pie');
   
+  if (long_pct > -1){
+  plot_arc(g,radii.core[1] - lScale(npct[long_pct]),radii.core[1],0,long_pct * 360 / 1000 * (Math.PI/180),'asm-longest_pie');
+  }
   
   
   
@@ -203,9 +223,10 @@ Assembly.prototype.drawPlot = function(parent,size,margin,tick){
         .attr('class','asm-length_label');*/
   	
   //square_mod
+  //round_mod
   //plot_arc(g,radii.proportion[0],radii.proportion[1],this.scale['proportion'](1),this.scale['proportion'](this.assembly/this.scaffolds[0]),'asm-genome');
-  plot_rect(g,-radii.proportion[0],radii.core[1],Math.abs(radii.proportion[1]-radii.proportion[0]),this.scale['proportion'](this.assembly/this.scaffolds[0]),'asm-genome');
-  proportion_axis(g,radii,this.scale['proportion']);
+  //plot_rect(g,-radii.proportion[0],radii.core[1],Math.abs(radii.proportion[1]-radii.proportion[0]),this.scale['proportion'](this.assembly/this.scaffolds[0]),'asm-genome');
+  //proportion_axis(g,radii,this.scale['proportion']);
    var w = 12;
   	/*
   proportion_axis(g,radii,this.scale['proportion']);
@@ -215,7 +236,7 @@ Assembly.prototype.drawPlot = function(parent,size,margin,tick){
         .text(this.assembly)
         .attr('transform', 'translate('+x+','+-y+') rotate('+(276)+')')
         .attr('class','asm-assembly_label');
-  	*/
+  	
   	var txt = g.append('text')
         .attr('transform', 'translate('+(-size/2+10)+','+(size/2-70)+')')
         .attr('class','asm-tl_title');
@@ -225,45 +246,43 @@ Assembly.prototype.drawPlot = function(parent,size,margin,tick){
       var key = g.append('g').attr('transform', 'translate('+(-size/2+10)+','+(size/2-43)+')');
   	key.append('rect').attr('height',w).attr('width',w).attr('class','asm-genome');
   	key.append('text').attr('x',w+2).attr('y',w-1).text(getReadableSeqSizeString(this.assembly)+' = '+(this.assembly/this.scaffolds[0]).toFixed(0)+' x longest scaffold').attr('class','asm-key');
-  	 
+  	 */
 
   //square_mod
+  //round_mod
   //plot_arc(g,radii.percent[0],radii.percent[1],this.scale['percent'](0),this.scale['percent'](100),'asm-ns');
   //plot_arc(g,radii.percent[0],radii.percent[1],this.scale['percent']((1-this.ATGC)/2*100),this.scale['percent'](100*this.ATGC + (1-this.ATGC)/2*100),'asm-atgc');
   //plot_arc(g,radii.percent[0],radii.percent[1],this.scale['percent']((1-this.ATGC)/2*100),this.scale['percent'](this.GC),'asm-gc');
-  plot_rect(g,radii.percent[1],radii.core[1],Math.abs(radii.proportion[1]-radii.proportion[0]),this.scale['percent'](100),'asm-ns');
-  plot_rect(g,radii.percent[1],radii.core[1],Math.abs(radii.proportion[1]-radii.proportion[0]),this.scale['percent'](100*this.ATGC),'asm-atgc');
-  plot_rect(g,radii.percent[1],radii.core[1],Math.abs(radii.proportion[1]-radii.proportion[0]),this.scale['percent'](this.GC),'asm-gc');
-  
-  
-  percent_axis(g,radii,this.scale['percent']);
+  //plot_rect(g,radii.percent[1],radii.core[1],Math.abs(radii.proportion[1]-radii.proportion[0]),this.scale['percent'](100),'asm-ns');
+  //plot_rect(g,radii.percent[1],radii.core[1],Math.abs(radii.proportion[1]-radii.proportion[0]),this.scale['percent'](100*this.ATGC),'asm-atgc');
+  //plot_rect(g,radii.percent[1],radii.core[1],Math.abs(radii.proportion[1]-radii.proportion[0]),this.scale['percent'](this.GC),'asm-gc');
   var txt = g.append('text')
-        .attr('transform', 'translate('+(size/2-10)+','+(size/2-70)+')')
+        .attr('transform', 'translate('+(size/2-140)+','+(size/2-110)+')')
         .attr('class','asm-br_title');
   	txt.append('tspan').text('Assembly');
   	txt.append('tspan').text('base composition').attr('x',0).attr('dy',18);
   	//txt.append('tspan').text('composition').attr('x',0).attr('dy',18);
   	
-  	var key = g.append('g').attr('transform', 'translate('+(size/2-120)+','+(size/2-43)+')');
+  	var key = g.append('g').attr('transform', 'translate('+(size/2-140)+','+(size/2-83)+')');
   	key.append('rect').attr('height',w).attr('width',w).attr('class','asm-gc');
-  	key.append('text').attr('x',w+2).attr('y',w-1).text('GC').attr('class','asm-key');
-  	key.append('rect').attr('x',w*3.5).attr('height',w).attr('width',w).attr('class','asm-atgc');
-  	key.append('text').attr('x',w*4.5+2).attr('y',w-1).text('AT').attr('class','asm-key');
-  	key.append('rect').attr('x',w*7).attr('height',w).attr('width',w).attr('class','asm-ns');
-  	key.append('text').attr('x',w*8+2).attr('y',w-1).text('N').attr('class','asm-key');
+  	key.append('text').attr('x',w+2).attr('y',w-1).text('GC ('+this.GC+'%)').attr('class','asm-key');
+  	key.append('rect').attr('y',w*1.5).attr('height',w).attr('width',w).attr('class','asm-atgc');
+  	key.append('text').attr('x',w+2).attr('y',w*2.5-1).text('AT ('+(atgc-this.GC).toFixed(1)+'%)').attr('class','asm-key');
+  	key.append('rect').attr('y',w*3).attr('height',w).attr('width',w).attr('class','asm-ns');
+  	key.append('text').attr('x',w+2).attr('y',w*4-1).text('N ('+n.toFixed(1)+'%)').attr('class','asm-key');
   	
 
   var txt = g.append('text')
-        .attr('transform', 'translate('+(size/2-180)+','+(-size/2+20)+')')
+        .attr('transform', 'translate('+(-size/2+10)+','+(-size/2+20)+')')
         .attr('class','asm-tr_title');
   	txt.append('tspan').text('Scaffold length');
   	txt.append('tspan').text('distribution').attr('x',0).attr('dy',20);
   	//txt.append('tspan').text('distribution').attr('x',0).attr('dy',20);
   	
-  	var key = g.append('g').attr('transform', 'translate('+(size/2-180)+','+(-size/2+50)+')');
+  	var key = g.append('g').attr('transform', 'translate('+(-size/2+10)+','+(-size/2+50)+')');
   	key.append('rect').attr('height',w).attr('width',w).attr('class','asm-pie');
   	//key.append('text').attr('x',w+2).attr('y',w-1).text('(Scaffold length)').attr('class','asm-key').append('tspan').attr('baseline-shift','super').attr('font-size','75%').text(0.5);
-  	key.append('text').attr('x',w+2).attr('y',w-1).text('Scaffold length').attr('class','asm-key');
+  	key.append('text').attr('x',w+2).attr('y',w-1).text('Scaffold length (total '+getReadableSeqSizeString(this.assembly,0)+')').attr('class','asm-key');
   	key.append('rect').attr('y',w*1.5).attr('height',w).attr('width',w).attr('class','asm-pie');
   	key.append('rect').attr('y',w*1.5).attr('height',w).attr('width',w).attr('class','asm-longest_pie');
   	key.append('text').attr('x',w+2).attr('y',w*2.5-1).text('Longest scaffold ('+getReadableSeqSizeString(this.scaffolds[0])+')').attr('class','asm-key');
@@ -276,13 +295,13 @@ Assembly.prototype.drawPlot = function(parent,size,margin,tick){
   	
 
     var txt = g.append('text')
-        .attr('transform', 'translate('+(-size/2+10)+','+(-size/2+20)+')')
+        .attr('transform', 'translate('+(-size/2+10)+','+(size/2-70)+')')
         .attr('class','asm-bl_title');
   	txt.append('tspan').text('Cumulative');
   	txt.append('tspan').text('scaffold number').attr('x',0).attr('dy',20);
   	//txt.append('tspan').text('distribution').attr('x',0).attr('dy',20);
   	
-  	var key = g.append('g').attr('transform', 'translate('+(-size/2+10)+','+(-size/2+50)+')');
+  	var key = g.append('g').attr('transform', 'translate('+(-size/2+10)+','+(size/2-43)+')');
   	key.append('rect').attr('height',w).attr('width',w).attr('class','asm-count');
   	var count_txt = key.append('text').attr('x',w+2).attr('y',w-1).attr('class','asm-key')
   		count_txt.append('tspan').text('Log')
@@ -420,7 +439,8 @@ function proportion_axis (parent,radii,scale){
 
 function percent_axis (parent,radii,scale){
 
-
+  //round_mod
+  /*
   var g = parent.append('g');
   g.attr('transform','translate(0,20)')
   var line = g.append('line');
@@ -454,7 +474,7 @@ function percent_axis (parent,radii,scale){
     });
    //square_mod
    return;
-
+  */
 
 	var g = parent.append('g');
 	var axis = d3.svg.arc()
@@ -477,6 +497,8 @@ function percent_axis (parent,radii,scale){
             .attr('class', 'asm-majorTick');
         
     });
+    //round_mod
+    /*
     var seq = Array.apply(0, Array(11)).map(function (x, y) { return y * 10; });
   seq.forEach(function(d,index){
   
@@ -486,7 +508,7 @@ function percent_axis (parent,radii,scale){
           .text(function(){return d > 0 && d < 100 ? d : d+'%'})
           .attr('transform', 'translate('+x+','+y+') rotate('+(180+scale(d)/(Math.PI/180))+')');
 	})
-
+    */
 	var seq = Array.apply(0, Array(50)).map(function (x, y) { return y*2; });
   seq.forEach(function(d){
     var arc = d3.svg.arc()
