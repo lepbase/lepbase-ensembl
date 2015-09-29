@@ -65,9 +65,7 @@ $(document).ready(function(){
         $('.download-warning').toggleClass('accepted');
         $('.download-link').toggleClass('inactive');
         $('.download-link').on('click',function(){
-         var type = $(this).hasClass('fasta') ? 'fasta' : $(this).hasClass('gff') ? 'gff' : 'txt';
-        
-         location.href = 'http://download.lepbase.org/'+type+'/'+$(this).attr('rel');
+         location.href = 'http://download.lepbase.org/data/'+$(this).attr('rel');
         });
       });
       
