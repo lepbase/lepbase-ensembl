@@ -52,7 +52,24 @@ sub update_conf {
     $SiteDefs::__species_aliases{ 'Pieris_napi_das5' }= [qw(Pieris_napi_das5)];
     $SiteDefs::__species_aliases{ 'Plodia_interpunctella_v1' }= [qw(Plodia_interpunctella_v1)];
     $SiteDefs::__species_aliases{ 'Plutella_xylostella_dbmfjv1x1' }= [qw(Plutella_xylostella_dbmfjv1x1)];
+    $SiteDefs::__species_aliases{ 'Agraulis_vanillae_helico2' }= [qw(Agraulis_vanillae_helico2)];
+    $SiteDefs::__species_aliases{ 'Eueides_tales_helico2' }= [qw(Eueides_tales_helico2)];
+    $SiteDefs::__species_aliases{ 'Heliconius_besckei_helico2' }= [qw(Heliconius_besckei_helico2)];
     $SiteDefs::__species_aliases{ 'Heliconius_burneyi_helico2' }= [qw(Heliconius_burneyi_helico2)];
+    $SiteDefs::__species_aliases{ 'Heliconius_cydno_helico2' }= [qw(Heliconius_cydno_helico2)];
+    $SiteDefs::__species_aliases{ 'Heliconius_demeter_helico2' }= [qw(Heliconius_demeter_helico2)];
+    $SiteDefs::__species_aliases{ 'Heliconius_elevatus_helico2' }= [qw(Heliconius_elevatus_helico2)];
+    $SiteDefs::__species_aliases{ 'Heliconius_erato_helico2' }= [qw(Heliconius_erato_helico2)];
+    $SiteDefs::__species_aliases{ 'Heliconius_erato_himera_helico2' }= [qw(Heliconius_erato_himera_helico2)];
+    $SiteDefs::__species_aliases{ 'Heliconius_hecale_helico1' }= [qw(Heliconius_hecale_helico1)];
+    $SiteDefs::__species_aliases{ 'Heliconius_himera_helico1' }= [qw(Heliconius_himera_helico1)];
+    $SiteDefs::__species_aliases{ 'Heliconius_melpomene_helico2' }= [qw(Heliconius_melpomene_helico2)];
+    $SiteDefs::__species_aliases{ 'Heliconius_numata_helico2' }= [qw(Heliconius_numata_helico2)];
+    $SiteDefs::__species_aliases{ 'Heliconius_pardalinus_helico2' }= [qw(Heliconius_pardalinus_helico2)];
+    $SiteDefs::__species_aliases{ 'Heliconius_telesiphe_helico2' }= [qw(Heliconius_telesiphe_helico2)];
+    $SiteDefs::__species_aliases{ 'Heliconius_timareta_helico2' }= [qw(Heliconius_timareta_helico2)];
+    $SiteDefs::__species_aliases{ 'Laparus_doris_helico2' }= [qw(Laparus_doris_helico2)];
+    $SiteDefs::__species_aliases{ 'Neruda_aoede_helico2' }= [qw(Neruda_aoede_helico2)];
 
 ## ...END LEPBASE MODIFICATIONS
     @SiteDefs::ENSEMBL_PERL_DIRS    = (
