@@ -52,6 +52,7 @@ sub update_conf {
     $SiteDefs::__species_aliases{ 'Pieris_napi_das5' }= [qw(Pieris_napi_das5)];
     $SiteDefs::__species_aliases{ 'Plodia_interpunctella_v1' }= [qw(Plodia_interpunctella_v1)];
     $SiteDefs::__species_aliases{ 'Plutella_xylostella_dbmfjv1x1' }= [qw(Plutella_xylostella_dbmfjv1x1)];
+    $SiteDefs::__species_aliases{ 'Heliconius_burneyi_helico2' }= [qw(Heliconius_burneyi_helico2)];
 
 ## ...END LEPBASE MODIFICATIONS
     @SiteDefs::ENSEMBL_PERL_DIRS    = (
