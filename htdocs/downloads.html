@@ -57,7 +57,7 @@ $(document).ready(function(){
       	$('#tbody > tr:last-child').append('<td>' + (rows[id].scaffolds ? '<a class="download-link inactive fasta" rel="'+rows[id].scaffolds.file+'">' + rows[id].scaffolds.size : ''));
       	$('#tbody > tr:last-child').append('<td>' + (rows[id].cds ? '<a class="download-link inactive fasta" rel="'+rows[id].cds.file+'">' + rows[id].cds.size : ''));
       	$('#tbody > tr:last-child').append('<td>' + (rows[id].proteins ? '<a class="download-link inactive fasta" rel="'+rows[id].proteins.file+'">' + rows[id].proteins.size : ''));
-      	$('#tbody > tr:last-child').append('<td>' + (rows[id].gff3 ? '<a class="download-link inactive fasta" rel="'+rows[id].gff3.file+'">' + rows[id].gff3.size : ''));
+      	$('#tbody > tr:last-child').append('<td>' + (rows[id].annotations ? '<a class="download-link inactive fasta" rel="'+rows[id].annotations.file+'">' + rows[id].annotations.size : ''));
       });
       $('#download-accept').on('click',function(){
         console.log('?');
