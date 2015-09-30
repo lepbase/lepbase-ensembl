@@ -24,7 +24,7 @@ All modifications licensed under the Apache License, Version 2.0, as above.
 
 =cut
 
-package EnsEMBL::Web::Document::HTML::LepbaseSpecies;
+package EnsEMBL::Web::Document::HTML::LepbaseHeliconiines;
 
 use strict;
 
@@ -50,6 +50,8 @@ sub render {
   return $html;
 }
 
+
+
 sub render_species_list {
   my ($self, $fragment) = @_;
   my $hub           = $self->hub;
@@ -57,19 +59,36 @@ sub render_species_list {
   my $user          = $hub->user;
   my $species_info  = $hub->get_species_info;
   
-  my (%check_faves, @ok_faves);
+  my (%check_extra, @ok_extra);
   
-  foreach (@{$hub->get_favourite_species}) {
-    push @ok_faves, $species_info->{$_} unless $check_faves{$_}++;
+  foreach (@{$hub->get_species_set('HELICONII_DISCOVAR')}) {
+    push @ok_extra, $species_info->{$_} unless $check_extra{$_}++;
   }
-  my $fav_html = $self->render_with_images(@ok_faves);
-  my $html = qq{<div class="static_favourite_species"><h3>Available genomes</h3><div class="species_list_container species-list">$fav_html</div></div>};
-  
-  
+  my $extra_html = $self->render_plain(@ok_extra);
+  my $html = qq{<div class="static_favourite_species"><h3>Heliconiine DISCOVAR assemblies</h3><div class="species_list_container species-list">$extra_html</div></div>};
+
   return $html;
 }
 
+sub render_plain {
+  my ($self, @species_list) = @_;
+  my $hub           = $self->hub;
+  my $species_defs  = $hub->species_defs;
+  my $static_server = $species_defs->ENSEMBL_STATIC_SERVER;
+  my $html;
 
+  foreach (@species_list) {
+    $html .= qq(
+      <div class="species-box">
+        <a href="$_->{'key'}/Info/Index">
+          $_->{'common'}
+        </a>
+      </div>
+    );
+  }
+
+  return $html;
+}
 
 sub render_ajax_reorder_list {
   my $self          = shift;
