@@ -192,15 +192,20 @@ my (@sections);
   $assembly_text .= '<p>The assembly plot above is a representation of genome assembly quality which condenses a number of key metrics into a single scale independent visualisation. 
   <a id="asm-toggle_description"><span class="asm-description">show</span><span class="asm-description hidden">hide</span> full description</a></p>
   <div class="asm-description hidden">
+  PLease visit <a href="http://github.com/rjchallis/assembly_stats">github.com/rjchallis/assembly_stats</a> for the most up to date documentation
   <ul>
-    <li>The inner radius of the circular plot represents the length of the longest scaffold in the assembly</li>
+    <li>Click on any colour tile in the legend to toggle visibility of that feature on/off</li>
+    <li>The radius of the central plot represents the length of the longest scaffold in the assembly</li>
     <li>The angle subtended by the first (red) segment within this plot indicates the percentage of the assembly that is in the longest scaffold</li>
-    <li>The radial axis originates at the circumference and indicates scaffold length</li>
+    <li>The radial axis originates at the circumference and indicates scaffold length, this is on a square-root scale</li>
     <li>Subsequent (grey) segments are plotted from the circumference and the length of segment at a given percentage indicates the cumulative percentage of the assembly that is contained within scaffolds of at least that length</li>
     <li>The N50 and N90 scaffold lengths are indicated respectively by dark and light orange arcs that connect to the radial axis for ease of comparison</li>
     <li>The cumulative number of scaffolds within a given percentge of the genome is plotted in purple originating at the centre of the plot</li>
     <li>White scale lines are drawn at successive orders of magnitude from 10 scaffolds onwards</li>
     <li>The fill colour of the circumferential axis indicates the percentage base composition of the assembly: AT = light blue; GC = dark blue; N = grey</li>
+    <li>Contig length (off by default) is indicated by darker grey segments overlaying the scaffold length plot</li>
+    <li>Contig count (off by default) may be toggled on to be shown in place of the scaffold count plot</li>
+    <li>Partial and complete CEGMA values are shown in light and dark green, respectively in the smaller plot in the upper right corner</li>
   </ul>
   </div>'; 
   
