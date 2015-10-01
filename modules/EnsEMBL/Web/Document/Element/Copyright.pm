@@ -48,7 +48,7 @@ sub content {
 		   %s release %s - %s
 		  &copy; <span class="print_hide"><a href="http://www.ed.ac.uk/" style="white-space:nowrap">Edinburgh University</a><a>/</a><a href="http://www.ebi.ac.uk/" style="white-space:nowrap">EBI</a></span>
       <span class="screen_hide_inline">Lepbase</span>
-  </div>),     $sd->SITE_NAME, 1.0, "September 2015"
+  </div>),     $sd->SITE_NAME, 1.0, "October 2015"
 ## ...END LEPBASE MODIFICATIONS
 	       );
 
