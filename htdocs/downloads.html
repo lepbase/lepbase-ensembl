@@ -60,8 +60,7 @@ $(document).ready(function(){
       	$('#tbody > tr:last-child').append('<td>' + (rows[id].annotations ? '<a class="download-link inactive fasta" rel="'+rows[id].annotations.file+'">' + rows[id].annotations.size : ''));
       });
       $('#download-accept').on('click',function(){
-        console.log('?');
-      	$('.download-link').toggleClass('active');
+        $('.download-link').toggleClass('active');
         $('.download-warning').toggleClass('accepted');
         $('.download-link').toggleClass('inactive');
         $('.download-link').on('click',function(){
