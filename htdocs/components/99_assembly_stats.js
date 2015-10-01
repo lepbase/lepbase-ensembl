@@ -37,12 +37,19 @@ function Assembly( stats,scaffolds,contigs ) {
   this.scaffolds = scaffolds.sort(function(a, b){return b-a});
   var npct_length = {};
   var npct_count = {};
+  var npct_GC = {};
+  var npct_N = {};
+  function getRandomArbitrary(min, max) {
+    return Math.random() * (max - min) + min;
+  }
   var lsum = 0;
   this.scaffolds.forEach(function(length,index,array){
 	var new_sum = lsum + length;
 	if (Math.floor(new_sum/sum*1000) > Math.floor(lsum/sum*100)){
 		npct_length[Math.floor(new_sum/sum*1000)] = length;
 		npct_count[Math.floor(new_sum/sum*1000)] = index;
+		npct_GC[Math.floor(new_sum/sum*1000)] = getRandomArbitrary(30, 60);
+		npct_N[Math.floor(new_sum/sum*1000)] = getRandomArbitrary(0, 30);
 	}
 	lsum = new_sum;
   });
@@ -50,9 +57,13 @@ function Assembly( stats,scaffolds,contigs ) {
   this.seq.forEach(function(i,index){
   	if (!npct_length[i]) npct_length[i] = npct_length[(i+1)];
   	if (!npct_count[i]) npct_count[i] = npct_count[(i+1)];
+  	if (!npct_GC[i]) npct_GC[i] = npct_GC[(i+1)];
+  	if (!npct_N[i]) npct_N[i] = npct_N[(i+1)];
   });
   this.npct_length = npct_length;
   this.npct_count = npct_count;
+  this.npct_GC = npct_GC;
+  this.npct_N = npct_N;
   
   var nctg_length = {};
   var nctg_count = {};
@@ -79,6 +90,7 @@ function Assembly( stats,scaffolds,contigs ) {
   
   this.scale = {};
   this.setScale('percent','linear',[0,100],[180* (Math.PI/180),90* (Math.PI/180)]);
+  this.setScale('gc','linear',[0,100],[0,100]); // range will be updated when drawing
   this.setScale('count','log',[1,1e6],[100,1]); // range will be updated when drawing
   this.setScale('length','sqrt',[1,1e6],[1,100]); // range will be updated range when drawing
 }
@@ -125,14 +137,18 @@ Assembly.prototype.drawPlot = function(parent){
   this.scale['length'].range([radii.core[0],radii.core[1]])
   this.scale['count'].range([radii.core[1],radii.core[0]+radii.core[1]/3])
   this.scale['percent'].range([0,(2 * Math.PI)])
+  this.scale['gc'].range([radii.percent[1],radii.percent[0]])
   
   var lScale = this.scale['length'];
   var cScale = this.scale['count'];
   var pScale = this.scale['percent'];
+  var gScale = this.scale['gc'];
   var npct_length = this.npct_length;
   var npct_count = this.npct_count;
   var nctg_length = this.nctg_length;
   var nctg_count = this.nctg_count;
+  var nctg_GC = this.nctg_GC;
+  var nctg_N = this.nctg_N;
   var scaffolds = this.scaffolds;
   var contigs = this.contigs;
   
@@ -157,6 +173,7 @@ Assembly.prototype.drawPlot = function(parent){
   }
   */
       
+      
   // draw base composition axis fill
   var bcg = g.append('g')
       .attr("id","asm-g-base_composition");
@@ -165,12 +182,32 @@ Assembly.prototype.drawPlot = function(parent){
   var atgc = this.ATGC;
   var n = 100 - atgc;
   var gc_start = n / 100 * this.GC;
-  plot_arc(bcdg,radii.percent[0],radii.percent[1],pScale(0),pScale(100),'asm-ns');
+/*  plot_arc(bcdg,radii.percent[0],radii.percent[1],pScale(0),pScale(100),'asm-ns');
   plot_arc(bcdg,radii.percent[0],radii.percent[1],pScale(gc_start),pScale(gc_start+atgc),'asm-atgc');
   plot_arc(bcdg,radii.percent[0],radii.percent[1],pScale(gc_start),pScale(this.GC),'asm-gc');
+  */
+  
+        
+  var line = d3.svg.line()
+    .x(function(d,i) { return Math.cos(pScale(i/10))*(gScale(d)); })
+    .y(function(d,i) { return Math.sin(pScale(i/10))*(gScale(d)); });
+    
+   var GCs = $.map(this.npct_GC, function(value, index) {
+    		return [value];
+		});
+  bcdg.append("path")
+      .datum(GCs)
+      .attr("class", "asm-gc asm-highlight")
+      .attr("d", line);
+  bcdg.append("circle")
+      .attr('r',gScale(0))
+      .attr("style", "fill:white;");
+
   var bcag = bcg.append('g')
       .attr("id","asm-g-base_composition_axis");
+
   percent_axis(bcag,radii,pScale);
+
   
   /* plot expected genome size if available
   if (this.genome){
@@ -368,7 +405,7 @@ Assembly.prototype.drawPlot = function(parent){
 	
 	// draw circumferential axis
 	circumference_axis(mag,radii);
-  
+  	
    // draw legends
    var lg = g.append('g')
       .attr("id","asm-g-legend");
@@ -474,7 +511,8 @@ Assembly.prototype.drawPlot = function(parent){
   	$('.asm-toggle').on('click',function(){
   		var button = this;
   		var classNames = $(this).attr("class").toString().split(' ');
-  		if ($(button).css('fill') != "rgb(255, 255, 255)"){
+  		console.log($(button).css('fill'));
+  		if ($(button).css('fill') != "rgb(255, 255, 255)" && $(button).css('fill') != "#ffffff"){
   		  $(button).css({fill: "rgb(255, 255, 255)" });
   		  $.each(classNames, function (i, className) {
               if (className != 'asm-toggle'){
@@ -513,8 +551,8 @@ Assembly.prototype.drawPlot = function(parent){
   	// show stats for any N value on mouseover
   	var overlay = g.append('g');
   	var path = overlay.append('path');
-  	var overoverlay = g.append('g');
-  	var output = g.append('g').attr('transform', 'translate('+(size/2-142)+','+(size/2-128)+')');
+  	var overoverlay = overlay.append('g');
+  	var output = overlay.append('g').attr('transform', 'translate('+(size/2-142)+','+(size/2-128)+')');
   	var output_rect = output.append('rect').attr('class', 'asm-live_stats hidden').attr('height',110).attr('width',150);
   	var output_text = output.append('g').attr('transform', 'translate('+(2)+','+(18)+')').attr('class', 'hidden');
   	var stat_circle = overoverlay.append('circle').attr('r',radii.core[1]).attr('fill','white').style('opacity',0);
