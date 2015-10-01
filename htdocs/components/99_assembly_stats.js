@@ -137,7 +137,7 @@ Assembly.prototype.drawPlot = function(parent){
   this.scale['length'].range([radii.core[0],radii.core[1]])
   this.scale['count'].range([radii.core[1],radii.core[0]+radii.core[1]/3])
   this.scale['percent'].range([0,(2 * Math.PI)])
-  this.scale['gc'].range([radii.percent[1],radii.percent[0]])
+  this.scale['gc'].range([radii.percent[0],radii.percent[1]])
   
   var lScale = this.scale['length'];
   var cScale = this.scale['count'];
@@ -182,32 +182,12 @@ Assembly.prototype.drawPlot = function(parent){
   var atgc = this.ATGC;
   var n = 100 - atgc;
   var gc_start = n / 100 * this.GC;
-/*  plot_arc(bcdg,radii.percent[0],radii.percent[1],pScale(0),pScale(100),'asm-ns');
+  plot_arc(bcdg,radii.percent[0],radii.percent[1],pScale(0),pScale(100),'asm-ns');
   plot_arc(bcdg,radii.percent[0],radii.percent[1],pScale(gc_start),pScale(gc_start+atgc),'asm-atgc');
   plot_arc(bcdg,radii.percent[0],radii.percent[1],pScale(gc_start),pScale(this.GC),'asm-gc');
-  */
-  
-        
-  var line = d3.svg.line()
-    .x(function(d,i) { return Math.cos(pScale(i/10))*(gScale(d)); })
-    .y(function(d,i) { return Math.sin(pScale(i/10))*(gScale(d)); });
-    
-   var GCs = $.map(this.npct_GC, function(value, index) {
-    		return [value];
-		});
-  bcdg.append("path")
-      .datum(GCs)
-      .attr("class", "asm-gc asm-highlight")
-      .attr("d", line);
-  bcdg.append("circle")
-      .attr('r',gScale(0))
-      .attr("style", "fill:white;");
-
   var bcag = bcg.append('g')
       .attr("id","asm-g-base_composition_axis");
-
   percent_axis(bcag,radii,pScale);
-
   
   /* plot expected genome size if available
   if (this.genome){
