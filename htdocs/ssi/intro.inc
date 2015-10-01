@@ -1,4 +1,4 @@
-<h2>A multi-genome database for the Lepidoptera</h2>
+<h2>the Lepidopteran genome database</h2>
   <p>The Lepidoptera comprises over 170,000 species,including major agricultural pests, 
     important plant pollinators and the first domesticated insect. The Lepidoptera have 
     played a pivotal role in the development of ecological and evolutionary biology and 

@@ -2,12 +2,12 @@
   <div class="info-box embedded-box float-right">
     <h3>More from Lepbase...</h3>
     <p>We aim to provide a comparative genomics resource for the Lepidotera research 
-      community, with BLAST and Web Apollo servers in addition to this Ensembl instance, visit 
+      community, with BLAST and WebApollo servers in addition to this Ensembl instance, visit 
       <a href="http://lepbase.org" title="lepbase.org">lepbase.org</a> or follow @lepbase to find out more about the project.
     </p>
   </div>
   <p>This is version 1.0 of the Lepbase ensembl genome browser.
-     New features include a dedicated BLAST server, Lepidoptera-specific orthologue predictions &amp; gene trees, and Web Apollo for community annotation.  If there is something missing that you 
+     New features include a dedicated BLAST server, Lepidoptera-specific orthologue predictions &amp; gene trees, and WebApollo for community annotation.  If there is something missing that you 
     would like to see then please <a href="mailto:contact@lepbase.org" 
     title="contact@lepbase.org">contact us</a>. 
   </p>
@@ -35,6 +35,9 @@
     </li> 
     <li>
       <em>Plodia interpunctella</em> v1
+    </li>  
+    <li>
+      18 Heliconiine DISCOVAR assemblies
     </li>  
   </ul>
 </div>
