@@ -550,10 +550,13 @@ sub transcript_table {
     }
     my $seq = $transcripts->[$index]->seq()->seq();
     $blast_html = sequenceserver_button($title,$seq,'Transcript');
+    $seq = undef;
     $seq = $transcripts->[$index]->spliced_seq();
     $blast_html .= sequenceserver_button($title,$seq,'cDNA') if $seq;
+    $seq = undef;
     $seq = $transcripts->[$index]->translateable_seq();
     $blast_html .= sequenceserver_button($title,$seq,'CDS') if $seq;
+    $seq = undef;
     $seq = $transcripts->[$index]->translate()->seq();
     $blast_html .= sequenceserver_button($transcripts->[$index]->stable_id,$seq,'Protein') if $seq;
   }
@@ -595,13 +598,14 @@ sub transcript_table {
 ### BEGIN LEPBASE MODIFICATIONS...
 ##################################
 sub sequenceserver_button {
-	my ($title,$sequence,$label) = @_;
-	my $button = '  <form id="nt_blast_form" target="_blank" action="http://blast.lepbase.org" method="POST">
-    <input type="hidden" name="input_sequence" value=">'.$title."\n".$sequence.'">
-    <input type="submit" class="button" style="float: left" title="Click to BLAST against Lepidoptera genes and genomes (opens a new window)" value="'.$label.'">
-  </form>';
+    my ($title,$sequence,$label) = @_;
+    my $button = '
+        <form id="nt_blast_form_'.$label.'" target="_blank" action="http://blast.lepbase.org" method="POST">
+            <input type="hidden" name="input_sequence" value=">'.$title."\n".$sequence.'">
+            <a href="#" onclick="document.getElementById(\'nt_blast_form_'.$label.'\').submit();" class="button toggle no_img" style="float:left" title="Click to BLAST against Lepidoptera genes and genomes (opens a new window)">'.$label.'</a>
+        </form>';
 
-	return $button;
+    return $button;
 }
 ##################################
 ### ...END LEPBASE MODIFICATIONS

@@ -32,21 +32,32 @@ use strict;
                                                                                 
 use base qw(EnsEMBL::Web::Document::Element);
 
-sub search_options {
+## BEGIN LEPBASE MODIFICATIONS...
+#sub search_options {
   ## Returns the options for the search dropdown based upon the current species
-  my $self          = shift;
-  my $species       = $self->species;
-  my $species_name  = $species ? $self->species_defs->SPECIES_COMMON_NAME : '';
+#  my $self          = shift;
+#  my $species       = $self->species;
+#  my $species_name  = $species ? $self->species_defs->SPECIES_COMMON_NAME : '';
+#
+#  return [ $species ? (
+#    'ensembl'         => { 'label' => "Search $species_name",   'icon' => "species/16/${species}.png"   }) : (),
+#    'ensembl_all'     => { 'label' => 'Search all species',     'icon' => 'search/ensembl.gif'          },
+#    'ensembl_genomes' => { 'label' => 'Search Ensembl genomes', 'icon' => 'search/ensembl_genomes.gif'  },
+#    'vega'            => { 'label' => 'Search Vega',            'icon' => 'search/vega.gif'             },
+#    'ebi'             => { 'label' => 'Search EBI',             'icon' => 'search/ebi.gif'              },
+#    'sanger'          => { 'label' => 'Search Sanger',          'icon' => 'search/sanger.gif'           }
+#  ];
+#}
+sub search_options {
+  my $sitename = $_[0]->species_defs->SITE_NAME;
 
-  return [ $species ? (
-    'ensembl'         => { 'label' => "Search $species_name",   'icon' => "species/16/${species}.png"   }) : (),
-    'ensembl_all'     => { 'label' => 'Search all species',     'icon' => 'search/ensembl.gif'          },
-    'ensembl_genomes' => { 'label' => 'Search Ensembl genomes', 'icon' => 'search/ensembl_genomes.gif'  },
-    'vega'            => { 'label' => 'Search Vega',            'icon' => 'search/vega.gif'             },
-    'ebi'             => { 'label' => 'Search EBI',             'icon' => 'search/ebi.gif'              },
-    'sanger'          => { 'label' => 'Search Sanger',          'icon' => 'search/sanger.gif'           }
+ return [
+    ($_[0]->hub->species and $_[0]->hub->species !~ /^(common|multi)$/i) ? (
+    'ensemblthis'     => { 'label' => 'Search ' . $_[0]->species_defs->SPECIES_COMMON_NAME, 'icon' => 'species/48/' . $_[0]->hub->species . '.png'  }) : (),
+    'ensemblunit'     => { 'label' => "Search $sitename",       'icon' => 'e.png'      },
   ];
 }
+## ...END LEPBASE MODIFICATIONS
 
 sub default_search_code {
   ## Returns the search code either set by the user previously by selecting one of the options in the drodpown, or defaults to the one specified in sitedefs
@@ -63,6 +74,8 @@ sub content {
   my $self            = shift;
   my $img_url         = $self->img_url;
   my $species         = $self->species;
+ ## BEGIN LEPBASE MODIFICATIONS...
+  my $search_table    = $species ? lc $species : 'multi';
   my $search_url      = sprintf '%s%s/psychic', $self->home_url, $species || 'Multi';
   my $options         = $self->search_options;
   my %options_hash    = @$options;
@@ -76,26 +89,26 @@ sub content {
     }
   } 0..scalar @$options - 1;
 
-## BEGIN LEPBASE MODIFICATIONS...
   return qq(
     <div id="searchPanel" class="js_panel">
       <input type="hidden" class="panel_type" value="SearchBox" />
-      <form action="$search_url">
+      <form id="searchbox_form">
         <div class="search print_hide">
           <div class="sites button">
             <img class="search_image" src="${img_url}$options_hash{$search_code}{'icon'}" alt="" />
-            <img src="${img_url}search/down.gif" style="width:7px" alt="" />
-            <input type="hidden" name="site" value="$search_code" />
+            <!--img src="${img_url}search/down.gif" style="width:7px" alt="" />
+            <input type="hidden" name="site" value="$search_code" /-->
           </div>
           <div>
             <label class="hidden" for="se_q">Search terms</label>
             <input class="query inactive" id="se_q" type="text" name="q" value="$options_hash{$search_code}{'label'}&hellip;" data-role="none" />
+            <input type="hidden" id="search_table" name="table" value ="$search_table" />
           </div>
           <!--div class="button"><input type="image" src="${img_url}16/search.png" alt="Search&nbsp;&raquo;" /></div-->
         </div>
-        <div class="site_menu hidden">
+        <!--div class="site_menu hidden">
           $search_options
-        </div>
+        </div-->
       </form>
     </div>
     <a href="/Multi/Search/New"><img src="/i/32/rev/search.png" title="Search this site" class="mobile-search mobile-only" /></a>

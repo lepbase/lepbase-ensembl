@@ -3,50 +3,101 @@
 <title>LepBase: Downloads</title>
 </head>
 <body>
+<script type="text/javascript" src="/components/00_jquery.min.js"></script>
+<script type="text/javascript" src="/components/00_jquery_ui.min.js"></script>
+<script type="text/javascript" src="/downloads.js"></script>
+<style>
+  a { cursor:pointer; }
+  .about { cursor:auto; text-decoration:none; font-weight:bold; }
+  .download-warning { cursor:auto; color:#dd0000; font-weight:bold; }
+  .accepted { color:#666666; }
+  .download-link { }
+  .inactive { cursor:auto; color:#cccccc; pointer-events:none; }
+  .active{ cursor:pointer; pointer-events:auto; }
+  thead { font-weight: bold; }
+</style>
+<script>
+           
+
+
+function getReadableFileSizeString(fileSizeInBytes) {
+//http://stackoverflow.com/questions/10420352/converting-file-size-in-bytes-to-human-readable
+    var i = -1;
+    var byteUnits = [' kB', ' MB', ' GB', ' TB', 'PB', 'EB', 'ZB', 'YB'];
+    do {
+        fileSizeInBytes = fileSizeInBytes / 1024;
+        i++;
+    } while (fileSizeInBytes > 1024);
+
+    return Math.max(fileSizeInBytes, 0.1).toFixed(1) + byteUnits[i];
+};
+
+var rows = {};
+files.forEach(function(d,index,array){
+	var parts = d.file.split('_-_');
+    var type = parts[1].replace(/\..+/,'');
+    if (!rows[parts[0]]){
+    	rows[parts[0]] = {};
+    }
+    rows[parts[0]][type] = {};
+    rows[parts[0]][type].file = d.file;
+    rows[parts[0]][type].size = getReadableFileSizeString(d.size);
+    
+  });
+  
+
+$(document).ready(function(){
+      var table = $('#tbody');
+      var ctr = 0;
+      $.each(rows,function(id,d){
+      	ctr++;
+      	var css = ctr%2 == 0 ? 'class="bg2"' : '';
+      	table.append('<tr '+css+' id="'+id+'"><td><a class="about" href="/'+id.replace(/\./g,'x').replace(/x0$/,'')+'/Info/Index?db=core">' + id.replace(/_/g,' ') + '</a></td></tr>');
+      	var tr = $('#'+id);
+      	$('#tbody > tr:last-child').append('<td>' + (rows[id].scaffolds ? '<a class="download-link inactive fasta" rel="'+rows[id].scaffolds.file+'">' + rows[id].scaffolds.size : ''));
+      	$('#tbody > tr:last-child').append('<td>' + (rows[id].cds ? '<a class="download-link inactive fasta" rel="'+rows[id].cds.file+'">' + rows[id].cds.size : ''));
+      	$('#tbody > tr:last-child').append('<td>' + (rows[id].proteins ? '<a class="download-link inactive fasta" rel="'+rows[id].proteins.file+'">' + rows[id].proteins.size : ''));
+      	$('#tbody > tr:last-child').append('<td>' + (rows[id].annotations ? '<a class="download-link inactive fasta" rel="'+rows[id].annotations.file+'">' + rows[id].annotations.size : ''));
+      });
+      $('#download-accept').on('click',function(){
+        $('.download-link').toggleClass('active');
+        $('.download-warning').toggleClass('accepted');
+        $('.download-link').toggleClass('inactive');
+        $('.download-link').on('click',function(){
+         location.href = 'http://download.lepbase.org/data/'+$(this).attr('rel');
+        });
+      });
+      
+    });
+</script>
 
 <div id="static">
 
-Coming soon...
-<!--table class="blobs">
-<tbody><tr>
-
-<td class="threecol">
-<h2 class="first"><a href="/info/data/export.html">Download a sequence or region</a></h2>
-<div class="centered"><a href="/info/data/export.html"><img src="/img/download_sequence.gif" alt="" title="Find out more"></a></div>
-<p>Click on the 'Export data' button in the lefthand menu of most pages to export:</p>
-<ul>
-<li>FASTA sequence</li>
-<li>GTF or GFF features</li>
-</ul>
-<p>...and more!</p>
-</td>
 
 
+<h2>Bulk data downloads</h2>
+<span class="download-warning"><a class="download-warning">The data available for download on this page include unpublished genome assemblies and annotations. If you wish to download bulk datasets you must agree to any usage conditions on the relevant species/assembly page.</a>
+</span> 
+<p>
+  <label for="download-accept">I agree to the conditions of usage for any datasets that I download </label><input type="checkbox" name="download-accept" id="download-accept"/>
+</p>
+<table class="ss tint">
+  <thead>
+    <tr class="bg2">
+      <td>Species/Assembly</td>
+      <td>Scaffold</td>
+      <td>CDS</td>
+      <td>Protein</td>
+      <td>GFF</td>
+    </tr>
+    
+  </thead>
+  <tfoot>
+  </tfoot>
+  <tbody id="tbody">
+  </tbody>
+</table>
 
-<td class="threecol">
-<h2 class="first"><a href="/info/docs/api/">Fetch data programmatically</a></h2>
-<div class="centered"><a href="/info/docs/api/"><img src="/img/download_api.gif" alt="" title="Find out more"></a></div>
-<p>Write your own Perl scripts to retrieve small-to-medium datasets. All our data, as well as added functionality, is available 
-through the Ensembl Perl API.</p>
-<p>Use the API to retrieve gene and transcript sets, fetch alignments between sequences, compare allele frequencies and much more!</p>
-<p>You can also use our <a href="http://rest.ensembl.org/">REST API</a> to retrieve data to process in the programming language of your choice.</p>
-</td>
-
-
-<td class="threecol">
-<h2 class="first">Download <a href="/info/data/ftp/">databases</a> &amp; <a href="/info/docs/webcode/mirror/">software</a></h2>
-<div class="centered"><a href="/info/"><img src="/img/download_code.gif" alt="" title="Find out more"></a></div>
-<p>All of our data and software, including pipelines and web code, will be available free.</p>
-<p>Meanwhile, take a look at some of data and code that LepBase is built on. 
-<ul>
-<li><a href="http://metazoa.ensembl.org/info/website/ftp/index.html">Download data via FTP</a></li>
-<li><a href="https://github.com/Ensembl/ensembl-pipeline" rel="external">Ensembl pipeline on GitHub</a></li>
-<li><a href="http://metazoa.ensembl.org/">Visit Ensembl Metazoa</a></li>
-</ul>
-</td>
-
-</tr>
-</tbody></table-->
 
 
 </div>

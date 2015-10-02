@@ -1,0 +1,63 @@
+<html>
+<head>
+<title>[[SPECIESDEFS::SITE_NAME]]</title>           
+</head>
+<body>
+    <!--link rel="stylesheet" type="text/css" href="css/jquery-ui.css"-->
+    <style>
+      body { font-family:helvetica-neue,helvetica,arial,sans; width:100%; }
+      div#pages { margin: 0px auto; width:200px; }
+      div#results { width:100%; }
+      div.lbs_result { background-color:#eef1f3; margin-top: 5px;padding-left:1em;padding-bottom:1em;padding-left:1em;border-radius:12px;overflow:hidden; }
+      div.lbs_result_header { background-color:#dfe3e6;padding-left:0.5em;margin-left:-1em; margin-bottom:0.5em; height:2em; padding-top:0.5em }
+      div.lbs_species { float:right;margin-right:1em;margin-top:0.25em; }
+      div.lbs_xrefs { margin-left:1em; margin-top:0.25em; }
+      div.lbs_transcripts, .lbs_translations, .lbs_location { margin-top:0.5em; }
+      span.lbs_xrefs_db_name { display:block; font-style:italic; margin-top:0.25em; }
+      span.lbs_xref { margin-left:1em; }
+      span.lbs_xref_desc {  }
+      span.lbs_transcripts_title, .lbs_translations_title, div.lbs_location { font-weight: bold; }
+      span.lbs_transcript, .lbs_translation { margin-left: 1em; }
+      
+      span.lbs_large  { font-size:125% }
+      div.lbs_transcripts, .lbs_translations, .lbs_location { font-size:110% }
+      span.lbs_small, .lbs_xref, .lbs_xref_desc { font-size:85%; }
+      a { color:fe7001; text-decoration:none; font-weight:normal; }
+      a:hover { text-decoration:underline; }
+      a:visited { color:fe7001; }
+    </style>
+ 
+<div id=widemain>
+
+    <form id="autocompleteForm" method="post">
+      <fieldset>
+        <legend>Search Lepbase</legend>
+        <p class="ui-widget">
+          <label for="term">Search term: </label>
+          <input style="width:70%" type="text" id="term"  name="term" />
+          
+          <input type="checkbox" id="wildcards" name="wildcards" />
+          <label for="wildcards">(toggle wildcards)</label>
+        </p>
+        <p class="ui-widget">
+          <label for="table">Filter by: </label>
+          <select id="table">
+          </select>
+        </p>
+        <p class="ui-widget">
+          <label for="page_size">Results per page:</label>
+          <select id="page_size" name="page_size">
+            <option value="10">10</option>
+            <option value="25">25</option>
+            <option value="50">50</option>
+            <option value="100">100</option>
+            <option value="250">250</option>
+          </select>
+          <input type="submit" name="submit" value="Submit" />
+        </p>
+      </fieldset>
+    </form>
+    <div id="results">
+    </div>
+</div>
+</body></html>

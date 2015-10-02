@@ -31,7 +31,7 @@ All modifications licensed under the Apache License, Version 2.0, as above.
 
 $SiteDefs::ENSEMBL_PLUGINS = [
 
-  'MyPlugins'               => $SiteDefs::ENSEMBL_WEBROOT.'/my-plugins',
+  #'MyPlugins'               => $SiteDefs::ENSEMBL_WEBROOT.'/my-plugins',
   # ebi search
   #'EG::EBEyeSearch'         => $SiteDefs::ENSEMBL_SERVERROOT.'/eg-web-search',
  # blast using ebi service
@@ -40,7 +40,8 @@ $SiteDefs::ENSEMBL_PLUGINS = [
 
   
 #  'EnsEMBL::Mirror'     => $SiteDefs::ENSEMBL_SERVERROOT.'/public-plugins/mirror',
-  'EG::Metazoa'             => $SiteDefs::ENSEMBL_SERVERROOT.'/eg-web-metazoa',
+#  'EG::Metazoa'             => $SiteDefs::ENSEMBL_SERVERROOT.'/eg-web-metazoa',
+  'EG::LepBase'             => $SiteDefs::ENSEMBL_SERVERROOT.'/lepbase-ensembl',
 # 'EnsEMBL::Lucene'     => $SiteDefs::ENSEMBL_SERVERROOT.'/public-plugins/genoverse',
 
 ## Common must come after the division specific plugins above

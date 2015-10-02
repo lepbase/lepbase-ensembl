@@ -25,6 +25,9 @@ use strict;
 use EnsEMBL::Web::Document::HTML::HomeSearch;
 use EnsEMBL::Web::DBSQL::ProductionAdaptor;
 use EnsEMBL::Web::Component::GenomicAlignments;
+use EnsEMBL::Web::Controller::SSI;
+use EnsEMBL::Web::Document::Table;
+
 
 use LWP::UserAgent;
 use JSON;
@@ -160,53 +163,72 @@ sub content {
     $provider_link = $hub->make_link_tag(text => $species_defs->PROVIDER_NAME, url => $species_defs->PROVIDER_URL) . " | ";
   }
 
-  my $html = '
-    <div class="column-wrapper">  
-      <div class="box-left">
-        <div class="species-badge">';
-
-  $html .= qq(<img src="${img_url}species/64/$species.png" alt="" title="$sound" />) unless $self->is_bacteria;
-
-  if ($common_name =~ /\./) {
-    $html .= qq(<h1>$display_name</h1>);
-  } else {
-    $html .= qq(<h1>$common_name</h1><p>$display_name</p>);
-  }
-
-  $html .= '<p class="taxon-id">';
-  $html .= 'Data Source ' . $provider_link if $provider_link;
-  $html .= sprintf q{Taxonomy ID %s}, $hub->get_ExtURL_link("$taxid", 'UNIPROT_TAXONOMY', $taxid) if $taxid;
-  $html .= '</p>';
-  $html .= '</div>'; #species-badge
-
-  $html .= EnsEMBL::Web::Document::HTML::HomeSearch->new($hub)->render;
-
-  $html .= '</div>'; #box-left
-  $html .= '<div class="box-right">';
-  
-  if ($hub->species_defs->multidb->{'DATABASE_PRODUCTION'}{'NAME'}) {
-    $html .= '<div class="round-box info-box unbordered">' . $self->_whatsnew_text . '</div>';
-  } elsif (my $ack_text = $self->_other_text('acknowledgement', $species)) {
-    $html .= '<div class="plain-box round-box unbordered">' . $ack_text . '</div>';
-  }
-
-  $html .= '</div>'; # box-right
-  $html .= '</div>'; # column-wrapper
+###
+# BEGIN LEPBASE MODIFICATION...
+  my $html = '';
   
   my $about_text = $self->_other_text('about', $species);
-  if ($about_text) {
-    $html .= '<div class="column-wrapper"><div class="round-box tinted-box unbordered">'; 
+  $html .= '<div class="column-wrapper">'; 
+    if ($about_text) {
+    $html .= '<div class="round-box tinted-box unbordered">';
     $html .= $about_text;
-    $html .= qq(<p><a href="/$species/Info/Annotation/#about" class="nodeco"><img src="${img_url}24/info.png" alt="" class="homepage-link" />More information and statistics</a></p>);
-    $html .= '</div></div>';
+    #$html .= qq(<p><a href="/$species/Info/Annotation/#about" class="nodeco"><img src="${img_url}24/info.png" alt="" class="homepage-link" />More information and statistics</a></p>);
+    $html .= '</div>';
   }
-
-  my (@sections);
+  my $search_text = EnsEMBL::Web::Document::HTML::HomeSearch->new($hub)->render;
+  if ($search_text) {
+    $html .= '<div class="round-box tinted-box unbordered">'; 
+    $html .= '<h2>Getting started</h2>'.$search_text.'<br/>';
+    $html .= '</div>';
+  }
+  $html .= '</div>';
+  
+  
+my (@sections);
+  
+  
+  
+  my $assembly_text = EnsEMBL::Web::Controller::SSI::template_INCLUDE($self, "/ssi/species/${species}_assembly.html");
+  $assembly_text .= '<p>The assembly plot above is a representation of genome assembly quality which condenses a number of key metrics into a single scale independent visualisation. 
+  <a id="asm-toggle_description" style="cursor:pointer"><span class="asm-description">show</span><span class="asm-description hidden">hide</span> full description</a></p>
+  <div class="asm-description hidden">
+  <p>Pease visit <a href="http://github.com/rjchallis/assembly_stats">github.com/rjchallis/assembly_stats</a> for the most up to date documentation</p>
+  <ul>
+    <li>Click on any colour tile in the legend to toggle visibility of that feature on/off</li>
+    <li>The radius of the central plot represents the length of the longest scaffold in the assembly</li>
+    <li>The angle subtended by the first (red) segment within this plot indicates the percentage of the assembly that is in the longest scaffold</li>
+    <li>The radial axis originates at the circumference and indicates scaffold length, this is on a square-root scale</li>
+    <li>Subsequent (grey) segments are plotted from the circumference and the length of segment at a given percentage indicates the cumulative percentage of the assembly that is contained within scaffolds of at least that length</li>
+    <li>The N50 and N90 scaffold lengths are indicated respectively by dark and light orange arcs that connect to the radial axis for ease of comparison</li>
+    <li>The cumulative number of scaffolds within a given percentge of the genome is plotted in purple originating at the centre of the plot</li>
+    <li>White scale lines are drawn at successive orders of magnitude from 10 scaffolds onwards</li>
+    <li>The fill colour of the circumferential axis indicates the percentage base composition of the assembly: AT = light blue; GC = dark blue; N = grey</li>
+    <li>Contig length (off by default) is indicated by darker grey segments overlaying the scaffold length plot</li>
+    <li>Contig count (off by default) may be toggled on to be shown in place of the scaffold count plot</li>
+    <li>Partial and complete CEGMA values are shown in light and dark green, respectively in the smaller plot in the upper right corner</li>
+  </ul>
+  </div>'; 
+  
+  
+  $assembly_text .= $self->_other_text('assembly', $species);
+  if ($assembly_text) {
+    push(@sections, 'no-tint'.$assembly_text);
+  }
+  
+  my $annotation_text = EnsEMBL::Web::Controller::SSI::template_INCLUDE($self, "/ssi/species/stats_${species}.html");
+  $annotation_text .= $self->_other_text('annotation', $species);
+  if ($annotation_text) {
+    push(@sections, 'no-tint'.$annotation_text);
+  }
+  my $reference_text = $self->_other_text('references', $species);
+  if ($reference_text) {
+    push(@sections, $reference_text);
+  }
   
 
-  push(@sections, $self->_assembly_text);
+#  push(@sections, $assembly_text);
 # $html .= '<div class="box-left"><div class="round-box tinted-box unbordered">' . $self->_assembly_text . '</div></div>';
-  push(@sections, $self->_genebuild_text) if $species_defs->SAMPLE_DATA->{GENE_PARAM};
+#  push(@sections, $self->_genebuild_text) if $species_defs->SAMPLE_DATA->{GENE_PARAM};
  #$html .= '<div class="box-right"><div class="round-box tinted-box unbordered">' . $self->_genebuild_text . '</div></div>' if $species_defs->SAMPLE_DATA->{GENE_PARAM};
 
 # my @box_class = ('box-left', 'box-right');
@@ -239,10 +261,19 @@ sub content {
   
   my @box_class = ('box-left', 'box-right');
   my $side = 0;
-  for my $section (@sections){
-    $html .= sprintf(qq{<div class="%s"><div class="round-box tinted-box unbordered">%s</div></div>}, $box_class[$side++ %2],$section);
+  foreach my $section (@sections){
+  	
+  	if ($section =~ m/^(no-tint)/){
+  	    $section =~ s/^(no-tint)//;
+    	$html .= sprintf(qq{<div class="%s"><div class="round-box unbordered">%s</div></div>}, $box_class[$side++ %2],$section);
+    }
+    else {
+    	$html .= sprintf(qq{<div class="%s"><div class="round-box tinted-box unbordered">%s</div></div>}, $box_class[$side++ %2],$section);
+  	}
   }
     
+# ...END LEPBASE MODIFICATION
+###  
 
   my $ext_source_html = $self->external_sources;
   $html .= '<div class="column-wrapper"><div class="round-box tinted-box unbordered">' . $ext_source_html . '</div></div>' if $ext_source_html;
