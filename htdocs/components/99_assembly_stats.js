@@ -48,7 +48,7 @@ function Assembly( stats,scaffolds,contigs ) {
 	var new_sum = lsum + length;
 	if (Math.floor(new_sum/sum*1000) > Math.floor(lsum/sum*100)){
 		npct_length[Math.floor(new_sum/sum*1000)] = length;
-		npct_count[Math.floor(new_sum/sum*1000)] = index;
+		npct_count[Math.floor(new_sum/sum*1000)] = index+1;
 		npct_GC[Math.floor(new_sum/sum*1000)] = getRandomArbitrary(30, 60);
 		npct_N[Math.floor(new_sum/sum*1000)] = getRandomArbitrary(0, 30);
 	}
@@ -77,7 +77,7 @@ function Assembly( stats,scaffolds,contigs ) {
 	var new_sum = lsum + length;
 	if (Math.floor(new_sum/ctgsum*1000) > Math.floor(lsum/ctgsum*100)){
 		nctg_length[Math.floor(new_sum/ctgsum*1000)] = length;
-		nctg_count[Math.floor(new_sum/ctgsum*1000)] = index;
+		nctg_count[Math.floor(new_sum/ctgsum*1000)] = index+1;
 	}
 	lsum = new_sum;
   });
