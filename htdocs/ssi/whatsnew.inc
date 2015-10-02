@@ -30,9 +30,9 @@
     <li>
       <em>Papillio glaucus</em> v1.1
     </li> 
-    <li>
+    <!--li>
       <em>Pieris napi</em> DAS5
-    </li> 
+    </li--> 
     <li>
       <em>Plodia interpunctella</em> v1
     </li>  
