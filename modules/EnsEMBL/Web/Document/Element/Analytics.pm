@@ -43,7 +43,7 @@ sub content {
   ga('create', 'UA-61720759-1', 'auto');
   ga('send', 'pageview');
 	</script>;
-  }
+  };
   
   return $content;
 }
