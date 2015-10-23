@@ -44,6 +44,7 @@ sub initialize_HTML {
     javascript EnsEMBL::Web::Document::Element::Javascript
     links      EnsEMBL::Web::Document::Element::Links
     meta       EnsEMBL::Web::Document::Element::Meta
+    script     EnsEMBL::Web::Document::Element::Analytics
   ));
   
   $self->add_body_elements(qw(
