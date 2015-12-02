@@ -38,8 +38,39 @@ use EnsEMBL::Web::SpeciesDefs;
 
 use base qw(EnsEMBL::Web::Root);
 
-
 ## BEGIN LEPBASE MODIFICATIONS...
+
+sub get_species_info {
+  ## Gets info about all valid species or an individual species if url name provided
+  ## @param URL name for a species (String) (optional)
+  ## @return Hashref with keys: key, name, common, scientific and group for single species, OR hashref of hashrefs for { species url name => { species info } .. }
+  my ($self, $species) = @_;
+
+  unless ($self->{'_species_info_loaded'} || $species && $self->{'_species_info'}{$species}) {
+
+    my $species_defs      = $self->species_defs;
+    my @required_species  = $species_defs->valid_species;
+       @required_species  = grep {$species eq $_} @required_species if $species;
+
+    for (@required_species) {
+      $self->{'_species_info'}{$_} = {
+        'key'         => $_,
+        'url'         => '/'.$species_defs->get_config($_, 'SPECIES_URL'),
+        'name'        => $species_defs->get_config($_, 'SPECIES_BIO_NAME'),
+        'common'      => $species_defs->get_config($_, 'SPECIES_COMMON_NAME'),
+        'scientific'  => $species_defs->get_config($_, 'SPECIES_SCIENTIFIC_NAME'),
+        'assembly'    => $species_defs->get_config($_, 'ASSEMBLY_NAME'),
+        'group'       => $species_defs->get_config($_, 'SPECIES_GROUP')
+      } unless exists $self->{'_species_info'}{$_};
+    }
+
+    $self->{'_species_info_loaded'} = !$species;
+  }
+
+  return $species ? $self->{'_species_info'}{$species} : $self->{'_species_info'};
+}
+
+
 
 sub get_species_set {
   my $self         = shift;
