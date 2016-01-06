@@ -11,7 +11,7 @@
   .about { cursor:auto; text-decoration:none; font-weight:bold; }
   .download-warning { cursor:auto; color:#dd0000; font-weight:bold; }
   .accepted { color:#666666; }
-  .download-link { }
+  .download-link { text-decoration:none; }
   .download-clearer { font-size: 115%; }
   p.download-clearer { margin-top: 0.5em; }
   .inactive { cursor:auto; color:#cccccc; pointer-events:none; }
@@ -65,8 +65,13 @@ $(document).ready(function(){
         $('.download-link').toggleClass('active');
         $('.download-warning').toggleClass('accepted');
         $('.download-link').toggleClass('inactive');
-        $('.download-link').on('click',function(){
-         location.href = 'http://download.lepbase.org/data/'+$(this).attr('rel');
+        $('.download-link').each(function(){
+        	if ($(this).hasClass('active')){
+        		$(this).attr('href','http://download.lepbase.org/data/'+$(this).attr('rel'));
+        	}
+        	else {
+        		$(this).removeAttr('href');
+        	}
         });
       });
       
