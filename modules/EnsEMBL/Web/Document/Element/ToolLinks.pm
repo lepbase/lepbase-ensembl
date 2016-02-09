@@ -45,11 +45,11 @@ sub content {
 ## BEGIN LEPBASE MODIFICATIONS...
   my $sd    = $self->species_defs;
   my $blog  = $sd->ENSEMBL_BLOG_URL;
-  push @links,   '<a class="constant" href="http://lepbase.org/" title="lepbase.org">lepbase.org</a>';
   push @links,   '<a class="constant" href="http://blast.lepbase.org" title="BLAST">BLAST</a>';
-  push @links,   '<a class="constant" href="http://lepbase.org/category/download/" title="Downloads">Downloads</a>';
-  push @links,   '<!--a class="constant" href="http://webapollo.lepbase.org" title="WebApollo">WebApollo</a-->';
-  push @links,   '<!--a class="constant" href="http://lepbase.org/category/tools/" title="Tools">Tools</a-->';
+  push @links,   '<a class="constant" href="http://lepbase.org/category/download/" title="downloads">Downloads</a>';
+  push @links,   '<a class="constant" href="http://lepbase.org/" title="lepbase.org">lepbase.org</a>';
+#  push @links,   '<a class="constant" href="http://webapollo.lepbase.org" title="WebApollo">WebApollo</a>';
+#  push @links,   '<a class="constant" href="http://lepbase.org/category/tools/" title="Tools">Tools</a>';
   
 ## ...END LEPBASE MODIFICATIONS
   my $last  = pop @links;
