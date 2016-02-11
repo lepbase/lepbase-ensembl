@@ -1,21 +1,23 @@
 <html>
 <head>
-<title>[[SPECIESDEFS::SITE_NAME]]</title>           
+<title>[[SPECIESDEFS::SITE_NAME]]</title>
 </head>
-<body><div class="column-wrapper">
-<div class="column-two">
-<div class="column-padding no-left-margin">
-<p>[[INCLUDE::/ssi/intro.inc]]</p>
-<div class="plain-box">
-<div class="js_panel"><input class="panel_type" type="hidden" value="SpeciesList" /> [[SCRIPT::EnsEMBL::Web::Document::HTML::LepbaseSpecies]] </div>
+<body>
+<div class="column-wrapper">
+  <div class="column-two">
+    <div class="plain-box">
+      <div class="js_panel"><input class="panel_type" type="hidden" value="SpeciesList" /> [[SCRIPT::EnsEMBL::Web::Document::HTML::LepbaseSpecies]] </div>
+    </div>
+  </div>
+  <div class="column-two">
+    <div class="column-padding no-right-margin">[[INCLUDE::/ssi/funding.inc]] </div>
+    <div class="column-padding no-right-margin">[[INCLUDE::/ssi/contact.inc]]</div>
+    <div class="column-padding no-right-margin">
+    <div class="plain-box">
+      <div class="js_panel"><input class="panel_type" type="hidden" value="SpeciesList" /> [[SCRIPT::EnsEMBL::Web::Document::HTML::LepbaseHeliconiines]] </div>
+    </div>
+    </div>
+  </div>
 </div>
-<div class="plain-box">
-<div class="js_panel"><input class="panel_type" type="hidden" value="SpeciesList" /> [[SCRIPT::EnsEMBL::Web::Document::HTML::LepbaseHeliconiines]] </div>
-</div>
-</div>
-</div>
-<div class="column-two">
-<div class="column-padding no-right-margin">[[INCLUDE::/ssi/whatsnew.inc]] [[INCLUDE::/ssi/comingsoon.inc]] [[INCLUDE::/ssi/funding.inc]] [[INCLUDE::/ssi/contact.inc]]</div>
-</div>
-</div>
-</body></html>
+</body>
+</html>
