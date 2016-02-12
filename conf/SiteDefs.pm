@@ -46,6 +46,7 @@ sub update_conf {
     $SiteDefs::__species_aliases{ 'Melitaea_cinxia' }       = [qw(melitaea_cinxia_core_27_80_1)];
     $SiteDefs::__species_aliases{ 'Amyelois_transitella_v1' }= [qw(amyelois_transitella_v1_core_27_80_2)];
     $SiteDefs::__species_aliases{ 'Bicyclus_anynana_v1x2' }= [qw(bicyclus_anynana_v1x2_core_27_80_2)];
+    $SiteDefs::__species_aliases{ 'Bicyclus_anynana_nba01' }= [qw(bicyclus_anynana_nba01_core_27_80_1)];
     $SiteDefs::__species_aliases{ 'Bombyx_mori_asm15162v1' }= [qw(bombyx_mori_asm15162v1_core_27_80_2)];
     $SiteDefs::__species_aliases{ 'Chilo_suppressalis_csuogs1' }= [qw(chilo_suppressalis_csuogs1_core_27_80_2)];
     $SiteDefs::__species_aliases{ 'Danaus_plexippus_v3' }= [qw(danaus_plexippus_v3_core_27_80_2)];
