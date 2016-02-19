@@ -11,7 +11,7 @@ use List::Util 1.33 'any';
  
 # Set database variables
 my $platform = "mysql";
-my $database = "lepbase_search_27_80";
+my $database = "lepbase_search_27_80_2";
 my $host = "flowers.bio.ed.ac.uk";
 my $port = "3307";
 my $user = "anonymous";

@@ -8,7 +8,7 @@
     <a href="http://www.york.ac.uk/biology/research/bioinformatics-biosystems/kanchon-dasmahapatra/"
     title="york.ac.uk - kanchon-dasmahapatra">Dr Kanchon Dasmahapatra</a> 
     (University of York) and maintained by two post-doctoral bioinformaticians, 
-    <a href="http://lepbase.org/team/richard-challis" title="lepbase.org - richard-challis">Dr Richard Challis</a> and <a href="http://lepbase.org/team/sujai-kumar" title="lepbase.org - sujai-kumar">Dr Sujai Kumar</a>, based in the Blaxter lab. <a href="http://lepbase.org/team/reuben-nowell" title="lepbase.org - reuben-nowell">Reuben Nowell</a>, another member of the Blaxter lab, also contributes to LepBase as part of his involvement in the <a href="http://bicyclus.org/" title="bicyclus.org"><em>Bicyclus anynana</em> genome project</a>.
+    <a href="http://lepbase.org/contact" title="lepbase.org - contact">Dr Richard Challis</a> and <a href="http://lepbase.org/contact" title="lepbase.org - contact">Dr Sujai Kumar</a>, based in the Blaxter lab.
   </p>
   <p>
     <img href="http://ed.ac.uk" title="University of Edinburgh" height="40" style="background-color:white;" src="img/edinburgh_logo.png">

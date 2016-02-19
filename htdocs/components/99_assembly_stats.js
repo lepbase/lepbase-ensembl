@@ -20,11 +20,13 @@ $('#asm-toggle_description').on('click',function(){
 };
  
 function Assembly( stats,scaffolds,contigs ) { 
-  var sum = scaffolds.reduce(function(previousValue, currentValue, index, array) {
+  stats.scaffolds = scaffolds ? scaffolds : stats.scaffolds;
+  stats.contigs = contigs ? contigs : stats.contigs;
+  var sum = stats.scaffolds.reduce(function(previousValue, currentValue, index, array) {
     return previousValue + currentValue;
   });
-  if (contigs){
-  	var ctgsum = contigs.reduce(function(previousValue, currentValue, index, array) {
+  if (stats.contigs){
+  	var ctgsum = stats.contigs.reduce(function(previousValue, currentValue, index, array) {
   	  return previousValue + currentValue;
   	});
   }
@@ -35,11 +37,11 @@ function Assembly( stats,scaffolds,contigs ) {
   this.GC = stats.GC ? stats.GC <= 100 ? stats.GC <= 1 ? stats.GC * 100 : stats.GC : stats.GC / this.assembly * 100 : 0;
   this.cegma_complete = stats.cegma_complete;
   this.cegma_partial = stats.cegma_partial;
-  this.scaffolds = scaffolds.sort(function(a, b){return b-a});
+  this.scaffolds = stats.scaffolds.sort(function(a, b){return b-a});
   var npct_length = {};
   var npct_count = {};
-  var npct_GC = {};
-  var npct_N = {};
+  this.GCs = stats.GCs;
+  this.Ns = stats.Ns;
   function getRandomArbitrary(min, max) {
     return Math.random() * (max - min) + min;
   }
@@ -49,8 +51,6 @@ function Assembly( stats,scaffolds,contigs ) {
 	if (Math.floor(new_sum/sum*1000) > Math.floor(lsum/sum*100)){
 		npct_length[Math.floor(new_sum/sum*1000)] = length;
 		npct_count[Math.floor(new_sum/sum*1000)] = index+1;
-		npct_GC[Math.floor(new_sum/sum*1000)] = getRandomArbitrary(30, 60);
-		npct_N[Math.floor(new_sum/sum*1000)] = getRandomArbitrary(0, 30);
 	}
 	lsum = new_sum;
   });
@@ -58,19 +58,15 @@ function Assembly( stats,scaffolds,contigs ) {
   this.seq.forEach(function(i,index){
   	if (!npct_length[i]) npct_length[i] = npct_length[(i+1)];
   	if (!npct_count[i]) npct_count[i] = npct_count[(i+1)];
-  	if (!npct_GC[i]) npct_GC[i] = npct_GC[(i+1)];
-  	if (!npct_N[i]) npct_N[i] = npct_N[(i+1)];
   });
   this.npct_length = npct_length;
   this.npct_count = npct_count;
-  this.npct_GC = npct_GC;
-  this.npct_N = npct_N;
   
   var nctg_length = {};
   var nctg_count = {};
   
-  if (contigs){
-    this.contigs = contigs.sort(function(a, b){return b-a});
+  if (stats.contigs){
+    this.contigs = stats.contigs.sort(function(a, b){return b-a});
   
   var lsum = 0;
   this.contigs.forEach(function(length,index,array){
@@ -138,7 +134,7 @@ Assembly.prototype.drawPlot = function(parent){
   this.scale['length'].range([radii.core[0],radii.core[1]])
   this.scale['count'].range([radii.core[1],radii.core[0]+radii.core[1]/3])
   this.scale['percent'].range([0,(2 * Math.PI)])
-  this.scale['gc'].range([radii.percent[0],radii.percent[1]])
+  this.scale['gc'].range([radii.percent[1],radii.percent[0]])
   
   var lScale = this.scale['length'];
   var cScale = this.scale['count'];
@@ -158,21 +154,7 @@ Assembly.prototype.drawPlot = function(parent){
       .attr("transform","translate("+size/2+","+size/2+")")
       .attr("id","asm-g-plot");
   
-  /* plot expected genome size if available
-  // makes plot too complex as interpretation is unclear
-  if (this.genome){
-   var egg = g.append('g')
-       .attr("id","asm-expected_genome");
-  	var egdg = egg.append('g')
-       .attr("id","asm-expected_genome_data");
-    var pct = this.genome/this.assembly*100;
-    plot_arc(egdg,radii.genome[0],radii.genome[1],pScale(0),pScale(pct),'asm-genome');
-    while (pct > 100){
-    	pct -= 100;
-    	plot_arc(egdg,radii.genome[0],radii.genome[1],pScale(0),pScale(pct),'asm-short_genome');
-    }
-  }
-  */
+
       
       
   // draw base composition axis fill
@@ -180,43 +162,45 @@ Assembly.prototype.drawPlot = function(parent){
       .attr("id","asm-g-base_composition");
   var bcdg = bcg.append('g')
       .attr("id","asm-g-base_composition_data");
-  var atgc = this.ATGC;
-  var n = 100 - atgc;
+  var n = 100 - this.ATGC;
   var gc_start = n / 100 * this.GC;
-  plot_arc(bcdg,radii.percent[0],radii.percent[1],pScale(0),pScale(100),'asm-ns');
-  plot_arc(bcdg,radii.percent[0],radii.percent[1],pScale(gc_start),pScale(gc_start+atgc),'asm-atgc');
-  plot_arc(bcdg,radii.percent[0],radii.percent[1],pScale(gc_start),pScale(this.GC),'asm-gc');
+  if (this.GCs && this.Ns){
+  	plot_arc(bcdg,radii.percent[0],radii.percent[1],pScale(0),pScale(100),'asm-ns');
+  	var lower = [];
+    var upper = [];
+    var GCs = this.GCs;
+    var Ns = this.Ns;
+    Ns.forEach(function(n,i){
+      lower.push((n / 100 * GCs[i]));
+      upper.push((100 - n + lower[i]));
+    });
+  	var line = d3.svg.line()
+    .x(function(d,i) { return Math.cos(pScale(i/10-25))*(gScale(d)); })
+    .y(function(d,i) { return Math.sin(pScale(i/10-25))*(gScale(d)); });
+  
+  var atgc = line(lower)+' '+line(upper)
+  bcdg.append("path")
+  	  .attr("class", "asm-atgc")
+      .attr("d", atgc)
+      .attr("fill-rule","evenodd");
+  var gc = line(lower)+' '+line(GCs)
+  bcdg.append("path")
+  	  .attr("class", "asm-gc")
+      .attr("d", gc)
+      .attr("fill-rule","evenodd");
+  
+  
+  }
+  else {
+  	plot_arc(bcdg,radii.percent[0],radii.percent[1],pScale(0),pScale(100),'asm-ns');
+  	plot_arc(bcdg,radii.percent[0],radii.percent[1],pScale(gc_start),pScale(gc_start+this.ATGC),'asm-atgc');
+  	plot_arc(bcdg,radii.percent[0],radii.percent[1],pScale(gc_start),pScale(this.GC),'asm-gc');
+  }
   var bcag = bcg.append('g')
       .attr("id","asm-g-base_composition_axis");
   percent_axis(bcag,radii,pScale);
   
-  /* plot expected genome size if available
-  if (this.genome){
-   var egg = g.append('g')
-       .attr('transform','translate('+(radii.percent[1]+tick*4)+','+(radii.percent[1])+')')
-      .attr("id","asm-expected_genome_size");
-  	var egdg = egg.append('g')
-       .attr("id","asm-expected_genome_size");
-  	 egdg.append('circle')
-  	     .attr('r',(Math.sqrt(this.genome/this.assembly)*radii.genome[1]))
-  	     .attr('class','asm-genome');
-  	 egdg.append('circle')
-  	     .attr('r',radii.genome[1])
-  	     .attr('class','asm-assembly');
-  	 egdg.append('circle')
-  	     .attr('r',(Math.sqrt(this.genome/this.assembly)*radii.genome[1]))
-  	     .attr('class','asm-genome')
-  	     .attr('style','fill:none;');
-  	 egdg.append('circle')
-  	     .attr('r',radii.genome[1])
-  	     .attr('class','asm-axis');
-  	 egdg.append('line')
-  	     .attr('y1',-radii.genome[1])
-  	     .attr('class','asm-axis');
-  	 
-  }
-  */
-  // plot CEGMA completeness if available
+ // plot CEGMA completeness if available
   if (this.cegma_complete){
    var ccg = g.append('g')
        .attr('transform','translate('+(radii.percent[1]+tick*3)+','+(-radii.percent[1]-tick*2)+')')
@@ -248,8 +232,7 @@ Assembly.prototype.drawPlot = function(parent){
 	  ctcdg.append("path")
   	      .datum(ctg_counts)
           .attr("class", "asm-contig_count asm-remote")
-          .attr("d", line)
-      //.attr("fill-rule","evenodd");
+          .attr("d", line);
     }
   	//plot scaffold count data
   	var scg = g.append('g')
@@ -262,14 +245,8 @@ Assembly.prototype.drawPlot = function(parent){
 	scdg.append("path")
   	      .datum(scaf_counts)
           .attr("class", "asm-count asm-remote")
-          .attr("d", line)
-      //.attr("fill-rule","evenodd");
+          .attr("d", line);
   
-  
-  
-  //var zeros = Array.apply(0, Array(1000)).map(function (x, y) { return 0; });
-  //	var hollow = line(GCs)+' '+line(zeros)
-  	
   	
   // plot scaffold lengths 
   var slg = g.append('g')
@@ -330,7 +307,7 @@ Assembly.prototype.drawPlot = function(parent){
   var slgg = slg.append('g')
       .attr("id","asm-g-scaffold_length_gridlines");
   length_seq.forEach(function(i,index){
-  if(Math.pow(10,i+4) > this.scaffolds[0] && Math.pow(10,i+1) > npct_length[900] && Math.pow(10,i) < npct_length[100]){
+  if(Math.pow(10,i+4) > scaffolds[0] && Math.pow(10,i+1) > npct_length[900] && Math.pow(10,i) < npct_length[100]){
      slgg.append('circle')
   		.attr('r',radii.core[1]-lScale(Math.pow(10,i)))
   		.attr('cx',0)
@@ -368,7 +345,7 @@ Assembly.prototype.drawPlot = function(parent){
       .attr("id","asm-g-scaffold_length_axis");
   
   length_seq.forEach(function(i,index){
-        if(Math.pow(10,i+3) > this.scaffolds[0] && Math.pow(10,i+1) > npct_length[1000]){
+        if(Math.pow(10,i+3) > scaffolds[0] && Math.pow(10,i+1) > npct_length[1000]){
   slag.append('text')
   		.attr('transform','translate('+(Math.pow(1.5,i)+2)+','+(-radii.core[1]+lScale(Math.pow(10,i))+4)+')')
   		.text(getReadableSeqSizeString(Math.pow(10,i),0))
@@ -423,21 +400,10 @@ Assembly.prototype.drawPlot = function(parent){
   	key.append('rect').attr('height',w).attr('width',w).attr('class','asm-gc asm-toggle');
   	key.append('text').attr('x',w+2).attr('y',w-1).text('GC ('+this.GC+'%)').attr('class','asm-key');
   	key.append('rect').attr('y',w*1.5).attr('height',w).attr('width',w).attr('class','asm-atgc asm-toggle');
-  	key.append('text').attr('x',w+2).attr('y',w*2.5-1).text('AT ('+(atgc-this.GC).toFixed(1)+'%)').attr('class','asm-key');
+  	key.append('text').attr('x',w+2).attr('y',w*2.5-1).text('AT ('+(this.ATGC-this.GC).toFixed(1)+'%)').attr('class','asm-key');
   	key.append('rect').attr('y',w*3).attr('height',w).attr('width',w).attr('class','asm-ns asm-toggle');
   	key.append('text').attr('x',w+2).attr('y',w*4-1).text('N ('+n.toFixed(1)+'%)').attr('class','asm-key');
   	
-
-   /*draw genome size  legend if available
-   if (this.genome){
-   var legg = lg.append('g')
-      .attr("id","asm-g-genome_legend");
-    var key = legg.append('g').attr('transform', 'translate('+(size/2-190)+','+(size/2-62)+')');
-  	key.append('rect').attr('height',w).attr('width',w).attr('class','asm-assembly asm-toggle');
-  	key.append('text').attr('x',w+3).attr('y',w-1).text('Assembly length ('+getReadableSeqSizeString(this.assembly,0)+')').attr('class','asm-key');
-  	key.append('rect').attr('y',w*1.5).attr('height',w).attr('width',w).attr('class','asm-genome asm-toggle');
-  	key.append('text').attr('x',w+3).attr('y',w*2.5-1).text('Expected length ('+getReadableSeqSizeString(this.genome,0)+')').attr('class','asm-key');
-  	}*/
 
    //draw scaffold legend
    var lsg = lg.append('g')
@@ -464,14 +430,6 @@ Assembly.prototype.drawPlot = function(parent){
   	key.append('text').attr('x',w+3).attr('y',w*5.5-1).text('N50 length ('+getReadableSeqSizeString(this.npct_length[500])+')').attr('class','asm-key');
   	key.append('rect').attr('y',w*6).attr('height',w).attr('width',w).attr('class','asm-n90_pie asm-toggle');
   	key.append('text').attr('x',w+3).attr('y',w*7-1).text('N90 length ('+getReadableSeqSizeString(this.npct_length[900])+')').attr('class','asm-key');
-  	/*
-  	key.append('rect').attr('y',w*7.5).attr('height',w).attr('width',w).attr('class','asm-gc asm-toggle');
-  	key.append('text').attr('x',w+3).attr('y',w*8.5-1).text('GC ('+this.GC+'%)').attr('class','asm-key');
-  	key.append('rect').attr('y',w*9).attr('height',w).attr('width',w).attr('class','asm-atgc asm-toggle');
-  	key.append('text').attr('x',w+3).attr('y',w*10-1).text('AT ('+(atgc-this.GC).toFixed(1)+'%)').attr('class','asm-key');
-  	key.append('rect').attr('y',w*10.5).attr('height',w).attr('width',w).attr('class','asm-ns asm-toggle');
-  	key.append('text').attr('x',w+3).attr('y',w*11.5-1).text('N ('+n.toFixed(1)+'%)').attr('class','asm-key');
-  	*/
 
     //draw contig legend if available
 	if (this.contigs){

@@ -49,12 +49,15 @@ use base qw(EnsEMBL::Web::Document::Element);
 #  ];
 #}
 sub search_options {
-  my $sitename = $_[0]->species_defs->SITE_NAME;
+  my $self          = shift;
+  my $species       = $self->species;
+  my $species_name  = $species ? $self->species_defs->SPECIES_COMMON_NAME : '';
+  my $sitename = $self->species_defs->SITE_NAME || 'multi';
 
  return [
-    ($_[0]->hub->species and $_[0]->hub->species !~ /^(common|multi)$/i) ? (
-    'ensemblthis'     => { 'label' => 'Search ' . $_[0]->species_defs->SPECIES_COMMON_NAME, 'icon' => 'species/48/' . $_[0]->hub->species . '.png'  }) : (),
-    'ensemblunit'     => { 'label' => "Search $sitename",       'icon' => 'e.png'      },
+    $self->hub->species ? (
+    'ensemblthis'     => { 'label' => 'Search ' . $self->species_defs->SPECIES_COMMON_NAME, 'icon' => 'species/48/' . $self->hub->species . '.png'  }) : (
+    'ensemblunit'     => { 'label' => "Search $sitename",       'icon' => 'e.png'      }),
   ];
 }
 ## ...END LEPBASE MODIFICATIONS

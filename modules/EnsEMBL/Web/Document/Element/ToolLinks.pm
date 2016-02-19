@@ -46,10 +46,10 @@ sub content {
   my $sd    = $self->species_defs;
   my $blog  = $sd->ENSEMBL_BLOG_URL;
   push @links,   '<a class="constant" href="http://blast.lepbase.org" title="BLAST">BLAST</a>';
-  push @links,   '<a class="constant" href="/downloads.html" title="Downloads">Downloads</a>';
-  push @links,   '<a class="constant" href="http://webapollo.lepbase.org" title="WebApollo">WebApollo</a>';
-  push @links,   '<a class="constant" href="'.$blog.'" title="lepbase.org">Blog</a>'                  if $blog;
-  push @links,   '<a class="constant" href="/source.html" title="Source Code">Source code</a>';
+  push @links,   '<a class="constant" href="http://lepbase.org/category/download/" title="downloads">Downloads</a>';
+  push @links,   '<a class="constant" href="http://lepbase.org/" title="lepbase.org">lepbase.org</a>';
+#  push @links,   '<a class="constant" href="http://webapollo.lepbase.org" title="WebApollo">WebApollo</a>';
+#  push @links,   '<a class="constant" href="http://lepbase.org/category/tools/" title="Tools">Tools</a>';
   
 ## ...END LEPBASE MODIFICATIONS
   my $last  = pop @links;
