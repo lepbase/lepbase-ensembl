@@ -50,7 +50,7 @@ sub modify_tree {
   return unless ($self->object || $hub->param('g'));
 
   my $gene_adaptor = $hub->get_adaptor('get_GeneAdaptor', 'core', $species);
-  my $gene   = $self->object ? $self->object->gene : $gene_adaptor->fetch_by_stable_id($hub->param('g'));  
+  my $gene   = $self->object ? $self->object->gene : $gene_adaptor->fetch_by_stable_id($hub->param('g'));
 
   return if ref $gene eq 'Bio::EnsEMBL::ArchiveStableId';
 
@@ -72,16 +72,16 @@ sub modify_tree {
             $end   = $e->end   >= $transcript->coding_region_end   ? $transcript->coding_region_end   : $e->end;
             if (($end > $start) && ($end - $start + 1 < 200)) {
 	      $cover_next_e = 1;
-            } 
+            }
  	  } else {
             $end   = $e->end   >= $transcript->coding_region_end   ? $transcript->coding_region_end   : $e->end;
             $cover_next_e = 0 unless ($end - $start + 1 < 200);
-          }  
+          }
           last unless $cover_next_e;
         }
       } else {
         my $exon = $exons[0];
-        ($start, $end) = ($exon->start, $exon->end); 
+        ($start, $end) = ($exon->start, $exon->end);
       }
     }
   }
@@ -92,7 +92,7 @@ sub modify_tree {
 
   my $compara_menu  = $self->get_node('Compara');
   my $genetree = $self->get_node('Compara_Tree');
- 
+
   $genetree->set('components', [qw(
     tree_summary  EnsEMBL::Web::Component::Gene::ComparaTreeSummary
     image EnsEMBL::Web::Component::Gene::ComparaTree
@@ -125,7 +125,7 @@ sub modify_tree {
   });
 
   my $variation_image = $self->get_node('Variation_Gene/Image');
-  $variation_image->set('components', [qw( 
+  $variation_image->set('components', [qw(
     imagetop EnsEMBL::Web::Component::Gene::VariationImageTop
     imagenav EnsEMBL::Web::Component::Gene::VariationImageNav
     image EnsEMBL::Web::Component::Gene::VariationImage )
@@ -138,12 +138,12 @@ sub modify_tree {
   my $cdb_name = $self->hub->species_defs->COMPARA_DB_NAME || 'Comparative Genomics';
 
   $compara_menu->set('caption', $cdb_name);
-  
-  
+
+
   # homoeologues for polyploids
-  
+
   if ($species_defs->POLYPLOIDY) {
-    $self->get_node('Compara_Paralog')->after( 
+    $self->get_node('Compara_Paralog')->after(
       $self->create_node('Compara_Homoeolog', 'Homoeologues',
         [qw(
           paralogues EnsEMBL::Web::Component::Gene::ComparaHomoeologs
@@ -151,15 +151,15 @@ sub modify_tree {
         { 'availability' => 'gene database:compara core has_homoeologs', 'concise' => 'Homoeologues' }
       ),
       $self->create_node('Compara_Homoeolog/Alignment', 'Homoeologue alignment',
-        [qw( 
-          alignment EnsEMBL::Web::Component::Gene::HomologAlignment 
+        [qw(
+          alignment EnsEMBL::Web::Component::Gene::HomologAlignment
         )],
         { 'availability'  => 'gene database:compara core has_homoeologs', 'no_menu_entry' => 1 }
       )
     );
   }
-  
-  
+
+
 ##----------------------------------------------------------------------
 ## Compara menu: alignments/orthologs/paralogs/trees
 ## BEGIN LEPBASE MODIFICATIONS...
@@ -201,7 +201,7 @@ sub modify_tree {
     { 'availability' => 'gene database:compara_pan_ensembl core has_orthologs_pan',
       'concise'      => 'Orthologues' }
   );
-  
+
   $ol_node->append( $self->create_subnode(
     'Compara_Ortholog/Alignment_pan_compara', 'Orthologue Alignment',
     [qw(alignment EnsEMBL::Web::Component::Gene::HomologAlignment)],
@@ -244,21 +244,23 @@ sub modify_tree {
 ### EG
 
   $compara_menu->after($pancompara_menu);
-  
+
   # S4 DAS
   $self->delete_node('Expression');
+## BEGIN LEPBASE MODIFICATIONS...
   foreach my $logic_name (qw(S4_EXPRESSION S4_LITERATURE S4_PUBMED)) {
     if (my $source = $hub->get_das_by_logic_name($logic_name)) {
       $compara_menu->before($self->create_node("das/$logic_name", $logic_name,
         [$source->renderer, "EnsEMBL::Web::Component::Gene::" . $source->renderer], {
-          availability => 'gene', 
-          concise      => $source->caption, 
-          caption      => $source->caption, 
+          availability => 'gene',
+          concise      => $source->caption,
+          caption      => $source->caption,
           full_caption => $source->label
         }
       ));
     }
   }
+## ...END LEPBASE MODIFICATIONS
 
 
   # get all ontologies mapped to this species
@@ -288,7 +290,7 @@ sub modify_tree {
 	 next unless (%$go_hash);
 	 my @c = grep { $go_hash->{$_}->{selected} } keys %$go_hash;
 	 my $num = scalar(@c);
-	 
+
 	 my $url2 = $hub->url({
 	     type    => 'Gene',
 	     action  => 'Ontology/'.$oid,
@@ -300,7 +302,7 @@ sub modify_tree {
 					     [qw( go EnsEMBL::Web::Component::Gene::Ontology )],
 					     { 'availability' => 'gene', 'concise' => $desc2, 'url' =>  $url2 }
 			  ));
-	 
+
      }
   }
   $compara_menu->before( $go_menu );
