@@ -35,7 +35,7 @@ sub modify_tree {
   $self->PREV::modify_tree(@_);
 
   my $compara_menu = $self->get_node('PanCompara');
-  $compara_menu->set('caption', "Metazoan Compara");
+  $compara_menu->set('caption', "Metazoan Compara") if $compara_menu;
 
   $self->delete_node('Family');
   $self->delete_node('Gene_families');
