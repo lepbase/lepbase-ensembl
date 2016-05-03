@@ -248,18 +248,18 @@ sub modify_tree {
   # S4 DAS
   $self->delete_node('Expression');
 ## BEGIN LEPBASE MODIFICATIONS...
-  foreach my $logic_name (qw(S4_EXPRESSION S4_LITERATURE S4_PUBMED)) {
-    if (my $source = $hub->get_das_by_logic_name($logic_name)) {
-      $compara_menu->before($self->create_node("das/$logic_name", $logic_name,
-        [$source->renderer, "EnsEMBL::Web::Component::Gene::" . $source->renderer], {
-          availability => 'gene',
-          concise      => $source->caption,
-          caption      => $source->caption,
-          full_caption => $source->label
-        }
-      ));
-    }
-  }
+#  foreach my $logic_name (qw(S4_EXPRESSION S4_LITERATURE S4_PUBMED)) {
+#    if (my $source = $hub->get_das_by_logic_name($logic_name)) {
+#      $compara_menu->before($self->create_node("das/$logic_name", $logic_name,
+#        [$source->renderer, "EnsEMBL::Web::Component::Gene::" . $source->renderer], {
+#          availability => 'gene',
+#          concise      => $source->caption,
+#          caption      => $source->caption,
+#          full_caption => $source->label
+#        }
+#      ));
+#    }
+#  }
 ## ...END LEPBASE MODIFICATIONS
 
 
