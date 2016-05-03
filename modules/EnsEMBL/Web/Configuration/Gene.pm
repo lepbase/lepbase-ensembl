@@ -36,6 +36,24 @@ sub modify_tree {
 
   my $compara_menu = $self->get_node('PanCompara');
   $compara_menu->set('caption', "Metazoan Compara");
+
+  $self->delete_node('Family');
+  $self->delete_node('Gene_families');
+  $self->delete_node('Alleles');
+  $self->delete_node('TranscriptComparison');
+  $self->delete_node('Evidence');
+  $self->delete_node('SecondaryStructure');
+  $self->delete_node('Regulation');
+  $self->delete_node('Expression');
+  $self->delete_node('Compara_Alignments');
+  $self->delete_node('SpeciesTree');
+  $self->delete_node('Variation');
+  $self->delete_node('StructuralVariation_Gene');
+  $self->delete_node('ExternalData');
+  $self->delete_node('UserAnnotation');
+  $self->delete_node('History');
+  $self->delete_node('Idhistory');
+  $self->delete_node('Phenotype');
 }
 
 1;
