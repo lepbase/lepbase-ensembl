@@ -46,7 +46,7 @@ sub content {
   return sprintf( qq(
   <div class="column-two left">
 		   %s release %s - %s
-		  &copy; <span class="print_hide"><a href="http://www.ed.ac.uk/" style="white-space:nowrap">Edinburgh University</a><a>/</a><a href="http://www.ebi.ac.uk/" style="white-space:nowrap">EBI</a></span>
+		  &copy; <span class="print_hide"><a href="http://www.ed.ac.uk/" style="white-space:nowrap">Edinburgh University</a><a>/EnsEMBL &copy;</a><a href="http://www.ebi.ac.uk/" style="white-space:nowrap">EBI</a></span>
       <span class="screen_hide_inline">Lepbase</span>
   </div>),     "Lepbase", "2", "February 2016"
 ## ...END LEPBASE MODIFICATIONS
@@ -55,4 +55,3 @@ sub content {
 }
 
 1;
-
