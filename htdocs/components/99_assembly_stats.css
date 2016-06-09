@@ -245,7 +245,7 @@
   .asm-right {
     text-anchor: end;
   }
-  #assembly_stats {
+  .assembly_stats {
     position:relative;
     height:600px;
     width: 600px;
