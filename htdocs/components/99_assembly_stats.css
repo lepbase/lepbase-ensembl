@@ -248,6 +248,8 @@
   #asm-scale_form_wrapper {
     position: absolute;
     text-align: center;
+    top: 0px;
+    left:0px;
     font-size: 10pt;
     font-family: sans-serif;
     fill: #555555;
