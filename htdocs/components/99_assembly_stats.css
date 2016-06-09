@@ -245,6 +245,11 @@
   .asm-right {
     text-anchor: end;
   }
+  #assembly_stats {
+    position:relative;
+    height:600px;
+    width: 50%;
+  }
   #asm-scale_form_wrapper {
     position: absolute;
     text-align: center;
