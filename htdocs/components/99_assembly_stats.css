@@ -264,6 +264,8 @@
   #asm-scale_form_bg {
     position: relative;
     display: inline-block;
+    height:100%;
+    width:100%;
     background-color: rgba(0, 0, 0, 0.5);
   }
   #asm-scale_form_div {
