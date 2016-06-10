@@ -1,8 +1,3 @@
-
-$('#asm-toggle_description').on('click',function(){
-	$('.asm-description').toggleClass('hidden');
-});
-
 function Assembly(stats, scaffolds, contigs) {
   this.scaffolds = scaffolds ? scaffolds : stats.scaffolds;
   this.contigs = contigs ? contigs : stats.contigs;
