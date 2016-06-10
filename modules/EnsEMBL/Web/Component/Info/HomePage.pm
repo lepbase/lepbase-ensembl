@@ -190,7 +190,7 @@ my (@sections);
 
   my $assembly_text = EnsEMBL::Web::Controller::SSI::template_INCLUDE($self, "/ssi/species/${species}_assembly.html");
   $assembly_text .= '<p>Assembly stats plots are described at <a href="http://github.com/rjchallis/assembly_stats">github.com/rjchallis/assembly_stats</a>
-  <a href="https://zenodo.org/badge/latestdoi/20772/rjchallis/assembly_stats"><img src="https://zenodo.org/badge/20772/rjchallis/assembly_stats.svg" alt="10.5281/zenodo.49050" /></a>
+  <br/><a href="https://zenodo.org/badge/latestdoi/20772/rjchallis/assembly_stats"><img src="https://zenodo.org/badge/20772/rjchallis/assembly_stats.svg" alt="10.5281/zenodo.49050" /></a>
   </p>';
 
 
