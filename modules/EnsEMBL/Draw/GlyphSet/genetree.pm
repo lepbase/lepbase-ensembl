@@ -681,12 +681,16 @@ sub features {
     }
 
     foreach my $leaf (@{$tree->get_all_leaves}) {
-      my $dist = $leaf->distance_to_ancestor($tree);
-      $leaf_count++;
-      $sum_dist += $dist || 0;
-      $genome_dbs{$leaf->genome_db->dbID}++;
-      $genes{$leaf->gene_member->stable_id}++;
-      $leaves{$leaf->node_id}++;
+### Begin Lepbase hack to allow stable_id mismatch
+      if ($leaf->isa('Bio::EnsEMBL::Compara::GeneTreeMember')){
+        my $dist = $leaf->distance_to_ancestor($tree);
+        $leaf_count++;
+        $sum_dist += $dist || 0;
+        $genome_dbs{$leaf->genome_db->dbID}++;
+        $genes{$leaf->gene_member->stable_id}++;
+        $leaves{$leaf->node_id}++;
+      }
+### End Lepbase hack
     }
 
     $f->{'_collapsed'}          = 1,
