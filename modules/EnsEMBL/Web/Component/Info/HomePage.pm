@@ -164,6 +164,11 @@ sub content {
     $provider_link = $hub->make_link_tag(text => $species_defs->PROVIDER_NAME, url => $species_defs->PROVIDER_URL) . " | ";
   }
 
+  my %alternate = (
+    'Danaus_plexippus_v3' => ['Heliconius_melpomene_Hmel2'],
+    'Heliconius_melpomene_Hmel2' => ['Danaus_plexippus_v3']
+  );
+
 ###
 # BEGIN LEPBASE MODIFICATION...
   my $html = '';
@@ -187,9 +192,16 @@ sub content {
 
 my (@sections);
 
+  my $src = 'http://content.lepbase.org/pages/assemblies/assembly-stats.html?assembly='.$production_name;
+  if ($alternate{$production_name}){
+    $src .= '&altAssembly='.$alternate{$production_name}->[0].'view=compare&altView=circle'
+  }
+  else {
+    $src .= '&view=circle';
+  }
+  $src .= '&altView=cumulative';
 
-
-  my $assembly_text = '<iframe src="http://content.lepbase.org/pages/assemblies/assembly-stats.html?assembly='.$production_name.'&view=circle" width="600" height="600"></iframe>';
+  my $assembly_text = '<iframe src="$src" width="600" height="600"></iframe>';
   $assembly_text .= '<p>Assembly stats plots are described at <a href="http://github.com/rjchallis/assembly_stats">github.com/rjchallis/assembly_stats</a>
   <br/><a href="https://zenodo.org/badge/latestdoi/20772/rjchallis/assembly_stats"><img src="https://zenodo.org/badge/20772/rjchallis/assembly_stats.svg" alt="10.5281/zenodo.49050" /></a>
   </p>';
