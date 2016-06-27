@@ -194,7 +194,7 @@ my (@sections);
 
   my $src = 'http://content.lepbase.org/pages/assemblies/assembly-stats.html?assembly='.$production_name;
   if ($alternate{$production_name}){
-    $src .= '&altAssembly='.$alternate{$production_name}->[0].'view=compare&altView=circle'
+    $src .= '&altAssembly='.$alternate{$production_name}->[0].'&view=compare&altView=circle'
   }
   else {
     $src .= '&view=circle';
