@@ -188,7 +188,7 @@ my (@sections);
 
 
 
-  my $assembly_text = EnsEMBL::Web::Controller::SSI::template_INCLUDE($self, "/ssi/species/${species}_assembly.html");
+  my $assembly_text = '<iframe src="http://content.lepbase.org/pages/assemblies/assembly-stats.html?assembly='.$production_name.'&view=circle" width="600" height="600"></iframe>';
   $assembly_text .= '<p>Assembly stats plots are described at <a href="http://github.com/rjchallis/assembly_stats">github.com/rjchallis/assembly_stats</a>
   <br/><a href="https://zenodo.org/badge/latestdoi/20772/rjchallis/assembly_stats"><img src="https://zenodo.org/badge/20772/rjchallis/assembly_stats.svg" alt="10.5281/zenodo.49050" /></a>
   </p>';
