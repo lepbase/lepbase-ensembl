@@ -238,13 +238,19 @@ my (@sections);
   my @order = qw(provider species assembly genebuild);
   my $table = '<table class="lb-meta-table">';
   while (my $group = shift @order){
+    my $i = 0;
     foreach my $key (sort keys %{$p->{$group}}){
-      $table .= '<tr><td class="lb-meta-group">'.$group.'</td><td class="lb-meta-key">'.$key.'</td><td class="lb-meta-value">'.$p->{$group}{$key}.'</td></tr>';
+      my $g = $i == 0 ? ucfirst $group : '';
+      my $k = $key;
+      $k =~ s/_/ /g;
+      my $value = $p->{$group}{$key};
+      $table .= '<tr><td class="lb-meta-group">'.$g.'</td><td class="lb-meta-key">'.$k.'</td><td class="lb-meta-value">'.$value.'</td></tr>';
+      $i++;
     }
   }
   $table .= '</table>';
 
-  my $meta_text = '<h3 class="lb-heading">Codon usage</h3><p/>'.$table;
+  my $meta_text = '<h3 class="lb-heading">Assembly metadata</h3><p/>'.$table;
 
   push @sections,$meta_text;
 
