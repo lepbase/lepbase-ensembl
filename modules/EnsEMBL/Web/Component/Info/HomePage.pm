@@ -220,11 +220,18 @@ my (@sections);
 
   # add meta table from json file
   use JSON;
-  open IN,"/ssi/species/${species}.meta.json";
-  my $json = '';
-  while (<IN>){
-    chomp;
-    $json .= $_;
+  my $file = "/ssi/species/${species}.meta.json";
+  foreach my $root (@SiteDefs::ENSEMBL_HTDOCS_DIRS) {
+    my $filename = "$root/$file";
+
+    if (-f $filename && -e $filename) {
+      if (open FH, $filename) {
+        local($/) = undef;
+        $json = <FH>;
+        close FH;
+        last;
+      }
+    }
   }
   my $p = from_json ($json);
 
