@@ -221,6 +221,7 @@ my (@sections);
   # add meta table from json file
   use JSON;
   my $file = "/ssi/species/${species}.meta.json";
+  my $json;
   foreach my $root (@SiteDefs::ENSEMBL_HTDOCS_DIRS) {
     my $filename = "$root/$file";
 
@@ -234,8 +235,16 @@ my (@sections);
     }
   }
   my $p = from_json ($json);
+  my @order = qw(provider species assembly genebuild);
+  my $table = '<table class="lb-meta-table">';
+  while (my $group = shift @order){
+    foreach my $key (sort keys %{$p->{$group}}){
+      $table .= '<tr><td>'.$key.'</td><td>'.$p->{$group}{$key}.'</td></tr>';
+    }
+  }
+  $table .= '</table>';
 
-  push @sections,$p->{provider}{name};
+  push @sections,$table;
 
 
   if ($self->has_compara or $self->has_pan_compara) {
