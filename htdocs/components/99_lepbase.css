@@ -90,7 +90,7 @@ a.lb-alternate-assemblies {
   width:700px;
   margin:10px;
 }
-.lb-meta-group {
+.lb-meta-group, .lb-meta-key {
   font-weight:bold;
 }
 
