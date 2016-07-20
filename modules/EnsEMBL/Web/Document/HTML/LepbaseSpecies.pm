@@ -111,7 +111,7 @@ sub render_with_images {
   foreach (@$species_list) {
     my $links = '<span class="lb-alternate-assemblies">';
     foreach my $asm (@{$assemblies->{$_}}){
-      $links .= qq(<a href="$asm->{'key'}/Info/Index">$asm->{'assembly'}</a>
+      $links .= qq(<a class="lb-alternate-assemblies" href="$asm->{'key'}/Info/Index">$asm->{'assembly'}</a>
       );
     }
     $links .= '</span>';
