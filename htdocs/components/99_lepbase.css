@@ -24,19 +24,25 @@
   margin-top:-2px;
 }
 
-.species-list div.lb-species-box a {
+.lb-primary-assembly {
   font-size: 108%;
   display: inherit;
+  text-decoration: none;
+  font-weight: bold;
 }
 
-.species-list div.lb-species-box a span {
-    font-size: 1em;
-    text-decoration: none;
-    font-weight: bold;
+.lb-alternate-assemblies {
+  font-size: 108%;
+  display: inherit;
+  color:#666666;
+  margin-right:1em;
+  text-decoration: none;
+  font-weight: normal;
 }
 .lb-sp-img {
   float: left;
   margin-right: 8px;
+  text-decoration: none;
 }
 .lb-sp-img img {
   display: block;

@@ -109,9 +109,9 @@ sub render_with_images {
 
 
   foreach (@$species_list) {
-    my $links = '<span>';
+    my $links = '<span class="lb-alternate-assemblies">';
     foreach my $asm (@{$assemblies->{$_}}){
-      $links .= qq(<a style="color:#666666;margin-right:1em;whitespace:no-wrap;" href="$asm->{'key'}/Info/Index">$asm->{'assembly'}</a>
+      $links .= qq(<a href="$asm->{'key'}/Info/Index">$asm->{'assembly'}</a>
       );
     }
     $links .= '</span>';
@@ -121,7 +121,7 @@ sub render_with_images {
           <div class="lb-sp-img"><img src="$static_server/i/species/48/$assemblies->{$_}[0]->{'key'}.png" alt="$assemblies->{$_}[0]->{'name'}" title="Browse $assemblies->{$_}[0]->{'name'}" height="48" width="48" /></span>
         </a>
         <a href="$assemblies->{$_}[0]->{'key'}/Info/Index">
-          <span>$assemblies->{$_}[0]->{'scientific'}</span>
+          <span class="lb-primary-assembly">$assemblies->{$_}[0]->{'scientific'}</span>
         </a>
         $links
       </div>
