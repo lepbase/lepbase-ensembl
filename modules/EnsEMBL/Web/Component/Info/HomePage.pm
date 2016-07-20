@@ -195,9 +195,9 @@ my (@sections);
   }
   $src .= '&altView=cumulative';
 
-  my $assembly_text = '<iframe src="'.$src.'" width="600" height="600" style"border:none"></iframe>';
-  $assembly_text .= '<p>Assembly stats plots are described at <a href="http://github.com/rjchallis/assembly_stats">github.com/rjchallis/assembly_stats</a>
-  <br/><a href="https://zenodo.org/badge/latestdoi/20772/rjchallis/assembly_stats"><img src="https://zenodo.org/badge/20772/rjchallis/assembly_stats.svg" alt="10.5281/zenodo.49050" /></a>
+  my $assembly_text = '<h3>Assembly statistics</h3><iframe src="'.$src.'" width="700" height="700" style"border:none"></iframe>';
+  $assembly_text .= '<p>Assembly stats plots are described at <a href="http://github.com/rjchallis/assembly-stats">github.com/rjchallis/assembly-stats</a>
+  <br/><a href="https://zenodo.org/badge/latestdoi/20772/rjchallis/assembly-stats"><img src="https://zenodo.org/badge/20772/rjchallis/assembly-stats.svg" alt="10.5281/zenodo.56996" /></a>
   </p>';
 
   push(@sections, $assembly_text);
@@ -207,7 +207,16 @@ my (@sections);
   #  push(@sections, 'no-tint'.$annotation_text);
   #}
 
+  $src = 'http://content.lepbase.org/pages/annotation/codon-usage.html?assembly='.$production_name.'&view=plot&altView=table';
+  if ($alternate{$production_name}){
+    $src .= '&altAssembly='.$alternate{$production_name}->[0];
+  }
+  my $codon_text = '<h3>Codon usgae</h3><iframe src="'.$src.'" width="700" height="700" style"border:none"></iframe>';
+  $codon_text .= '<p>Codon usage plots are described at <a href="http://github.com/rjchallis/codon-usage">github.com/rjchallis/codon-usage</a>
+  <br/><a href="https://zenodo.org/badge/latestdoi/20772/rjchallis/assembly-stats"><img src="https://zenodo.org/badge/20772/rjchallis/assembly-stats.svg" alt="10.5281/zenodo.56681" /></a>
+  </p>';
 
+  push(@sections, $codon_text);
 
 
 
