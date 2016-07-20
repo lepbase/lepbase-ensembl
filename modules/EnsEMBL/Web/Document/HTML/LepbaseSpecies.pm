@@ -118,9 +118,11 @@ sub render_with_images {
     $html .= qq(
       <div class="lb-species-box">
         <a href="$assemblies->{$_}[0]->{'key'}/Info/Index">
-          <span class="sp-img"><img src="$static_server/i/species/48/$assemblies->{$_}[0]->{'key'}.png" alt="$assemblies->{$_}[0]->{'name'}" title="Browse $assemblies->{$_}[0]->{'name'}" height="48" width="48" /></span>
+          <div class="lb-sp-img"><img src="$static_server/i/species/48/$assemblies->{$_}[0]->{'key'}.png" alt="$assemblies->{$_}[0]->{'name'}" title="Browse $assemblies->{$_}[0]->{'name'}" height="48" width="48" /></span>
+        </a>
+        <a href="$assemblies->{$_}[0]->{'key'}/Info/Index">
           <span>$assemblies->{$_}[0]->{'scientific'}</span>
-        </a><br/>
+        </a>
         $links
       </div>
     );

@@ -34,17 +34,17 @@
     text-decoration: none;
     font-weight: bold;
 }
-.lb-species-box span.sp-img {
+.lb-sp-img {
   float: left;
   margin-right: 8px;
 }
-.lb-species-box img {
-    display: block;
-    height: 48px;
-    width: 48px;
-    border-radius: 7px;
-    -moz-border-radius: 7px;
-    -webkit-border-radius: 7px;
+.lb-sp-img img {
+  display: block;
+  height: 48px;
+  width: 48px;
+  border-radius: 7px;
+  -moz-border-radius: 7px;
+  -webkit-border-radius: 7px;
 }
 
 .lb-info-box {
