@@ -61,6 +61,12 @@ a.lb-alternate-assemblies {
   vertical-align: top;
   padding: 6px;
 }
+
+ .lb-iframe {
+   padding:0;
+   background-color:white;
+ }
+
 div#wide-footer, div#footer {
   background-color: #768293;
   margin: 10px 0px;
