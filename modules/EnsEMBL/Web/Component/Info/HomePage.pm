@@ -239,12 +239,14 @@ my (@sections);
   my $table = '<table class="lb-meta-table">';
   while (my $group = shift @order){
     foreach my $key (sort keys %{$p->{$group}}){
-      $table .= '<tr><td>'.$key.'</td><td>'.$p->{$group}{$key}.'</td></tr>';
+      $table .= '<tr><td class="lb-meta-group">'.$group.'</td><td class="lb-meta-key">'.$key.'</td><td class="lb-meta-value">'.$p->{$group}{$key}.'</td></tr>';
     }
   }
   $table .= '</table>';
 
-  push @sections,$table;
+  my $meta_text = '<h3 class="lb-heading">Codon usage</h3><p/>'.$table;
+
+  push @sections,$meta_text;
 
 
   if ($self->has_compara or $self->has_pan_compara) {
