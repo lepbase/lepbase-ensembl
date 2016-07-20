@@ -34,13 +34,13 @@ sub render {
   my $self      = shift;
   my $fragment  = shift eq 'fragment';
   my $full_list = $self->render_species_list($fragment);
-  
+
   my $html = $fragment ? $full_list : sprintf('
       <div class="reorder_species" style="display: none;">
          %s
       </div>
       <div class="full_species">
-        %s 
+        %s
       </div>
   ', $self->render_ajax_reorder_list, $full_list);
 
@@ -56,17 +56,17 @@ sub render_species_list {
   my $logins        = $hub->users_available;
   my $user          = $hub->user;
   my $species_info  = $hub->get_species_info;
-  
+
   my (@ok_faves, %assemblies, %check_faves);
-  
+
   foreach (@{$hub->get_favourite_species}) {
     push @ok_faves, $species_info->{$_}->{'scientific'} unless $check_faves{$species_info->{$_}->{'scientific'}}++;
     push @{$assemblies{$species_info->{$_}->{'scientific'}}}, $species_info->{$_};
   }
   my $fav_html = $self->render_with_images(\@ok_faves,\%assemblies);
-  my $html = qq{<div class="static_favourite_species"><h3>Available genomes</h3><div class="species_list_container species-list">$fav_html</div></div>};
-  
-  
+  my $html = qq{<div class="static_favourite_species"><!--h3>Available genomes</h3--><div class="species_list_container species-list">$fav_html</div></div>};
+
+
   return $html;
 }
 
@@ -79,12 +79,12 @@ sub render_ajax_reorder_list {
   my $favourites    = $hub->get_favourite_species;
   my %species_info  = %{$hub->get_species_info};
   my @fav_list      = map qq\<li id="favourite-$_->{'key'}">$_->{'common'} (<em>$_->{'scientific'}</em>)</li>\, map $species_info{$_}, @$favourites;
-  
+
   delete $species_info{$_} for @$favourites;
-  
+
   my @sorted       = sort { $a->{'common'} cmp $b->{'common'} } values %species_info;
   my @species_list = map qq\<li id="species-$_->{'key'}">$_->{'common'} (<em>$_->{'scientific'}</em>)</li>\, @sorted;
-  
+
   return sprintf('
     <p>For easy access to commonly used genomes, drag from the bottom list to the top one &middot; <span class="link toggle_link">Save</span></p>
     <p><strong>Favourites</strong></p>
@@ -106,7 +106,7 @@ sub render_with_images {
   my $static_server = $species_defs->ENSEMBL_STATIC_SERVER;
   my $html;
 
-  
+
 
   foreach (@$species_list) {
     my $links = '<span>';
@@ -116,7 +116,7 @@ sub render_with_images {
     }
     $links .= '</span>';
     $html .= qq(
-      <div class="species-box">
+      <div class="lb-species-box">
         <a href="$assemblies->{$_}[0]->{'key'}/Info/Index">
           <span class="sp-img"><img src="$static_server/i/species/48/$assemblies->{$_}[0]->{'key'}.png" alt="$assemblies->{$_}[0]->{'name'}" title="Browse $assemblies->{$_}[0]->{'name'}" height="48" width="48" /></span>
           <span>$assemblies->{$_}[0]->{'scientific'}</span>

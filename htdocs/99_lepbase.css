@@ -1,0 +1,38 @@
+.lb-column-one {
+  text-align: center;
+  width: 100%;
+  margin: auto;
+}
+.lb-plain-box {
+  background: none;
+  border: none;
+}
+.lb-species-box {
+  width: 308px;
+  display: inline-table;
+  text-align: left;
+  background-color: #d3dde9;
+  margin: 2px 1px;
+  overflow: hidden;
+}
+
+.species-list div.lb-species-box span.sp-img {
+  padding: 0;
+  border: none;
+  background: none;
+}
+
+.species-list div.lb-species-box a span {
+  font-size: 108%;
+  display: inherit;
+}
+.lb-species-box span.sp-img {
+  float: left;
+  margin-right: 8px;
+}
+
+.lb-info-box {
+    max-width: 700px;
+    display: inline-block;
+    margin: 2px 1px;
+}
