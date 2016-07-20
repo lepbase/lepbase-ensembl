@@ -219,8 +219,14 @@ my (@sections);
   push(@sections, $codon_text);
 
   # add meta table from json file
-  use JSON::Parse 'json_file_to_perl';
-  my $p = json_file_to_perl ("/ssi/species/${species}.meta.json");
+  use JSON;
+  open IN,"/ssi/species/${species}.meta.json";
+  my $json = '';
+  while (<IN>){
+    chomp;
+    $json .= $_;
+  }
+  my $p = from_json ($json);
 
   push @sections,$p->{provider}{name};
 
