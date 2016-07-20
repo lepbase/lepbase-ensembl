@@ -177,7 +177,7 @@ sub content {
   $html .= '<div class="column-wrapper"><div class="lb-column-left">';
   my $search_text = EnsEMBL::Web::Document::HTML::HomeSearch->new($hub)->render;
   if ($about_text || $search_text) {
-    $html .= '<div class="lb-info-box lb-wide-box">';
+    $html .= '<div class="lb-info-box lb-species-page">';
     $html .= '<h3 class="lb-heading">About <em>'.$species_defs->SPECIES_SCIENTIFIC_NAME.'</em></h3>'.$about_text.'<br/>' if $about_text;
     $html .= $search_text.'<br/>' if $search_text;
     $html .= '</div>';
@@ -245,7 +245,7 @@ my (@sections);
   my $side = 0;
   foreach my $section (@sections){
 
-  	$html .= '<div class="lb-info-box lb-iframe">'.$section.'</div>';
+  	$html .= '<div class="lb-info-box lb-species-page">'.$section.'</div>';
   }
 
 
