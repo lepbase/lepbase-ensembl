@@ -31,7 +31,7 @@
 }
 
 a.lb-alternate-assemblies {
-  font-size: 108%;
+  font-size: 90%;
   color:#666666;
   margin-right:1em;
   text-decoration: none;
@@ -53,11 +53,25 @@ a.lb-alternate-assemblies {
 }
 
 .lb-info-box {
-    max-width: 700px;
-    display: inline-block;
-    margin: 2px 1px;
-    background-color: #dbe6f3;
-    border-color: #dbe6f3;
-    vertical-align: top;
-    padding: 6px;
+  max-width: 700px;
+  display: inline-block;
+  margin: 2px 1px;
+  background-color: #dbe6f3;
+  border-color: #dbe6f3;
+  vertical-align: top;
+  padding: 6px;
+}
+div.wide-footer {
+  background-color: #768293;
+  margin: 10px 0px;
+  padding: 16px 10px;
+}
+
+div.wide-footer a {
+  color: #ffffff;
+  text-decoration:none;
+}
+
+div.cookie-message {
+  padding: 0 10px;
 }
