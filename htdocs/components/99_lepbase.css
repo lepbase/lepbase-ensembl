@@ -48,17 +48,6 @@
     max-width: 700px;
     display: inline-block;
     margin: 2px 1px;
-}
-
-.lb-plain-box {
     background-color: #dbe6f3;
     border-color: #dbe6f3;
-}
-.lb-plain-box, .lb-tinted-box, .lb-info-box, .lb-round-box, .lb-alert-box, .lb-embedded-box {
-    padding: 16px 16px 0;
-    margin-bottom: 16px;
-    border-width: 1px;
-    border-style: solid;
-    overflow: hidden;
-    border-radius: 0;
 }
