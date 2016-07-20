@@ -211,13 +211,18 @@ my (@sections);
   if ($alternate{$production_name}){
     $src .= '&altAssembly='.$alternate{$production_name}->[0];
   }
-  my $codon_text = '<h3 class="lb-heading">Codon usgae</h3><iframe class="lb-iframe" src="'.$src.'"></iframe>';
+  my $codon_text = '<h3 class="lb-heading">Codon usage</h3><iframe class="lb-iframe" src="'.$src.'"></iframe>';
   $codon_text .= '<p>Codon usage plots are described at <a href="http://github.com/rjchallis/codon-usage">github.com/rjchallis/codon-usage</a>
-  <br/><a href="https://zenodo.org/badge/latestdoi/20772/rjchallis/assembly-stats"><img src="https://zenodo.org/badge/20772/rjchallis/assembly-stats.svg" alt="10.5281/zenodo.56681" /></a>
+  <br/><a href="https://zenodo.org/badge/latestdoi/20772/rjchallis/codon-usage"><img src="https://zenodo.org/badge/20772/rjchallis/codon-usage.svg" alt="10.5281/zenodo.56681" /></a>
   </p>';
 
   push(@sections, $codon_text);
 
+  # add meta table from json file
+  use JSON::Parse 'json_file_to_perl';
+  my $p = json_file_to_perl ("/ssi/species/${species}.meta.json");
+
+  push @sections,$p->{provider}{name};
 
 
   if ($self->has_compara or $self->has_pan_compara) {
