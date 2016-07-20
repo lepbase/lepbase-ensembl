@@ -178,7 +178,7 @@ sub content {
   my $search_text = EnsEMBL::Web::Document::HTML::HomeSearch->new($hub)->render;
   if ($about_text || $search_text) {
     $html .= '<div class="lb-info-box lb-wide-box">';
-    $html .= '<h3 "class=lb-heading">About <em>'.$species_defs->SPECIES_SCIENTIFIC_NAME.'</em></h3>'.$about_text.'<br/>' if $about_text;
+    $html .= '<h3 "class=lb-heading">About <i>'.$species_defs->SPECIES_SCIENTIFIC_NAME.'</i></h3>'.$about_text.'<br/>' if $about_text;
     $html .= $search_text.'<br/>' if $search_text;
     $html .= '</div>';
   }
