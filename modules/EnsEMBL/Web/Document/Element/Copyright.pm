@@ -45,8 +45,8 @@ sub content {
 ## BEGIN LEPBASE MODIFICATIONS...
   return sprintf( qq(
   <div class="column-two left">
-		   %s release %s - %s
-		  Lepbse &copy; <span class="print_hide"><a href="http://www.ed.ac.uk/" style="white-space:nowrap">Edinburgh University</a> / EnsEMBL &copy; <a href="http://www.ebi.ac.uk/" style="white-space:nowrap">EBI</a></span>
+		   %s release %s - %s -
+		  Lepbase &copy; <span class="print_hide"><a href="http://www.ed.ac.uk/" style="white-space:nowrap">Edinburgh University</a> / EnsEMBL &copy; <a href="http://www.ebi.ac.uk/" style="white-space:nowrap">EBI</a></span>
       <span class="screen_hide_inline">Lepbase</span>
   </div>),     "Lepbase", "3", "July 2016"
 ## ...END LEPBASE MODIFICATIONS
