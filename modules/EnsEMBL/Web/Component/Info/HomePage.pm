@@ -207,7 +207,7 @@ my (@sections);
   #  push(@sections, 'no-tint'.$annotation_text);
   #}
 
-  $src = 'http://content.lepbase.org/pages/annotation/codon-usage.html?assembly='.$production_name.'&view=plot&altView=table';
+  $src = 'http://content.lepbase.org/pages/annotations/codon-usage.html?assembly='.$production_name.'&view=plot&altView=table';
   if ($alternate{$production_name}){
     $src .= '&altAssembly='.$alternate{$production_name}->[0];
   }
@@ -244,6 +244,9 @@ my (@sections);
       my $k = $key;
       $k =~ s/_/ /g;
       my $value = $p->{$group}{$key};
+      if ($key eq 'url'){
+        $value = '<a href="value">'.$value.'</a>'
+      }
       $table .= '<tr><td class="lb-meta-group">'.$g.'</td><td class="lb-meta-key">'.$k.'</td><td class="lb-meta-value">'.$value.'</td></tr>';
       $i++;
     }
