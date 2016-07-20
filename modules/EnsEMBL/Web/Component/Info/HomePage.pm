@@ -164,30 +164,28 @@ sub content {
     $provider_link = $hub->make_link_tag(text => $species_defs->PROVIDER_NAME, url => $species_defs->PROVIDER_URL) . " | ";
   }
 
+###
+# BEGIN LEPBASE MODIFICATION...
   my %alternate = (
     'Danaus_plexippus_v3' => ['Heliconius_melpomene_Hmel2'],
     'Heliconius_melpomene_Hmel2' => ['Danaus_plexippus_v3']
   );
 
-###
-# BEGIN LEPBASE MODIFICATION...
   my $html = '';
 
   my $about_text = $self->_other_text('about', $species);
-  $html .= '<div class="column-wrapper">';
-    if ($about_text) {
-    $html .= '<div class="round-box tinted-box unbordered">';
-    $html .= $about_text;
-    #$html .= qq(<p><a href="/$species/Info/Annotation/#about" class="nodeco"><img src="${img_url}24/info.png" alt="" class="homepage-link" />More information and statistics</a></p>);
-    $html .= '</div>';
-  }
+  $html .= '<div class="column-wrapper"><div class="lb-column-one">';
   my $search_text = EnsEMBL::Web::Document::HTML::HomeSearch->new($hub)->render;
-  if ($search_text) {
-    $html .= '<div class="round-box tinted-box unbordered">';
-    $html .= '<h2>Getting started</h2>'.$search_text.'<br/>';
+  if ($about_text || $search_text) {
+    $html .= '<div class="lb-info-box lb-wide-box">';
+    $html .= $about_text.'<br/>' if $about_text;
+    $html .= $search_text.'<br/>' if $search_text;
     $html .= '</div>';
   }
-  $html .= '</div>';
+
+
+  
+  $html .= '</div></div>';
 
 
 my (@sections);

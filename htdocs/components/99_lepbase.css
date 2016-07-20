@@ -67,7 +67,7 @@ div#wide-footer, div#footer {
   padding: 16px 10px;
 }
 
-div#wide-footer a {
+div#wide-footer a, div#footer a {
   color: #ffffff;
   text-decoration:none;
 }
