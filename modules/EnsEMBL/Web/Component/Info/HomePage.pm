@@ -195,7 +195,7 @@ my (@sections);
   }
   $src .= '&altView=cumulative';
 
-  my $assembly_text = '<h3>Assembly statistics</h3><iframe src="'.$src.'" width="700" height="700" style"border:none"></iframe>';
+  my $assembly_text = '<h3 class="lb-heading">Assembly statistics</h3><iframe class="lb-iframe" src="'.$src.'"></iframe>';
   $assembly_text .= '<p>Assembly stats plots are described at <a href="http://github.com/rjchallis/assembly-stats">github.com/rjchallis/assembly-stats</a>
   <br/><a href="https://zenodo.org/badge/latestdoi/20772/rjchallis/assembly-stats"><img src="https://zenodo.org/badge/20772/rjchallis/assembly-stats.svg" alt="10.5281/zenodo.56996" /></a>
   </p>';
@@ -211,7 +211,7 @@ my (@sections);
   if ($alternate{$production_name}){
     $src .= '&altAssembly='.$alternate{$production_name}->[0];
   }
-  my $codon_text = '<h3>Codon usgae</h3><iframe src="'.$src.'" width="700" height="700" style"border:none"></iframe>';
+  my $codon_text = '<h3 class="lb-heading">Codon usgae</h3><iframe class="lb-iframe" src="'.$src.'"></iframe>';
   $codon_text .= '<p>Codon usage plots are described at <a href="http://github.com/rjchallis/codon-usage">github.com/rjchallis/codon-usage</a>
   <br/><a href="https://zenodo.org/badge/latestdoi/20772/rjchallis/assembly-stats"><img src="https://zenodo.org/badge/20772/rjchallis/assembly-stats.svg" alt="10.5281/zenodo.56681" /></a>
   </p>';

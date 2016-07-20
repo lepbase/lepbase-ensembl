@@ -62,11 +62,24 @@ a.lb-alternate-assemblies {
   padding: 6px;
 }
 
- .lb-iframe {
+ div.lb-iframe {
    padding:0;
    background-color:white;
  }
+ iframe.lb-iframe {
+   width:700px;
+   height:700px;
+   border:none;
+ }
 
+ h3.lb-heading {
+    font-size: 1.1em;
+    line-height: 2.5em;
+    background-color: #555555;
+    color: white;
+    margin-bottom: 0;
+    text-align: center
+}
 div#wide-footer, div#footer {
   background-color: #768293;
   margin: 10px 0px;
