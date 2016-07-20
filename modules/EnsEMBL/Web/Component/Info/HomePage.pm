@@ -204,7 +204,7 @@ my (@sections);
   <br/><a href="https://zenodo.org/badge/latestdoi/20772/rjchallis/assembly_stats"><img src="https://zenodo.org/badge/20772/rjchallis/assembly_stats.svg" alt="10.5281/zenodo.49050" /></a>
   </p>';
 
-
+  push(@sections, 'no-tint'.$assembly_text);
   #my $annotation_text = EnsEMBL::Web::Controller::SSI::template_INCLUDE($self, "/ssi/species/stats_${species}.html");
   #$annotation_text .= $self->_other_text('annotation', $species);
   #if ($annotation_text) {
