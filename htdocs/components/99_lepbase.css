@@ -14,20 +14,23 @@
   background-color: #d3dde9;
   margin: 2px 1px;
   overflow: hidden;
+  padding-top:4px;
 }
 
 .species-list div.lb-species-box span.sp-img {
   padding: 0;
   border: none;
   background: none;
+  margin-top:-2px;
 }
 
-.species-list div.lb-species-box a span {
+.species-list div.lb-species-box a {
   font-size: 108%;
   display: inherit;
 }
 
 .species-list div.lb-species-box a span {
+    font-size: 1em;
     text-decoration: none;
     font-weight: bold;
 }
@@ -50,4 +53,6 @@
     margin: 2px 1px;
     background-color: #dbe6f3;
     border-color: #dbe6f3;
+    vertical-align: top;
+    padding: 6px;
 }
