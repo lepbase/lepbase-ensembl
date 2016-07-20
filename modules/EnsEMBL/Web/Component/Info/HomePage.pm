@@ -184,7 +184,7 @@ sub content {
   }
 
 
-  
+
   $html .= '</div></div>';
 
 
@@ -205,29 +205,15 @@ my (@sections);
   </p>';
 
 
-  $assembly_text .= $self->_other_text('assembly', $species);
-  if ($assembly_text) {
-    push(@sections, 'no-tint'.$assembly_text);
-  }
-
-  my $annotation_text = EnsEMBL::Web::Controller::SSI::template_INCLUDE($self, "/ssi/species/stats_${species}.html");
-  $annotation_text .= $self->_other_text('annotation', $species);
-  if ($annotation_text) {
-    push(@sections, 'no-tint'.$annotation_text);
-  }
-  my $reference_text = $self->_other_text('references', $species);
-  if ($reference_text) {
-    push(@sections, $reference_text);
-  }
+  #my $annotation_text = EnsEMBL::Web::Controller::SSI::template_INCLUDE($self, "/ssi/species/stats_${species}.html");
+  #$annotation_text .= $self->_other_text('annotation', $species);
+  #if ($annotation_text) {
+  #  push(@sections, 'no-tint'.$annotation_text);
+  #}
 
 
-#  push(@sections, $assembly_text);
-# $html .= '<div class="box-left"><div class="round-box tinted-box unbordered">' . $self->_assembly_text . '</div></div>';
-#  push(@sections, $self->_genebuild_text) if $species_defs->SAMPLE_DATA->{GENE_PARAM};
- #$html .= '<div class="box-right"><div class="round-box tinted-box unbordered">' . $self->_genebuild_text . '</div></div>' if $species_defs->SAMPLE_DATA->{GENE_PARAM};
 
-# my @box_class = ('box-left', 'box-right');
-# my $side = 0;
+
 
   if ($self->has_compara or $self->has_pan_compara) {
 ###
@@ -250,21 +236,11 @@ my (@sections);
   # $side++;
   }
 
-  my $other_text = $self->_other_text('other', $species);
-  push(@sections, $other_text) if $other_text =~ /\w/;
- #$html .= '<div class="' . $box_class[$side % 2] . '"><div class="round-box tinted-box unbordered">' . $other_text . '</div></div>' if $other_text =~ /\w/;
-
   my @box_class = ('box-left', 'box-right');
   my $side = 0;
   foreach my $section (@sections){
 
-  	if ($section =~ m/^(no-tint)/){
-  	    $section =~ s/^(no-tint)//;
-    	$html .= sprintf(qq{<div class="%s"><div class="round-box unbordered">%s</div></div>}, $box_class[$side++ %2],$section);
-    }
-    else {
-    	$html .= sprintf(qq{<div class="%s"><div class="round-box tinted-box unbordered">%s</div></div>}, $box_class[$side++ %2],$section);
-  	}
+  	$html .= sprintf(qq{<div class="lb-info-box">';%s</div>}, $section);
   }
 
 # ...END LEPBASE MODIFICATION
