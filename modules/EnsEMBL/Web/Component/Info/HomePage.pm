@@ -174,11 +174,11 @@ sub content {
   my $html = '';
 
   my $about_text = $self->_other_text('about', $species);
-  $html .= '<div class="column-wrapper"><div class="lb-column-one">';
+  $html .= '<div class="column-wrapper"><div class="lb-column-left">';
   my $search_text = EnsEMBL::Web::Document::HTML::HomeSearch->new($hub)->render;
   if ($about_text || $search_text) {
     $html .= '<div class="lb-info-box lb-wide-box">';
-    $html .= $about_text.'<br/>' if $about_text;
+    $html .= '<h3 "class=lb-heading">About <em>'.$species_defs->SCIENTIFIC_NAME.'</em></h3>'.$about_text.'<br/>' if $about_text;
     $html .= $search_text.'<br/>' if $search_text;
     $html .= '</div>';
   }

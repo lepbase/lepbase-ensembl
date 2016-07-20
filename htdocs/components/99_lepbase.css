@@ -3,6 +3,11 @@
   width: 100%;
   margin: auto;
 }
+.lb-column-left {
+  text-align: left;
+  width: 100%;
+  margin: auto;
+}
 .lb-plain-box {
   background: none;
   border: none;
