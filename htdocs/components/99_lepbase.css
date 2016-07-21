@@ -54,8 +54,8 @@ a.lb-alternate-assemblies {
 a.lb-alternate-assemblies:visited {
   color:#aaa;
 }
-a.lb-alternate-assemblies:visited {
-  color:PAGE_HOVER;
+a.lb-alternate-assemblies:hover {
+  color:[[PAGE_HOVER]];
 }
 
 .lb-sp-img {
@@ -142,11 +142,11 @@ div#wide-footer a, div#footer a {
   text-decoration:underline;
 }
 
-div#wide-footer a, div#footer a:visited {
+div#wide-footer a:visited, div#footer a:visited {
   color: [[MH_LINK]];
 }
 
-div#wide-footer a, div#footer a:hover {
+div#wide-footer a:hover, div#footer a:hover {
   color: [[MH_HOVER]];
 }
 
