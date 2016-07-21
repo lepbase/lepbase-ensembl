@@ -109,24 +109,29 @@ a.lb-alternate-assemblies:hover {
     text-align: center
 }
 
+div.tools-holder {
+  top: 24px;
+  left: 200px;
+  position: absolute;
+}
+
 div.lb-menu-category {
   float: left;
-  height: 30px;
-  margin-left: 15px;
+  height: 22px;
+  margin-left: 4px;
   background-color: [[PAGE_BG]];
   padding: 5px;
   border: 2px solid [[MH_BG]];
   border-radius: 4px;
   color: [[MH_BG]];
-  line-height: 30px;
+  line-height: 22px;
   font-weight: bold;
-  font-size: 16px;
+  font-size: 14px;
   font-family: sans-serif;
 }
 
 a div.lb-menu-category:hover {
   border: 2px solid [[MH_HOVER]];
-  color: [[MH_HOVER]];
 }
 
 img.lb-menu-linkicon {
