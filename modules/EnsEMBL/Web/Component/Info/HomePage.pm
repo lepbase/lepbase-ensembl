@@ -174,7 +174,7 @@ sub content {
   my $html = '';
 
   my $about_text = $self->_other_text('about', $species);
-  $html .= '<div class="column-wrapper"><div class="lb-column-left">';
+  $html .= '<div class="column-wrapper lb-species-page"><div class="lb-column-left"><div class="lb-panel-container">';
   my $search_text = EnsEMBL::Web::Document::HTML::HomeSearch->new($hub)->render;
   if ($about_text || $search_text) {
     $html .= '<div class="lb-info-box lb-species-page">';
@@ -184,7 +184,6 @@ sub content {
   }
 
 
-my (@sections);
 
   my $src = 'http://content.lepbase.org/pages/assemblies/assembly-stats.html?assembly='.$production_name;
   if ($alternate{$production_name}){
@@ -200,12 +199,8 @@ my (@sections);
   <br/><a href="https://zenodo.org/badge/latestdoi/20772/rjchallis/assembly-stats"><img src="https://zenodo.org/badge/20772/rjchallis/assembly-stats.svg" alt="10.5281/zenodo.56996" /></a>
   </p>';
 
-  push(@sections, $assembly_text);
-  #my $annotation_text = EnsEMBL::Web::Controller::SSI::template_INCLUDE($self, "/ssi/species/stats_${species}.html");
-  #$annotation_text .= $self->_other_text('annotation', $species);
-  #if ($annotation_text) {
-  #  push(@sections, 'no-tint'.$annotation_text);
-  #}
+  $html .= '<div class="lb-info-box lb-species-page">'.$assembly_text.'</div>';
+  $html .= '</div><div class="lb-panel-container">';
 
   $src = 'http://content.lepbase.org/pages/annotations/codon-usage.html?assembly='.$production_name.'&view=plot&altView=table';
   if ($alternate{$production_name}){
@@ -216,7 +211,7 @@ my (@sections);
   <br/><a href="https://zenodo.org/badge/latestdoi/20772/rjchallis/codon-usage"><img src="https://zenodo.org/badge/20772/rjchallis/codon-usage.svg" alt="10.5281/zenodo.56681" /></a>
   </p>';
 
-  push(@sections, $codon_text);
+  $html .= '<div class="lb-info-box lb-species-page">'.$codon_text.'</div>';
 
   # add meta table from json file
   use JSON;
@@ -255,10 +250,10 @@ my (@sections);
 
   my $meta_text = '<h3 class="lb-heading">Assembly metadata</h3><p/>'.$table;
 
-  push @sections,$meta_text;
+  $html .= '<div class="lb-info-box lb-species-page">'.$meta_text.'</div>';
 
 
-  if ($self->has_compara or $self->has_pan_compara) {
+#  if ($self->has_compara or $self->has_pan_compara) {
 ###
 # comment out for initial lepbase release
 #    push(@sections, $self->_compara_text);
@@ -273,22 +268,22 @@ my (@sections);
  #$html .= '<div class="' . $box_class[$side % 2] . '"><div class="round-box tinted-box unbordered">' . $self->_variation_text . '</div></div>';
  #$side++;
 
-  if ($hub->database('funcgen')) {
-    push(@sections, $self->_funcgen_text);
+#  if ($hub->database('funcgen')) {
+#    push(@sections, $self->_funcgen_text);
   # $html .= '<div class="' . $box_class[$side % 2] . '"><div class="round-box tinted-box unbordered">' . $self->_funcgen_text . '</div></div>';
   # $side++;
-  }
+#  }
 
-  my @box_class = ('box-left', 'box-right');
-  my $side = 0;
-  foreach my $section (@sections){
-
-  	$html .= '<div class="lb-info-box lb-species-page">'.$section.'</div>';
-  }
+#  my @box_class = ('box-left', 'box-right');
+#  my $side = 0;
+#  foreach my $section (@sections){
 
 
+#  }
 
-  $html .= '</div></div>';
+
+
+  $html .= '</div></div></div>';
 
 # ...END LEPBASE MODIFICATION
 ###

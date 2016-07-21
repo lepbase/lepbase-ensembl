@@ -71,6 +71,20 @@ a.lb-alternate-assemblies {
    padding:0;
    background-color:white;
  }
+
+.column-wrapper.lb-species-page {
+   max-width:1600px;
+ }
+
+.lb-info-box.lb-species-page {
+   text-align:left;
+ }
+ .lb-panel-container {
+   width:50%;
+   display:inline-block;
+   vertical-align:top
+ }
+
  iframe.lb-iframe {
    width:700px;
    height:700px;
@@ -115,4 +129,23 @@ div#wide-footer a, div#footer a {
 
 div.cookie-message {
   padding: 0 10px;
+}
+
+@media (max-width: 1459px) {
+  .lb-info-box {
+    max-width: 500px;
+  }
+
+   .lb-panel-container {
+     width:80%;
+   }
+
+   iframe.lb-iframe {
+     width:500px;
+     height:500px;
+   }
+
+  .lb-meta-table {
+    width:500px;
+  }
 }
