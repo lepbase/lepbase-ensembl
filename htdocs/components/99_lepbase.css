@@ -146,21 +146,6 @@ div.cookie-message {
   }
 }
 
-@media (max-width: 1319px) {
-  .lb-info-box {
-    max-width: 90%;
-  }
-
-   iframe.lb-iframe {
-     width:100%;
-     height:500px;
-   }
-
-  .lb-meta-table {
-    width:100%;
-  }
-}
-
 @media (max-width: 1023px) {
   .lb-info-box {
     width: 100%;
