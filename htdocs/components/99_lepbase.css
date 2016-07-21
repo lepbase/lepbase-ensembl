@@ -133,16 +133,16 @@ div.cookie-message {
 
 @media (max-width: 1459px) {
   .lb-info-box {
-    max-width: 500px;
+    max-width: 90%;
   }
 
    iframe.lb-iframe {
-     width:500px;
-     height:500px;
+     width:100%;
+     height:600px;
    }
 
   .lb-meta-table {
-    width:500px;
+    width:100%;
   }
 }
 
