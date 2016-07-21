@@ -16,7 +16,7 @@
   width: 308px;
   display: inline-table;
   text-align: left;
-  background-color: #d3dde9;
+  background-color: [[MH_BG]];
   margin: 2px 1px;
   overflow: hidden;
   padding-top:4px;
@@ -37,7 +37,7 @@
 
 a.lb-alternate-assemblies {
   font-size: 90%;
-  color:#666666;
+  color:[[PANEL_BG]];
   margin-right:1em;
   text-decoration: none;
   font-weight: normal;
@@ -61,8 +61,6 @@ a.lb-alternate-assemblies {
   max-width: 700px;
   display: inline-block;
   margin: 2px 1px;
-  background-color: #dbe6f3;
-  border-color: #dbe6f3;
   vertical-align: top;
   padding: 6px;
 }
@@ -94,7 +92,7 @@ a.lb-alternate-assemblies {
  h3.lb-heading {
     font-size: 1.1em;
     line-height: 2.5em;
-    background-color: #555555;
+    background-color: [[MH_TAB]];
     color: white;
     margin-bottom: 0;
     text-align: center
@@ -109,7 +107,7 @@ a.lb-alternate-assemblies {
 }
 
 .lb-meta-table tr:nth-child(odd) {
-  background-color: rgba(166, 206, 227,0.5);
+  background-color: [[NEUTRAL_BG]];
 }
 
 .lb-meta-table td {
@@ -117,13 +115,14 @@ a.lb-alternate-assemblies {
 }
 
 div#wide-footer, div#footer {
-  background-color: #768293;
+  background-color: [[MH_BG]];
   margin: 10px 0px;
   padding: 16px 10px;
+  color: [[MH_TEXT]];
 }
 
 div#wide-footer a, div#footer a {
-  color: #ffffff;
+  color: [[MH_LINK]];
   text-decoration:none;
 }
 
