@@ -16,7 +16,7 @@
   width: 275px;
   display: inline-table;
   text-align: left;
-  background-color: [[MH_TAB]];
+  background-color: [[MH_BG]];
   margin: 8px 6px;
   overflow: hidden;
   padding-top:4px;
@@ -31,13 +31,17 @@
 }
 
 .lb-primary-assembly {
-  font-size: 108%;
+  font-size: 120%;
+  line-height: 1.5em;
   text-decoration: none;
-  font-weight: bold;
+  font-weight: normal;
   color:[[PAGE_BG]];
 }
 .lb-primary-assembly:visited {
   color:[[PAGE_BG]];
+}
+.lb-primary-assembly:hover {
+  color:[[PAGE_HOVER]];
 }
 
 a.lb-alternate-assemblies {
@@ -50,6 +54,10 @@ a.lb-alternate-assemblies {
 a.lb-alternate-assemblies:visited {
   color:#aaa;
 }
+a.lb-alternate-assemblies:visited {
+  color:PAGE_HOVER;
+}
+
 .lb-sp-img {
   float: left;
   margin-right: 8px;
@@ -131,7 +139,15 @@ div#wide-footer, div#footer {
 
 div#wide-footer a, div#footer a {
   color: [[MH_LINK]];
-  text-decoration:none;
+  text-decoration:underline;
+}
+
+div#wide-footer a, div#footer a:visited {
+  color: [[MH_LINK]];
+}
+
+div#wide-footer a, div#footer a:hover {
+  color: [[MH_HOVER]];
 }
 
 div.cookie-message {
