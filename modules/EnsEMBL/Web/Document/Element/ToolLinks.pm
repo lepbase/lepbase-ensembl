@@ -53,13 +53,10 @@ sub content {
 
 ## ...END LEPBASE MODIFICATIONS
   my $last  = pop @links;
-  my $tools = join '', map "<li>$_</li>", @links;
+  my $tools = join '', @links;
 
   return qq{
-    <ul class="tools">$tools<li class="last">$last</li></ul>
-    <div class="more">
-      <a href="#">More <span class="arrow">&#9660;</span></a>
-    </div>
+    $tools
   };
 }
 
