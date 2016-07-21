@@ -13,13 +13,14 @@
   border: none;
 }
 .lb-species-box {
-  width: 308px;
+  width: 275px;
   display: inline-table;
   text-align: left;
-  background-color: [[MH_BG]];
-  margin: 2px 1px;
+  background-color: [[MH_TAB]];
+  margin: 8px 6px;
   overflow: hidden;
   padding-top:4px;
+  border-radius:7px;
 }
 
 .species-list div.lb-species-box span.sp-img {
@@ -33,6 +34,10 @@
   font-size: 108%;
   text-decoration: none;
   font-weight: bold;
+  color:[[PAGE_BG]];
+}
+.lb-primary-assembly:visited {
+  color:[[MH_HOVER]];
 }
 
 a.lb-alternate-assemblies {
