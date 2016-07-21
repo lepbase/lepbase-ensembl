@@ -133,7 +133,7 @@ div.cookie-message {
 
 @media (max-width: 1459px) {
   .lb-info-box {
-    max-width: 90%;
+    width: 98%;
   }
 
    iframe.lb-iframe {
