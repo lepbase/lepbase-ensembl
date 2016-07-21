@@ -53,7 +53,7 @@ sub content {
 
 ## ...END LEPBASE MODIFICATIONS
   my $tools = join '', @links;
-
+  $tools = '<div class="lb-tools-holder">'.$tools.'</div>';
   return qq{
     $tools
   };

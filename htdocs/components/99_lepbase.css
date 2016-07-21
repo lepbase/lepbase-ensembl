@@ -109,10 +109,11 @@ a.lb-alternate-assemblies:hover {
     text-align: center
 }
 
-div.tools-holder {
-  top: 24px;
-  left: 200px;
+div.lb-tools-holder {
+  left: 30px;
   position: absolute;
+  width: 500px;
+  top: 11px;
 }
 
 div.lb-menu-category {
