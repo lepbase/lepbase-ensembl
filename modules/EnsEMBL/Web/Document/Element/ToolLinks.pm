@@ -45,14 +45,13 @@ sub content {
 ## BEGIN LEPBASE MODIFICATIONS...
   my $sd    = $self->species_defs;
   my $blog  = $sd->ENSEMBL_BLOG_URL;
-  push @links,   '<a href="http://blast.lepbase.org" title="BLAST"><div class="lb-menu-category"><img title="tools" src="/i/tools-icon.png" class="lb-menu-linkicon"/><h2 class="lb-menu-label">BLAST</h2></div></a>';
-  push @links,   '<a href="http://download.lepbase.org" title="Download"><div class="lb-menu-category"><img title="download" src="/i/download-icon.png" class="lb-menu-linkicon"/><h2 class="lb-menu-label">Downloads</h2></div></a>';
-  push @links,   '<a href="http://blast.lepbase.org" title="BLAST"><div class="lb-menu-category"><img title="download" src="/i/e.png" class="lb-menu-linkicon"/><h2 class="lb-menu-label">lepbase.org</h2></div></a>';
+  push @links,   '<a href="http://blast.lepbase.org" title="BLAST"><div class="lb-menu-category"><img title="tools" src="/i/tools-icon.png" class="lb-menu-linkicon"/>BLAST</div></a>';
+  push @links,   '<a href="http://download.lepbase.org" title="Download"><div class="lb-menu-category"><img title="download" src="/i/download-icon.png" class="lb-menu-linkicon"/>Downloads</div></a>';
+  push @links,   '<a href="http://lepbase.org" title="lepbase.org"><div class="lb-menu-category"><img title="lepbase" src="/i/e.png" class="lb-menu-linkicon"/>lepbase.org</div></a>';
 #  push @links,   '<a class="constant" href="http://webapollo.lepbase.org" title="WebApollo">WebApollo</a>';
 #  push @links,   '<a class="constant" href="http://lepbase.org/category/tools/" title="Tools">Tools</a>';
 
 ## ...END LEPBASE MODIFICATIONS
-  my $last  = pop @links;
   my $tools = join '', @links;
 
   return qq{

@@ -111,11 +111,22 @@ a.lb-alternate-assemblies:hover {
 
 div.lb-menu-category {
   float: right;
+  height: 30px;
   margin-left: 5px;
   background-color: [[PAGE_BG]];
   padding: 5px;
   border: 2px solid [[MH_BG]];
   border-radius: 4px;
+  color: [[MH_BG]];
+  line-height: 30px;
+  font-weight: bold;
+  font-size: 16px;
+  font-family: sans-serif;
+}
+
+a div.lb-menu-category:hover {
+  border: 2px solid [[MH_HOVER]];
+  color: [[MH_HOVER]];
 }
 
 img.lb-menu-linkicon {
@@ -124,19 +135,6 @@ img.lb-menu-linkicon {
   display: inline-block;
   vertical-align: middle;
   margin-right: 5px;
-}
-
-h2.lb-menu-label {
-  clear: both;
-  font-family: Bitter, Georgia, serif;
-  line-height: 1.3;
-  display: inline-block;
-  margin-bottom: 0px;
-  color: black;
-  font-weight: bold;
-  font-size: 100%;
-  margin-top: 0em;
-  margin: 25px 0;
 }
 
 .lb-meta-table {
