@@ -37,15 +37,18 @@
   color:[[PAGE_BG]];
 }
 .lb-primary-assembly:visited {
-  color:[[MH_HOVER]];
+  color:[[PAGE_BG]];
 }
 
 a.lb-alternate-assemblies {
   font-size: 90%;
-  color:[[PANEL_BG]];
+  color:#aaa;
   margin-right:1em;
   text-decoration: none;
   font-weight: normal;
+}
+a.lb-alternate-assemblies:visited {
+  color:#aaa;
 }
 .lb-sp-img {
   float: left;
