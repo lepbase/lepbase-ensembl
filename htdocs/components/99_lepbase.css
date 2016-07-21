@@ -110,9 +110,9 @@ a.lb-alternate-assemblies:hover {
 }
 
 div.lb-menu-category {
-  float: right;
+  float: left;
   height: 30px;
-  margin-left: 5px;
+  margin-left: 15px;
   background-color: [[PAGE_BG]];
   padding: 5px;
   border: 2px solid [[MH_BG]];
