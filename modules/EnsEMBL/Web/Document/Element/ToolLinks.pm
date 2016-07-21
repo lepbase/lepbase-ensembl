@@ -37,7 +37,7 @@ sub content {
      $species = !$species || $species eq 'Multi' || $species eq 'common' ? 'Multi' : $species;
   my @links; # = sprintf '<a class="constant" href="%s">Home</a>', $self->home;
 #  push @links, qq{<a class="constant" href="/$species/blastview">BLAST</a>} if $self->blast;
-###EG  
+###EG
   if ($self->hub->species_defs->ENSEMBL_ENASEARCH_ENABLED) {
       push @links,   '<a class="constant" href="/Multi/enasearch">Sequence Search</a>';
   }
@@ -45,16 +45,16 @@ sub content {
 ## BEGIN LEPBASE MODIFICATIONS...
   my $sd    = $self->species_defs;
   my $blog  = $sd->ENSEMBL_BLOG_URL;
-  push @links,   '<a class="constant" href="http://blast.lepbase.org" title="BLAST">BLAST</a>';
-  push @links,   '<a class="constant" href="http://lepbase.org/category/download/" title="downloads">Downloads</a>';
-  push @links,   '<a class="constant" href="http://lepbase.org/" title="lepbase.org">lepbase.org</a>';
+  push @links,   '<a href="http://blast.lepbase.org" title="BLAST"><div class="lb-menu-category"><img title="tools" src="/i/tools-icon.png" class="lb-menu-linkicon"/><h2 class="lb-menu-label">BLAST</h2></div></a>';
+  push @links,   '<a href="http://download.lepbase.org" title="Download"><div class="lb-menu-category"><img title="download" src="/i/download-icon.png" class="lb-menu-linkicon"/><h2 class="lb-menu-label">Downloads</h2></div></a>';
+  push @links,   '<a href="http://blast.lepbase.org" title="BLAST"><div class="lb-menu-category"><img title="download" src="/i/e.png" class="lb-menu-linkicon"/><h2 class="lb-menu-label">lepbase.org</h2></div></a>';
 #  push @links,   '<a class="constant" href="http://webapollo.lepbase.org" title="WebApollo">WebApollo</a>';
 #  push @links,   '<a class="constant" href="http://lepbase.org/category/tools/" title="Tools">Tools</a>';
-  
+
 ## ...END LEPBASE MODIFICATIONS
   my $last  = pop @links;
   my $tools = join '', map "<li>$_</li>", @links;
-  
+
   return qq{
     <ul class="tools">$tools<li class="last">$last</li></ul>
     <div class="more">
@@ -64,4 +64,3 @@ sub content {
 }
 
 1;
-
