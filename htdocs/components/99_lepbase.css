@@ -110,19 +110,7 @@ a.lb-alternate-assemblies:hover {
 }
 
 #masthead {
-  margin-bottom:21px;
-}
-
-#masthead .tabs_holder {
-  bottom:-21px;
-}
-
-#masthead ul.tabs li {
-  border-radius:0;
-  background: [[MH_BG]];
-  margin: 0 2px 0 0;
-  -moz-border-radius: 0;
-  -webkit-border-radius: 0;
+  height:86px;
 }
 
 div.lb-tools-holder {
