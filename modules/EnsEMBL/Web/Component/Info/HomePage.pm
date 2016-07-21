@@ -174,7 +174,7 @@ sub content {
   my $html = '';
 
   my $about_text = $self->_other_text('about', $species);
-  $html .= '<div class="column-wrapper lb-species-page"><div class="lb-column-left"><div class="lb-panel-container">';
+  $html .= '<div class="column-wrapper lb-species-page"><div class="lb-column-one"><div class="lb-panel-container">';
   my $search_text = EnsEMBL::Web::Document::HTML::HomeSearch->new($hub)->render;
   if ($about_text || $search_text) {
     $html .= '<div class="lb-info-box lb-species-page">';
