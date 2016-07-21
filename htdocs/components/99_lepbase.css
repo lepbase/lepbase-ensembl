@@ -119,6 +119,7 @@ a.lb-alternate-assemblies:hover {
 
 #masthead ul.tabs li {
   border-radius:0;
+  background: [[MH_BG]];
   margin: 0 2px 0 0;
   -moz-border-radius: 0;
   -webkit-border-radius: 0;
