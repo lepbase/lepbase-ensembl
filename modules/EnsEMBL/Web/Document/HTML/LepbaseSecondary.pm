@@ -59,11 +59,11 @@ sub render_species_list {
   my $user          = $hub->user;
   my $species_info  = $hub->get_species_info;
 
-  my (%check_extra, %assemblies, @ok_extra);
+  my (%check_extra,  @ok_extra);
 
   foreach (@{$hub->get_species_set('ASSEMBLY_ONLY')}) {
     push @ok_extra, $species_info->{$_} unless $check_extra{$_}++;
-    push @{$assemblies{$species_info->{$_}->{'scientific'}}}, $species_info->{$_};
+    #push @{$assemblies{$species_info->{$_}->{'scientific'}}}, $species_info->{$_};
   }
   #my $extra_html = $self->render_with_images(\@ok_extra,\%assemblies);
   my $extra_html = $self->render_plain(@ok_extra);
