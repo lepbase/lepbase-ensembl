@@ -29,6 +29,10 @@
   margin-top:-2px;
 }
 
+.lb-secondary {
+  background-color: [[MH_TAB]];
+}
+
 .lb-primary-assembly {
   font-size: 120%;
   line-height: 1.5em;

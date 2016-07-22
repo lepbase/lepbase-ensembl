@@ -65,7 +65,7 @@ sub render_species_list {
     push @ok_extra, $species_info->{$_} unless $check_extra{$_}++;
   }
   my $extra_html = $self->render_plain(@ok_extra);
-  my $html = qq{<div class="static_favourite_species"><h3>Additional assemblies with no gene models</h3><div class="species_list_container species-list">$extra_html</div></div>};
+  my $html = qq{<div class="static_favourite_species"><h3>Additional species/assemblies without gene models</h3><div class="species_list_container species-list">$extra_html</div></div>};
 
   return $html;
 }
@@ -118,20 +118,30 @@ sub render_ajax_reorder_list {
 }
 
 sub render_with_images {
-  my ($self, @species_list) = @_;
+  my ($self, $species_list, $assemblies) = @_;
   my $hub           = $self->hub;
   my $species_defs  = $hub->species_defs;
   my $static_server = $species_defs->ENSEMBL_STATIC_SERVER;
   my $html;
 
-  foreach (@species_list) {
+
+
+  foreach (@$species_list) {
+    my $links = '<br/><span class="lb-alternate-assemblies">';
+    foreach my $asm (@{$assemblies->{$_}}){
+      $links .= qq(<a class="lb-alternate-assemblies" href="$asm->{'key'}/Info/Index">$asm->{'assembly'}</a>
+      );
+    }
+    $links .= '</span>';
     $html .= qq(
-      <div class="species-box">
-        <a href="$_->{'key'}/Info/Index">
-          <span class="sp-img"><img src="$static_server/i/species/48/$_->{'key'}.png" alt="$_->{'name'}" title="Browse $_->{'name'}" height="48" width="48" /></span>
-          <span>$_->{'common'}</span>
+      <div class="lb-species-box lb-secondary">
+        <a href="$assemblies->{$_}[0]->{'key'}/Info/Index">
+          <div class="lb-sp-img"><img src="$static_server/i/species/48/$assemblies->{$_}[0]->{'key'}.png" alt="$assemblies->{$_}[0]->{'name'}" title="Browse $assemblies->{$_}[0]->{'name'}" height="48" width="48" /></div>
         </a>
-        <span>$_->{'assembly'}</span>
+        <a class="lb-primary-assembly" href="$assemblies->{$_}[0]->{'key'}/Info/Index">
+          $assemblies->{$_}[0]->{'scientific'}
+        </a>
+        $links
       </div>
     );
   }
