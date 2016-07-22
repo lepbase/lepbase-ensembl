@@ -215,7 +215,7 @@ sub content {
   else {
     $src .= '&view=circle';
   }
-  $src .= '&altView=cumulative';
+  $src .= '&altView=cumulative&altView=table';
 
   my $assembly_text = '<h3 class="lb-heading">Assembly statistics</h3><iframe class="lb-iframe" src="'.$src.'"></iframe>';
   $assembly_text .= '<p>Assembly stats plots are described at <a href="http://github.com/rjchallis/assembly-stats">github.com/rjchallis/assembly-stats</a>
