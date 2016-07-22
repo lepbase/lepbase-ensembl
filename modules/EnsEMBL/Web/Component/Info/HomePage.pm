@@ -247,7 +247,7 @@ sub content {
   my $p = from_json ($json);
   my @order = qw(provider species assembly);
   my $genebuild = 0;
-  if ($p->{'genebuild'}{'gene_count'}){}
+  if ($p->{'genebuild'}{'gene_count'}){
     push @order,'genebuild';
     $genebuild = 1;
   }
@@ -328,7 +328,7 @@ if ($genebuild == 0){
 ###
  #  $html .= '<div class="' . $box_class[$side % 2] . '"><div class="round-box tinted-box unbordered">' . $self->_compara_text . '</div></div>';
  #  $side++;
-
+}
 ###
 # comment out for initial lepbase release
 #  push(@sections, $self->_variation_text);
