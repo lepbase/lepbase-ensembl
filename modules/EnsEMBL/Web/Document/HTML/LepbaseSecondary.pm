@@ -59,7 +59,7 @@ sub render_species_list {
   my $user          = $hub->user;
   my $species_info  = $hub->get_species_info;
 
-  my (%check_extra, @ok_extra);
+  my (%check_extra, %assemblies, @ok_extra);
 
   foreach (@{$hub->get_species_set('ASSEMBLY_ONLY')}) {
     push @ok_extra, $species_info->{$_} unless $check_extra{$_}++;
