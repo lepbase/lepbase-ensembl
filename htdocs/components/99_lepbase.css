@@ -23,23 +23,22 @@
 }
 
 .lb-extra-species-box {
-  width: 33%;
+  width: 30%;
   min-width:200px;
   display: inline-table;
   text-align: left;
-  background-color: [[MH_TAB]];
-  margin: 6px 4px;
+  background-color: [[PAGE_BG]];
   overflow: hidden;
   padding:6px;
 }
 
 .lb-extra-species-box a {
-  color: [[MH_TEXT]];
+  color: [[MH_BG]];
   text-decoration: none;
 }
 
 .lb-extra-species-box a:visited {
-  color: [[MH_TEXT]];
+  color: [[MH_BG]];
   text-decoration: none;
 }
 
