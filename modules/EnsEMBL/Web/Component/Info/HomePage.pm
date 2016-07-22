@@ -227,6 +227,13 @@ sub content {
   </p>';
 
   $html .= '<div class="lb-info-box lb-species-page">'.$assembly_text.'</div>';
+
+  my $extra_text = $self->_other_text('assembly', $species);
+  $extra_text .= $self->_other_text('annotation', $species);
+  $extra_text .= $self->_other_text('references', $species);
+
+  $html .= '<div class="lb-info-box lb-species-page"><h3 class="lb-heading">More information</h3>'.$extra_text.'</div>';
+
   $html .= '</div><div class="lb-panel-container">';
 
   $src = 'http://content.lepbase.org/pages/annotations/codon-usage.html?assembly='.$production_name.'&view=plot&altView=table';
