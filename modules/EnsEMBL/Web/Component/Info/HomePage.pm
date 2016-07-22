@@ -145,7 +145,8 @@ sub content {
   my $species      = $hub->species;
   my $img_url      = $self->img_url;
   my $common_name  = $species_defs->SPECIES_COMMON_NAME;
-  my $production_name  = $species_defs->SPECIES_PRODUCTION_NAME;
+  my $production_name  = $species_defs->SPECIES_SCIENTIFIC_NAME.' '.$species_defs->ASSEMBLY_NAME;
+  $production_name =~ s/\s/_/g;
   my $display_name = $species_defs->SPECIES_SCIENTIFIC_NAME;
   my $taxid        = $species_defs->TAXONOMY_ID;
   my $sound        = $species_defs->SAMPLE_DATA->{'ENSEMBL_SOUND'};
@@ -238,9 +239,7 @@ sub content {
 
   # add meta table from json file
   use JSON;
-  my $assembly = $display_name.' '.$species_defs->ASSEMBLY_NAME;
-  $assembly =~ s/\s/_/g;
-  my $file = "/ssi/species/${assembly}.meta.json";
+  my $file = "/ssi/species/${production_name}.meta.json";
   my $json;
   foreach my $root (@SiteDefs::ENSEMBL_HTDOCS_DIRS) {
     my $filename = "$root/$file";
