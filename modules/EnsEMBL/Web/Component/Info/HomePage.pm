@@ -184,8 +184,8 @@ sub content {
     'Manduca_sexta_Msex_1.0' => ['Bombyx_mori_ASM15162v1'],
     'Melitaea_cinxia' => ['Heliconius_melpomene_Hmel2','Heliconius_erato_v1','Danaus_plexippus_v3'],
     'Operophtera_brumata_v1' => ['Bombyx_mori_ASM15162v1','Calycopis_cecrops_v1.1'],
-    'Papilio_glaucus_v1.1' => ['Papilio_glaucus_v1.1','Papilio_polytes_Ppol_1.0'],
-    'Papilio_machaon_Pap_ma_1.0' => ['Papilio_machaon_Pap_ma_1.0','Papilio_polytes_Ppol_1.0'],
+    'Papilio_glaucus_v1.1' => ['Papilio_machaon_Pap_ma_1.0','Papilio_polytes_Ppol_1.0'],
+    'Papilio_machaon_Pap_ma_1.0' => ['Papilio_glaucus_v1.1','Papilio_polytes_Ppol_1.0'],
     'Papilio_polytes_Ppol_1.0' => ['Papilio_xuthus_Pxut_1.0','Papilio_xuthus_Pap_xu_1.0','Papilio_glaucus_v1.1'],
     'Papilio_xuthus_Pap_xu_1.0' => ['Papilio_xuthus_Pxut_1.0','Papilio_polytes_Ppol_1.0','Papilio_glaucus_v1.1'],
     'Papilio_xuthus_Pxut_1.0' => ['Papilio_xuthus_Pap_xu_1.0','Papilio_polytes_Ppol_1.0','Papilio_glaucus_v1.1'],
@@ -211,7 +211,10 @@ sub content {
 
   my $src = 'http://content.lepbase.org/pages/assemblies/assembly-stats.html?assembly='.$production_name;
   if ($alternate{$production_name}){
-    $src .= '&altAssembly='.$alternate{$production_name}->[0].'&view=compare&altView=circle'
+    foreach my $alt (@{$alternate{$production_name}}){}
+      $src .= '&altAssembly='.$alt;
+    }
+    $src .= '&view=compare&altView=circle'
   }
   else {
     $src .= '&view=circle';
