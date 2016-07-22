@@ -228,25 +228,6 @@ sub content {
 
   $html .= '<div class="lb-info-box lb-species-page">'.$assembly_text.'</div>';
 
-  my $extra_text = $self->_other_text('assembly', $species);
-  $extra_text .= $self->_other_text('annotation', $species);
-  $extra_text .= $self->_other_text('references', $species);
-
-  $html .= '<div class="lb-info-box lb-species-page"><h3 class="lb-heading">More information</h3>'.$extra_text.'</div>';
-
-  $html .= '</div><div class="lb-panel-container">';
-
-  $src = 'http://content.lepbase.org/pages/annotations/codon-usage.html?assembly='.$production_name.'&view=plot&altView=table';
-  if ($alternate{$production_name}){
-    $src .= '&altAssembly='.$alternate{$production_name}->[0];
-  }
-  my $codon_text = '<h3 class="lb-heading">Codon usage</h3><iframe class="lb-iframe" src="'.$src.'"></iframe>';
-  $codon_text .= '<p>Codon usage plots are described at <a href="http://github.com/rjchallis/codon-usage">github.com/rjchallis/codon-usage</a>
-  <br/><a href="https://zenodo.org/badge/latestdoi/20772/rjchallis/codon-usage"><img src="https://zenodo.org/badge/20772/rjchallis/codon-usage.svg" alt="10.5281/zenodo.56681" /></a>
-  </p>';
-
-  $html .= '<div class="lb-info-box lb-species-page">'.$codon_text.'</div>';
-
   # add meta table from json file
   use JSON;
   my $file = "/ssi/species/${production_name}.meta.json";
@@ -264,7 +245,12 @@ sub content {
     }
   }
   my $p = from_json ($json);
-  my @order = qw(provider species assembly genebuild);
+  my @order = qw(provider species assembly);
+  my $genebuild = 0;
+  if ($p->{'genebuild'}{'gene_count'}){}
+    push @order,'genebuild';
+    $genebuild = 1;
+  }
   my %order = ( 'provider' => ['name', 'url'],
                 'species' => ['scientific_name', 'taxonomy_id', 'common_name', 'display_name'],
                 'assembly' => ['name', 'accession', 'date', 'span', 'atgc', 'n', 'gc_percent', 'scaffold_count'],
@@ -279,6 +265,7 @@ sub content {
       my $k = $key;
       $k =~ s/_/ /g;
       my $value = $p->{$group}{$key};
+      next unless $value;
       if ($key eq 'url'){
         $value = '<a href="value">'.$value.'</a>'
       }
@@ -303,8 +290,36 @@ sub content {
 
   my $meta_text = '<h3 class="lb-heading">Assembly metadata</h3><p/>'.$table;
 
+
+  my $extra_text = $self->_other_text('assembly', $species);
+  $extra_text .= $self->_other_text('annotation', $species);
+  $extra_text .= $self->_other_text('references', $species);
+
+if ($genebuild == 1){
+  $html .= '<div class="lb-info-box lb-species-page"><h3 class="lb-heading">More information</h3>'.$extra_text.'</div>';
+}
+
+  $html .= '</div><div class="lb-panel-container">';
+
+
+if ($genebuild == 1){
+  $src = 'http://content.lepbase.org/pages/annotations/codon-usage.html?assembly='.$production_name.'&view=plot&altView=table';
+  if ($alternate{$production_name}){
+    $src .= '&altAssembly='.$alternate{$production_name}->[0];
+  }
+  my $codon_text = '<h3 class="lb-heading">Codon usage</h3><iframe class="lb-iframe" src="'.$src.'"></iframe>';
+  $codon_text .= '<p>Codon usage plots are described at <a href="http://github.com/rjchallis/codon-usage">github.com/rjchallis/codon-usage</a>
+  <br/><a href="https://zenodo.org/badge/latestdoi/20772/rjchallis/codon-usage"><img src="https://zenodo.org/badge/20772/rjchallis/codon-usage.svg" alt="10.5281/zenodo.56681" /></a>
+  </p>';
+
+  $html .= '<div class="lb-info-box lb-species-page">'.$codon_text.'</div>';
+}
+
   $html .= '<div class="lb-info-box lb-species-page">'.$meta_text.'</div>';
 
+if ($genebuild == 0){
+  $html .= '<div class="lb-info-box lb-species-page"><h3 class="lb-heading">More information</h3>'.$extra_text.'</div>';
+}
 
 #  if ($self->has_compara or $self->has_pan_compara) {
 ###
