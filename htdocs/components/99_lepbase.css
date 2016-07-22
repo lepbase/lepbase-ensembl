@@ -12,6 +12,12 @@
   background: none;
   border: none;
 }
+
+.species_list_container .species-list {
+  margin-top:8px;
+  margin-bottom:8px;
+}
+
 .lb-species-box {
   width: 275px;
   display: inline-table;
@@ -35,6 +41,7 @@
 .lb-extra-species-box a {
   color: [[MH_BG]];
   text-decoration: none;
+  font-weight:bold;
 }
 
 .lb-extra-species-box a:visited {
