@@ -65,8 +65,9 @@ sub render_species_list {
     push @ok_extra, $species_info->{$_} unless $check_extra{$_}++;
     push @{$assemblies{$species_info->{$_}->{'scientific'}}}, $species_info->{$_};
   }
-  my $extra_html = $self->render_with_images(\@ok_extra,\%assemblies);
-  my $html = qq{<div class="static_favourite_species"><h3>Additional species/assemblies without gene models</h3><div class="species_list_container species-list">$extra_html</div></div>};
+  #my $extra_html = $self->render_with_images(\@ok_extra,\%assemblies);
+  my $extra_html = $self->render_plain(@ok_extra);
+  my $html = qq{<div class="lb-info-box"><h3>Assemblies without gene models</h3><div class="lb-extra-assemblies">$extra_html</div></div>};
 
   return $html;
 }
@@ -80,7 +81,7 @@ sub render_plain {
 
   foreach (@species_list) {
     $html .= qq(
-      <div class="species-box">
+      <div class="lb-extra-species-box">
         <a href="$_->{'key'}/Info/Index">
           $_->{'common'}
         </a>
