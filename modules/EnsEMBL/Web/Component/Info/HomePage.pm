@@ -295,31 +295,31 @@ sub content {
   $extra_text .= $self->_other_text('annotation', $species);
   $extra_text .= $self->_other_text('references', $species);
 
-if ($genebuild == 1){
-  $html .= '<div class="lb-info-box lb-species-page"><h3 class="lb-heading">More information</h3>'.$extra_text.'</div>';
-}
+  if ($genebuild == 1){
+    $html .= '<div class="lb-info-box lb-species-page"><h3 class="lb-heading">More information</h3>'.$extra_text.'</div>';
+  }
 
   $html .= '</div><div class="lb-panel-container">';
 
 
-if ($genebuild == 1){
-  $src = 'http://content.lepbase.org/pages/annotations/codon-usage.html?assembly='.$production_name.'&view=plot&altView=table';
-  if ($alternate{$production_name}){
-    $src .= '&altAssembly='.$alternate{$production_name}->[0];
-  }
-  my $codon_text = '<h3 class="lb-heading">Codon usage</h3><iframe class="lb-iframe" src="'.$src.'"></iframe>';
-  $codon_text .= '<p>Codon usage plots are described at <a href="http://github.com/rjchallis/codon-usage">github.com/rjchallis/codon-usage</a>
-  <br/><a href="https://zenodo.org/badge/latestdoi/20772/rjchallis/codon-usage"><img src="https://zenodo.org/badge/20772/rjchallis/codon-usage.svg" alt="10.5281/zenodo.56681" /></a>
-  </p>';
+  if ($genebuild == 1){
+    $src = 'http://content.lepbase.org/pages/annotations/codon-usage.html?assembly='.$production_name.'&view=plot&altView=table';
+    if ($alternate{$production_name}){
+      $src .= '&altAssembly='.$alternate{$production_name}->[0];
+    }
+    my $codon_text = '<h3 class="lb-heading">Codon usage</h3><iframe class="lb-iframe" src="'.$src.'"></iframe>';
+    $codon_text .= '<p>Codon usage plots are described at <a href="http://github.com/rjchallis/codon-usage">github.com/rjchallis/codon-usage</a>
+    <br/><a href="https://zenodo.org/badge/latestdoi/20772/rjchallis/codon-usage"><img src="https://zenodo.org/badge/20772/rjchallis/codon-usage.svg" alt="10.5281/zenodo.56681" /></a>
+    </p>';
 
-  $html .= '<div class="lb-info-box lb-species-page">'.$codon_text.'</div>';
-}
+    $html .= '<div class="lb-info-box lb-species-page">'.$codon_text.'</div>';
+  }
 
   $html .= '<div class="lb-info-box lb-species-page">'.$meta_text.'</div>';
 
-if ($genebuild == 0){
-  $html .= '<div class="lb-info-box lb-species-page"><h3 class="lb-heading">More information</h3>'.$extra_text.'</div>';
-}
+  if ($genebuild == 0){
+    $html .= '<div class="lb-info-box lb-species-page"><h3 class="lb-heading">More information</h3>'.$extra_text.'</div>';
+  }
 
 #  if ($self->has_compara or $self->has_pan_compara) {
 ###
@@ -328,7 +328,7 @@ if ($genebuild == 0){
 ###
  #  $html .= '<div class="' . $box_class[$side % 2] . '"><div class="round-box tinted-box unbordered">' . $self->_compara_text . '</div></div>';
  #  $side++;
-}
+
 ###
 # comment out for initial lepbase release
 #  push(@sections, $self->_variation_text);
