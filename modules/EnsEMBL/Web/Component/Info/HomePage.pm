@@ -264,18 +264,17 @@ sub content {
     }
   }
   my $p = from_json ($json);
-  my @order = (provider species assembly genebuild);
-  my %order = ( provider => qw(name url),
-                species => qw(scientific_name taxonomy_id common_name display_name),
-                assembly => qw(name accession date span atgc n gc_percent scaffold_count),
-                genebuild => qw(version method start_date gene_count transcript_count cds_count exon_count))
+  my @order = qw(provider species assembly genebuild);
+  my %order = ( 'provider' => ['name', 'url'],
+                'species' => ['scientific_name', 'taxonomy_id', 'common_name', 'display_name'],
+                'assembly' => ['name', 'accession', 'date', 'span', 'atgc', 'n', 'gc_percent', 'scaffold_count'],
+                'genebuild' => ['version', 'method', 'start_date', 'gene_count', 'transcript_count', 'cds_count', 'exon_count']);
   my $table = '<table class="lb-meta-table">';
   while (my $group = shift @order){
     next unless $p->{$group};
     my $i = 0;
-    my @keys = $order{$group};
     my %added;
-    foreach my $key (@keys){
+    foreach my $key (@{$order{$group}}){
       my $g = $i == 0 ? ucfirst $group : '';
       my $k = $key;
       $k =~ s/_/ /g;
