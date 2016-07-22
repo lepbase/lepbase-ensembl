@@ -67,7 +67,7 @@ sub render_species_list {
   }
   #my $extra_html = $self->render_with_images(\@ok_extra,\%assemblies);
   my $extra_html = $self->render_plain(@ok_extra);
-  my $html = qq{<div class="lb-info-box"><h3>Assemblies without gene models</h3><div class="lb-extra-assemblies">$extra_html</div></div>};
+  my $html = qq{<div class="lb-info-box"><h3 class="lb-heading">Assemblies without gene models</h3><div class="lb-extra-assemblies">$extra_html</div></div>};
 
   return $html;
 }

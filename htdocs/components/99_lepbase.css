@@ -22,6 +22,32 @@
   padding:6px;
 }
 
+.lb-extra-species-box {
+  width: 33%;
+  min-width:200px;
+  display: inline-table;
+  text-align: left;
+  background-color: [[MH_TAB]];
+  margin: 6px 4px;
+  overflow: hidden;
+  padding:6px;
+}
+
+.lb-extra-species-box a {
+  color: [[MH_TEXT]];
+  text-decoration: none;
+}
+
+.lb-extra-species-box a:visited {
+  color: [[MH_TEXT]];
+  text-decoration: none;
+}
+
+.lb-extra-species-box a:hover {
+  color: [[MH_HOVER]];
+  text-decoration: none;
+}
+
 .species-list div.lb-species-box span.sp-img {
   padding: 0;
   border: none;
@@ -108,7 +134,7 @@ a.lb-alternate-assemblies:hover {
     font-size: 1.1em;
     line-height: 2.5em;
     background-color: [[MH_BG]];
-    color: white;
+    color: white !important;
     margin-bottom: 0;
     text-align: center
 }
