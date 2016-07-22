@@ -328,7 +328,7 @@ if ($genebuild == 0){
 ###
  #  $html .= '<div class="' . $box_class[$side % 2] . '"><div class="round-box tinted-box unbordered">' . $self->_compara_text . '</div></div>';
  #  $side++;
-  }
+
 ###
 # comment out for initial lepbase release
 #  push(@sections, $self->_variation_text);
