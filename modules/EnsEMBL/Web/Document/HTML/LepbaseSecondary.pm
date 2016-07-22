@@ -24,7 +24,7 @@ All modifications licensed under the Apache License, Version 2.0, as above.
 
 =cut
 
-package EnsEMBL::Web::Document::HTML::LepbaseSpecies;
+package EnsEMBL::Web::Document::HTML::LepbaseSecondary;
 
 use strict;
 
@@ -50,6 +50,8 @@ sub render {
   return $html;
 }
 
+
+
 sub render_species_list {
   my ($self, $fragment) = @_;
   my $hub           = $self->hub;
@@ -57,20 +59,36 @@ sub render_species_list {
   my $user          = $hub->user;
   my $species_info  = $hub->get_species_info;
 
-  my (@ok_faves, %assemblies, %check_faves);
+  my (%check_extra, @ok_extra);
 
-  foreach (@{$hub->get_favourite_species}) {
-    push @ok_faves, $species_info->{$_}->{'scientific'} unless $check_faves{$species_info->{$_}->{'scientific'}}++;
-    push @{$assemblies{$species_info->{$_}->{'scientific'}}}, $species_info->{$_};
+  foreach (@{$hub->get_species_set('ASSEMBLY_ONLY')}) {
+    push @ok_extra, $species_info->{$_} unless $check_extra{$_}++;
   }
-  my $fav_html = $self->render_with_images(\@ok_faves,\%assemblies);
-  my $html = qq{<div class="static_favourite_species"><h3>Lepbase Ensembl genome browser - select a species/assembly to begin</h3><div class="species_list_container species-list">$fav_html</div></div>};
-
+  my $extra_html = $self->render_plain(@ok_extra);
+  my $html = qq{<div class="static_favourite_species"><h3>Additional assemblies with no gene models</h3><div class="species_list_container species-list">$extra_html</div></div>};
 
   return $html;
 }
 
+sub render_plain {
+  my ($self, @species_list) = @_;
+  my $hub           = $self->hub;
+  my $species_defs  = $hub->species_defs;
+  my $static_server = $species_defs->ENSEMBL_STATIC_SERVER;
+  my $html;
 
+  foreach (@species_list) {
+    $html .= qq(
+      <div class="species-box">
+        <a href="$_->{'key'}/Info/Index">
+          $_->{'common'}
+        </a>
+      </div>
+    );
+  }
+
+  return $html;
+}
 
 sub render_ajax_reorder_list {
   my $self          = shift;
@@ -100,30 +118,20 @@ sub render_ajax_reorder_list {
 }
 
 sub render_with_images {
-  my ($self, $species_list, $assemblies) = @_;
+  my ($self, @species_list) = @_;
   my $hub           = $self->hub;
   my $species_defs  = $hub->species_defs;
   my $static_server = $species_defs->ENSEMBL_STATIC_SERVER;
   my $html;
 
-
-
-  foreach (@$species_list) {
-    my $links = '<br/><span class="lb-alternate-assemblies">';
-    foreach my $asm (@{$assemblies->{$_}}){
-      $links .= qq(<a class="lb-alternate-assemblies" href="$asm->{'key'}/Info/Index">$asm->{'assembly'}</a>
-      );
-    }
-    $links .= '</span>';
+  foreach (@species_list) {
     $html .= qq(
-      <div class="lb-species-box">
-        <a href="$assemblies->{$_}[0]->{'key'}/Info/Index">
-          <div class="lb-sp-img"><img src="$static_server/i/species/48/$assemblies->{$_}[0]->{'key'}.png" alt="$assemblies->{$_}[0]->{'name'}" title="Browse $assemblies->{$_}[0]->{'name'}" height="48" width="48" /></div>
+      <div class="species-box">
+        <a href="$_->{'key'}/Info/Index">
+          <span class="sp-img"><img src="$static_server/i/species/48/$_->{'key'}.png" alt="$_->{'name'}" title="Browse $_->{'name'}" height="48" width="48" /></span>
+          <span>$_->{'common'}</span>
         </a>
-        <a class="lb-primary-assembly" href="$assemblies->{$_}[0]->{'key'}/Info/Index">
-          $assemblies->{$_}[0]->{'scientific'}
-        </a>
-        $links
+        <span>$_->{'assembly'}</span>
       </div>
     );
   }
