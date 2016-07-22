@@ -63,8 +63,9 @@ sub render_species_list {
 
   foreach (@{$hub->get_species_set('ASSEMBLY_ONLY')}) {
     push @ok_extra, $species_info->{$_} unless $check_extra{$_}++;
+    push @{$assemblies{$species_info->{$_}->{'scientific'}}}, $species_info->{$_};
   }
-  my $extra_html = $self->render_plain(@ok_extra);
+  my $extra_html = $self->render_with_images(@ok_extra);
   my $html = qq{<div class="static_favourite_species"><h3>Additional species/assemblies without gene models</h3><div class="species_list_container species-list">$extra_html</div></div>};
 
   return $html;
