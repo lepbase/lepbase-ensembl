@@ -211,7 +211,7 @@ sub content {
 
   my $src = 'http://content.lepbase.org/pages/assemblies/assembly-stats.html?assembly='.$production_name;
   if ($alternate{$production_name}){
-    foreach my $alt (@{$alternate{$production_name}}){}
+    foreach my $alt (@{$alternate{$production_name}}){
       $src .= '&altAssembly='.$alt;
     }
     $src .= '&view=compare&altView=circle'
