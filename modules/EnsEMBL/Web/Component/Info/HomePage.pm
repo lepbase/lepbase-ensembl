@@ -209,15 +209,12 @@ sub content {
 
 
 
-  my $src = 'http://content.lepbase.org/pages/assemblies/assembly-stats.html?assembly='.$production_name;
+  my $src = 'http://content.lepbase.org/pages/assemblies/assembly-stats.html?assembly='.$production_name.'&view=circle';
   if ($alternate{$production_name}){
     foreach my $alt (@{$alternate{$production_name}}){
       $src .= '&altAssembly='.$alt;
     }
-    $src .= '&view=compare&altView=circle'
-  }
-  else {
-    $src .= '&view=circle';
+    $src .= '&altView=compare'
   }
   $src .= '&altView=cumulative&altView=table';
 
