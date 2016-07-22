@@ -238,7 +238,9 @@ sub content {
 
   # add meta table from json file
   use JSON;
-  my $file = "/ssi/species/${species}.meta.json";
+  my $assembly = $display_name.' '.$species_defs->ASSEMBLY_NAME;
+  $assembly =~ s/\s/_/g;
+  my $file = "/ssi/species/${assembly}.meta.json";
   my $json;
   foreach my $root (@SiteDefs::ENSEMBL_HTDOCS_DIRS) {
     my $filename = "$root/$file";
