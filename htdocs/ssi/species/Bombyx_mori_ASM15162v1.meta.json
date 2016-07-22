@@ -1,0 +1,32 @@
+{
+   "assembly" : {
+      "accession" : "GCA_000151625.1",
+      "atgc" : "431723578",
+      "scaffold_count" : "43463",
+      "date" : "2008-04-28",
+      "n" : "50095828",
+      "gc_percent" : "37.67",
+      "span" : "481819406",
+      "name" : "ASM15162v1"
+   },
+   "genebuild" : {
+      "gene_count" : "15486",
+      "cds_count" : "19618",
+      "start_date" : "2016-05",
+      "version" : "1",
+      "exon_count" : "166606",
+      "transcript_count" : "22059",
+      "method" : "import"
+   },
+   "provider" : {
+      "name" : "International Silkworm Genome Sequencing Project",
+      "url" : "http://sgp.dna.affrc.go.jp/"
+   },
+   "species" : {
+      "common_name" : "Silk moth",
+      "taxonomy_id" : "7091",
+      "scientific_name" : "Bombyx mori",
+      "display_name" : "Bombyx mori ASM15162v1"
+   }
+}
+

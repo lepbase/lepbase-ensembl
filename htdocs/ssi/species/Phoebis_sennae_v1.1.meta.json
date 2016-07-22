@@ -1,0 +1,32 @@
+{
+   "assembly" : {
+      "date" : "2016-03-10",
+      "accession" : "GCA_001586405.1",
+      "name" : "v1.1",
+      "span" : "345440503",
+      "atgc" : "334276815",
+      "n" : "11163688",
+      "scaffold_count" : "20800",
+      "gc_percent" : "32.96"
+   },
+   "provider" : {
+      "name" : "Grishin Lab UT Southwestern Medical Center",
+      "url" : "http://prodata.swmed.edu/"
+   },
+   "species" : {
+      "scientific_name" : "Phoebis sennae",
+      "common_name" : "Cloudless sulphur",
+      "display_name" : "Phoebis sennae v1.1",
+      "taxonomy_id" : "40077"
+   },
+   "genebuild" : {
+      "cds_count" : "16492",
+      "method" : "import",
+      "version" : "1",
+      "start_date" : "2016-05",
+      "transcript_count" : "16492",
+      "gene_count" : "15936",
+      "exon_count" : "96787"
+   }
+}
+

@@ -1,0 +1,32 @@
+{
+   "assembly" : {
+      "accession" : " ",
+      "name" : "v1.2",
+      "date" : "2015-10-28",
+      "gc_percent" : "36.46",
+      "n" : "5819031",
+      "scaffold_count" : "10800",
+      "atgc" : "469580526",
+      "span" : "475399557"
+   },
+   "genebuild" : {
+      "gene_count" : "22642",
+      "cds_count" : "22642",
+      "transcript_count" : "22642",
+      "method" : "import",
+      "version" : "1",
+      "exon_count" : "122816",
+      "start_date" : "2016-05"
+   },
+   "species" : {
+      "scientific_name" : "Bicyclus anynana",
+      "display_name" : "Bicyclus anynana v1.2",
+      "taxonomy_id" : "110368",
+      "common_name" : "Squinting bush brown"
+   },
+   "provider" : {
+      "name" : "Bicyclus Consortium",
+      "url" : "http://bicyclus.org"
+   }
+}
+

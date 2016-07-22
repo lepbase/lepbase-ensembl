@@ -1,0 +1,32 @@
+{
+   "genebuild" : {
+      "exon_count" : "101738",
+      "gene_count" : "16456",
+      "transcript_count" : "16456",
+      "start_date" : "2016-05",
+      "version" : "1",
+      "method" : "import",
+      "cds_count" : "16456"
+   },
+   "provider" : {
+      "url" : "http://prodata.swmed.edu/",
+      "name" : "Grishin Lab UT Southwestern Medical Center"
+   },
+   "assembly" : {
+      "n" : "39775181",
+      "name" : "v1.1",
+      "span" : "728788927",
+      "scaffold_count" : "60049",
+      "gc_percent" : "37.1",
+      "accession" : "GCA_001625245.1",
+      "date" : "2016-04-21",
+      "atgc" : "689013746"
+   },
+   "species" : {
+      "taxonomy_id" : "691633",
+      "display_name" : "Calycopis cecrops v1.1",
+      "scientific_name" : "Calycopis cecrops",
+      "common_name" : "Red-banded hairstreak"
+   }
+}
+

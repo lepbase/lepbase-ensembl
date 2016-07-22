@@ -1,0 +1,34 @@
+{
+   "provider" : {
+      "name" : "Jiggins Lab",
+      "url" : "http://www.heliconius.org/genomics/"
+   },
+   "genebuild" : {
+      "start_date" : "2016-06",
+      "exon_count" : "218754",
+      "version" : "1",
+      "gene_count" : "15447",
+      "transcript_count" : "27395",
+      "cds_count" : "27395",
+      "method" : "import"
+   },
+   "assembly" : {
+      "gc_percent" : "35.26",
+      "name" : "Hmel2",
+      "date" : "2015-07-17",
+      "accession" : " ",
+      "cegma_partial" : "95.97",
+      "cegma_complete" : "85.89",
+      "n" : "19769075",
+      "atgc" : "399654982",
+      "span" : "419424057",
+      "scaffold_count" : "20871"
+   },
+   "species" : {
+      "scientific_name" : "Manduca sexta",
+      "taxonomy_id" : "7130",
+      "display_name" : "Manduca sexta Msex_1.0",
+      "common_name" : "Tobacco hornworm"
+   }
+}
+

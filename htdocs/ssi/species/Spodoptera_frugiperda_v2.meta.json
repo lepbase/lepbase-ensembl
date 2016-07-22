@@ -1,0 +1,32 @@
+{
+   "provider" : {
+      "name" : "ICGEB New Delhi",
+      "url" : "http://www.icgeb.org/"
+   },
+   "species" : {
+      "display_name" : "Spodoptera frugiperda v2",
+      "taxonomy_id" : "7108",
+      "common_name" : "Fall armyworm",
+      "scientific_name" : "Spodoptera frugiperda"
+   },
+   "assembly" : {
+      "date" : "2014-11-25",
+      "gc_percent" : "35.73",
+      "n" : "27684486",
+      "name" : "v2",
+      "atgc" : "330363081",
+      "span" : "358047567",
+      "accession" : "GCA_000753635.2",
+      "scaffold_count" : "37235"
+   },
+   "genebuild" : {
+      "version" : "1",
+      "start_date" : "2016-01",
+      "cds_count" : null,
+      "exon_count" : null,
+      "transcript_count" : null,
+      "gene_count" : null,
+      "method" : "import"
+   }
+}
+
