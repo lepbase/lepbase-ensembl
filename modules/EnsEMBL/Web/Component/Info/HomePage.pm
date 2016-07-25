@@ -241,52 +241,54 @@ sub content {
       }
     }
   }
-  my $p = from_json ($json);
-  my @order = qw(provider species assembly);
   my $genebuild = 0;
-  if ($p->{'genebuild'}{'gene_count'}){
-    push @order,'genebuild';
-    $genebuild = 1;
-  }
-  my %order = ( 'provider' => ['name', 'url'],
-                'species' => ['scientific_name', 'taxonomy_id', 'common_name', 'display_name'],
-                'assembly' => ['name', 'accession', 'date', 'span', 'atgc', 'n', 'gc_percent', 'scaffold_count'],
-                'genebuild' => ['version', 'method', 'start_date', 'gene_count', 'transcript_count', 'cds_count', 'exon_count']);
-  my $table = '<table class="lb-meta-table">';
-  while (my $group = shift @order){
-    next unless $p->{$group};
-    my $i = 0;
-    my %added;
-    foreach my $key (@{$order{$group}}){
-      my $g = $i == 0 ? ucfirst $group : '';
-      my $k = $key;
-      $k =~ s/_/ /g;
-      my $value = $p->{$group}{$key};
-      next unless $value;
-      if ($key eq 'url'){
-        $value = '<a href="value">'.$value.'</a>'
-      }
-      $table .= '<tr><td class="lb-meta-group">'.$g.'</td><td class="lb-meta-key">'.$k.'</td><td class="lb-meta-value">'.$value.'</td></tr>';
-      $added{$key}++;
-      $i++;
+  my $meta_text;
+  if ($json){
+    my $p = from_json ($json);
+    my @order = qw(provider species assembly);
+    if ($p->{'genebuild'}{'gene_count'}){
+      push @order,'genebuild';
+      $genebuild = 1;
     }
-    foreach my $key (sort keys %{$p->{$group}}){
-      next if $added{$key};
-      my $g = $i == 0 ? ucfirst $group : '';
-      my $k = $key;
-      $k =~ s/_/ /g;
-      my $value = $p->{$group}{$key};
-      if ($key eq 'url'){
-        $value = '<a href="value">'.$value.'</a>'
+    my %order = ( 'provider' => ['name', 'url'],
+                  'species' => ['scientific_name', 'taxonomy_id', 'common_name', 'display_name'],
+                  'assembly' => ['name', 'accession', 'date', 'span', 'atgc', 'n', 'gc_percent', 'scaffold_count'],
+                  'genebuild' => ['version', 'method', 'start_date', 'gene_count', 'transcript_count', 'cds_count', 'exon_count']);
+    my $table = '<table class="lb-meta-table">';
+    while (my $group = shift @order){
+      next unless $p->{$group};
+      my $i = 0;
+      my %added;
+      foreach my $key (@{$order{$group}}){
+        my $g = $i == 0 ? ucfirst $group : '';
+        my $k = $key;
+        $k =~ s/_/ /g;
+        my $value = $p->{$group}{$key};
+        next unless $value;
+        if ($key eq 'url'){
+          $value = '<a href="value">'.$value.'</a>'
+        }
+        $table .= '<tr><td class="lb-meta-group">'.$g.'</td><td class="lb-meta-key">'.$k.'</td><td class="lb-meta-value">'.$value.'</td></tr>';
+        $added{$key}++;
+        $i++;
       }
-      $table .= '<tr><td class="lb-meta-group">'.$g.'</td><td class="lb-meta-key">'.$k.'</td><td class="lb-meta-value">'.$value.'</td></tr>';
-      $i++;
+      foreach my $key (sort keys %{$p->{$group}}){
+        next if $added{$key};
+        my $g = $i == 0 ? ucfirst $group : '';
+        my $k = $key;
+        $k =~ s/_/ /g;
+        my $value = $p->{$group}{$key};
+        if ($key eq 'url'){
+          $value = '<a href="value">'.$value.'</a>'
+        }
+        $table .= '<tr><td class="lb-meta-group">'.$g.'</td><td class="lb-meta-key">'.$k.'</td><td class="lb-meta-value">'.$value.'</td></tr>';
+        $i++;
+      }
     }
+    $table .= '</table>';
+
+    $meta_text = '<h3 class="lb-heading">Assembly metadata</h3><p/>'.$table;
   }
-  $table .= '</table>';
-
-  my $meta_text = '<h3 class="lb-heading">Assembly metadata</h3><p/>'.$table;
-
 
   my $extra_text = $self->_other_text('assembly', $species);
   $extra_text .= $self->_other_text('annotation', $species);
