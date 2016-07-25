@@ -1,4 +1,7 @@
+<h3 class="lb-heading">Lepbase funding</h3>
 <p>
+  Lepbase is maintained by <a href="http://lepbase.org/contact" title="lepbase.org - contact">Dr Richard Challis</a> and <a href="http://lepbase.org/contact" title="lepbase.org - contact">Dr Sujai Kumar</a> in the Blaxter lab, University of Edinburgh.
+</p><p>
   LepBase is funded by a BBSRC Bioinformatics and Biological Resources fund award (<a href="http://www.bbsrc.ac.uk/pa/grants/AwardDetails.aspx?FundingReference=BB/K020161/1" title="bbsrc.ac.uk - award details">BB/K020161/1</a>, <a href="http://www.bbsrc.ac.uk/pa/grants/AwardDetails.aspx?FundingReference=BB/K019945/1" title="bbsrc.ac.uk - award details">BB/K019945/1</a>, <a href="http://www.bbsrc.ac.uk/pa/grants/AwardDetails.aspx?FundingReference=BB/K020129/1" title="bbsrc.ac.uk - award details">BB/K020129/1</a>) to
   <a href="http://nematodes.org/" title="nematodes.org"> Prof. Mark Blaxter</a>
   (University of Edinburgh),
@@ -6,8 +9,7 @@
   Chris Jiggins</a> (University of Cambridge),
   <a href="http://www.york.ac.uk/biology/research/bioinformatics-biosystems/kanchon-dasmahapatra/"
   title="york.ac.uk - kanchon-dasmahapatra">Dr Kanchon Dasmahapatra</a>
-  (University of York) and maintained by two post-doctoral bioinformaticians,
-  <a href="http://lepbase.org/contact" title="lepbase.org - contact">Dr Richard Challis</a> and <a href="http://lepbase.org/contact" title="lepbase.org - contact">Dr Sujai Kumar</a>, based in the Blaxter lab.
+  (University of York)
 </p>
 <p>
   <img href="http://ed.ac.uk" title="University of Edinburgh" height="40" style="background-color:white;" src="img/edinburgh_logo.png">
