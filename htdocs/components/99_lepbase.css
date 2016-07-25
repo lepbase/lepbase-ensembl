@@ -126,7 +126,7 @@ a.lb-alternate-assemblies:hover {
    text-align:left;
  }
  .lb-panel-container {
-   width:50%;
+   width:49%;
    display:inline-block;
    vertical-align:top
  }
@@ -234,6 +234,12 @@ div.cookie-message {
   padding: 0 10px;
 }
 
+@media (max-width: 1414px) {
+  .lb-extra-species-box {
+    width: 48%;
+  }
+}
+
 @media (max-width: 1459px) {
   .lb-info-box {
     width: 98%;
@@ -253,6 +259,10 @@ div.cookie-message {
   .lb-info-box {
     width: 100%;
     min-width: 700px;
+  }
+
+  .lb-extra-species-box {
+    width: 30%;
   }
 
    .lb-panel-container {
