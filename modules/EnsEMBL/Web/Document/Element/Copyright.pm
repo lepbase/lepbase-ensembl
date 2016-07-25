@@ -52,11 +52,11 @@ $html .= '<img href="http://bbsrc.ac.uk" title="bbsrc" class="lb-footer-logo" sr
 $html .= '</div>';
 
   return sprintf( qq(
-  <div class="column-two left lb-copy">
+  <div class="column-two left">
 		   %s release %s - %s -
 		  Lepbase &copy; <span class="print_hide"><a href="http://www.ed.ac.uk/" style="white-space:nowrap">Edinburgh University</a> / EnsEMBL &copy; <a href="http://www.ebi.ac.uk/" style="white-space:nowrap">EBI</a></span>
       <span class="screen_hide_inline">Lepbase</span> %s
-  </div>),     "Lepbase", "3", "July 2016"
+  </div>),     "Lepbase", "3", "July 2016", $html
 ## ...END LEPBASE MODIFICATIONS
 	       );
 
