@@ -230,17 +230,11 @@ div#wide-footer a:hover, div#footer a:hover {
   color: [[MH_HOVER]];
 }
 
-div#fat-footer {
-  background-color: [[MH_BG]];
-  margin:0;
-  padding: 5px;
-  height:60px;
-}
-
-div#fat-footer {
+div#wide-footer img, div#footer img {
   background-color: white;
+  margin:5px;
   margin-left: 10px;
-  height:5px;
+  height:50px;
   border-radius:5px;
 }
 

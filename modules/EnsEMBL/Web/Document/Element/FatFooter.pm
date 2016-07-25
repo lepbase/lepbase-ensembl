@@ -25,13 +25,8 @@ use strict;
 use base qw(EnsEMBL::Web::Document::Element);
 
 sub content {
-  my $html = '<div id="fat-footer">';
-  $html .= '<img href="http://ed.ac.uk" title="University of Edinburgh" class="lb-footer-logo" src="img/edinburgh_logo.png">';
-  $html .= '<img href="http://cam.ac.uk" title="University of Cambridge" class="lb-footer-logo" src="img/cambridge_logo.jpg">';
-  $html .= '<img href="http://york.ac.uk" title="University of York" class="lb-footer-logo" src="img/york_logo.jpg">';
-  $html .= '<img href="http://bbsrc.ac.uk" title="bbsrc" class="lb-footer-logo" src="img/bbsrc_logo.jpg">';
+  my $html = '';
 
-  $html .= '</div>';
 
   return $html;
 }
