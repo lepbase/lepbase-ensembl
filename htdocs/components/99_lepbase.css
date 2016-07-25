@@ -230,6 +230,20 @@ div#wide-footer a:hover, div#footer a:hover {
   color: [[MH_HOVER]];
 }
 
+div#fat-footer {
+  background-color: [[MH_BG]];
+  margin:0;
+  padding: 5px;
+  height:60px;
+}
+
+div#fat-footer {
+  background-color: white;
+  margin-left: 10px;
+  height:5px;
+  border-radius:5px;
+}
+
 div.cookie-message {
   padding: 0 10px;
 }

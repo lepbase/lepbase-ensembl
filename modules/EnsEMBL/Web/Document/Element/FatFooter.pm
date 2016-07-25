@@ -18,66 +18,20 @@ limitations under the License.
 
 package EnsEMBL::Web::Document::Element::FatFooter;
 
-### Optional fat footer - site-specific, so see plugins 
+### Optional fat footer - site-specific, so see plugins
 
 use strict;
 
 use base qw(EnsEMBL::Web::Document::Element);
 
 sub content {
-  my $species_defs = shift->species_defs;
-  my $sister_sites = '<p><a href="http://www.ensembl.org">Ensembl</a></p>';
-  my $html = '<hr /><!--<div id="fat-footer">';
+  my $html = '<div id="fat-footer">';
+  $html .= '<img href="http://ed.ac.uk" title="University of Edinburgh" class="lb-footer-logo" src="img/edinburgh_logo.png">';
+  $html .= '<img href="http://cam.ac.uk" title="University of Cambridge" class="lb-footer-logo" src="img/cambridge_logo.jpg">';
+  $html .= '<img href="http://york.ac.uk" title="University of York" class="lb-footer-logo" src="img/york_logo.jpg">';
+  $html .= '<img href="http://bbsrc.ac.uk" title="bbsrc" class="lb-footer-logo" src="img/bbsrc_logo.jpg">';
 
-  $html .= qq(
-              <div class="column-four left">
-                <h3>About Us</h3>
-                <p><a href="http://ensemblgenomes.org/info/about">About us</a></p>
-                <p><a href="http://ensemblgenomes.org/info/about/contact">Contact us</a></p>
-                <p><a href="http://ensemblgenomes.org/info/publications">Citing Ensembl Genomes</a></p>
-                <p><a href="http://www.ebi.ac.uk/about/privacy">Privacy policy</a></p>
-                <p><a href="http://www.ensemblgenomes.org/info/about/cookies">Cookies</a></p>
-                <p><a href="http://www.ebi.ac.uk/Information/termsofuse.html">EMBL-EBI Terms of use</a></p>
-                <p><a href="http://ensemblgenomes.org/info/about/legal">Disclaimer</a></p>
-              </div>
-  );
-
-
- $html .= qq(
-              <div class="column-four left">
-                <h3>Get help</h3>
-                <p><a href="/info/website/">Using this website</a></p>
-                <p><a href="http://ensemblgenomes.org/info">Documentation</a></p>
-                <p><a href="/info/website/upload">Adding custom tracks</a></p>
-                <p><a href="/info/website/ftp/index.html">Downloading data</a></p>
-              </div>
-  );
-
-  foreach("bacteria","fungi","plants","protists","metazoa"){
-    $sister_sites .= qq(<p><a href="http://$_.ensembl.org">Ensembl ${\ucfirst($_)}</a></p>) if $species_defs->EG_DIVISION ne $_;
-  }
-
-  $html .= qq(
-              <div class="column-four left">
-                <h3>Our sister sites</h3>
-                $sister_sites
-              </div>
-  );
-
-
-  $html .= qq(
-              <div class="column-four left">
-                <h3>Follow us</h3>
-                <p><a class="media-icon" href="http://www.ensembl.info/">
-                  <img alt="[RSS logo]" title="Ensembl blog" src="/i/rss_icon_16.png"></a>
-                  <a href="http://www.ensembl.info/">Blog</a></p>
-                <p><a class="media-icon" href="https://twitter.com/ensemblgenomes">
-                  <img alt="[twitter logo]" title="Follow us on Twitter!" src="/i/twitter.png"></a>
-                    <a href="https://twitter.com/ensemblgenomes">Twitter</a></p>
-              </div>
-  );
-
-  $html .= '</div>-->';
+  $html .= '</div>';
 
   return $html;
 }
