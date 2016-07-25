@@ -44,19 +44,19 @@ sub content {
 #	       );
 ## BEGIN LEPBASE MODIFICATIONS...
 my $html = '<div class=lb-ackn-logos>';
-$html .= '<img href="http://ed.ac.uk" title="University of Edinburgh" class="lb-footer-logo" src="img/edinburgh_logo.png">';
-$html .= '<img href="http://cam.ac.uk" title="University of Cambridge" class="lb-footer-logo" src="img/cambridge_logo.jpg">';
-$html .= '<img href="http://york.ac.uk" title="University of York" class="lb-footer-logo" src="img/york_logo.jpg">';
-$html .= '<img href="http://bbsrc.ac.uk" title="bbsrc" class="lb-footer-logo" src="img/bbsrc_logo.jpg">';
+$html .= '<img href="http://ed.ac.uk" title="University of Edinburgh" class="lb-footer-logo" src="/img/edinburgh_logo.png">';
+$html .= '<img href="http://cam.ac.uk" title="University of Cambridge" class="lb-footer-logo" src="/img/cambridge_logo.jpg">';
+$html .= '<img href="http://york.ac.uk" title="University of York" class="lb-footer-logo" src="/img/york_logo.jpg">';
+$html .= '<img href="http://bbsrc.ac.uk" title="bbsrc" class="lb-footer-logo" src="/img/bbsrc_logo.jpg">';
 
 $html .= '</div>';
 
   return sprintf( qq(
-  <div class="column-two left">
+  <div class="column-two left lb-copy">
 		   %s release %s - %s -
 		  Lepbase &copy; <span class="print_hide"><a href="http://www.ed.ac.uk/" style="white-space:nowrap">Edinburgh University</a> / EnsEMBL &copy; <a href="http://www.ebi.ac.uk/" style="white-space:nowrap">EBI</a></span>
       <span class="screen_hide_inline">Lepbase</span> %s
-  </div>),     "Lepbase", "3", "July 2016", $html
+  </div>),     "Lepbase", "3", "July 2016"
 ## ...END LEPBASE MODIFICATIONS
 	       );
 
