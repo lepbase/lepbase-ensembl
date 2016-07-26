@@ -294,3 +294,13 @@ div.cookie-message {
     width: 100%;
   }
 }
+
+@media (max-width: 905px) {
+  .lb-tools-holder {
+    top:-9px;
+  }
+
+  .search-holder {
+    top: 42px;
+  }
+}
