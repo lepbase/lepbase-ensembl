@@ -250,11 +250,11 @@ div.cookie-message {
   padding: 0 10px;
 }
 
-@media (max-width: 1414px) {
+/*@media (max-width: 1414px) {
   .lb-extra-species-box {
     width: 47%;
   }
-}
+}*/
 
 @media (max-width: 1459px) {
   .lb-info-box {
@@ -292,11 +292,5 @@ div.cookie-message {
 
   .lb-meta-table {
     width: 100%;
-  }
-}
-
-@media (max-width: 905px) {
-  #masthead .lb-tools-holder {
-    top:-9px;
   }
 }
