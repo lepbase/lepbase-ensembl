@@ -270,6 +270,18 @@ div.cookie-message {
     width:100%;
   }
 }
+@media (max-width: 920px) {
+  #masthead, body.static #masthead {
+    top: -20px;
+    height:100px;
+  }
+  div.lb-tools-holder {
+    top: 47px;
+  }
+  div.logo-holder {
+    top: 31px;
+  }
+}
 
 @media (max-width: 1023px) {
   .lb-info-box {
