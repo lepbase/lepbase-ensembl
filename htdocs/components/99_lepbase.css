@@ -271,15 +271,21 @@ div.cookie-message {
   }
 }
 @media (max-width: 920px) {
-  #masthead, body.static #masthead {
+  #masthead, body #masthead {
     top: -20px;
     height:100px;
   }
   div.lb-tools-holder {
     top: 47px;
   }
-  div.logo-holder {
+  #masthead .logo_holder {
     top: 31px;
+  }
+  #masthead .tabs_holder {
+    bottom: -21px;
+  }
+  #main_holder {
+    top:-20px;
   }
 }
 
