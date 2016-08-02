@@ -56,7 +56,7 @@ $html .= '</div>';
 		   %s release %s - %s -
 		  Lepbase &copy; <span class="print_hide"><a href="http://www.ed.ac.uk/" style="white-space:nowrap">Edinburgh University</a> / EnsEMBL &copy; <a href="http://www.ebi.ac.uk/" style="white-space:nowrap">EBI</a></span>
       <span class="screen_hide_inline">Lepbase</span> %s
-  </div>),     "Lepbase", "3", "July 2016", $html
+  </div>),     "Lepbase", "3", "August 2016", $html
 ## ...END LEPBASE MODIFICATIONS
 	       );
 
