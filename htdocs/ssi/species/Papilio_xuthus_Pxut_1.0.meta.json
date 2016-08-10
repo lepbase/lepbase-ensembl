@@ -1,34 +1,34 @@
 {
-   "species" : {
-      "scientific_name" : "Papilio xuthus",
-      "taxonomy_id" : "66420",
-      "display_name" : "Papilio xuthus Pxut_1.0",
-      "common_name" : "Asian swallowtail"
-   },
-   "provider" : {
-      "name" : "Tokyo Institute of Technology",
-      "url" : "http://papilio.nig.ac.jp/"
-   },
    "assembly" : {
-      "accession" : "GCA_000836235.1",
-      "date" : "2015-02-02",
-      "scaffold_count" : "5572",
-      "cegma_partial" : "95.56",
       "atgc" : "237937214",
+      "name" : "Pxut_1.0",
       "cegma_complete" : "92.74",
+      "cegma_partial" : "95.56",
+      "scaffold_count" : "5572",
       "n" : "5952953",
       "gc_percent" : "33.81",
-      "name" : "Pxut_1.0",
-      "span" : "243890167"
+      "accession" : "GCA_000836235.1",
+      "span" : "243890167",
+      "date" : "2015-02-02"
+   },
+   "provider" : {
+      "url" : "http://papilio.nig.ac.jp/",
+      "name" : "Tokyo Institute of Technology"
+   },
+   "species" : {
+      "common_name" : "Asian swallowtail",
+      "display_name" : "Papilio xuthus Pxut_1.0",
+      "scientific_name" : "Papilio xuthus",
+      "taxonomy_id" : "66420"
    },
    "genebuild" : {
-      "start_date" : "2015-09",
-      "exon_count" : "186679",
+      "gene_count" : "16591",
       "version" : "1",
-      "gene_count" : "15627",
-      "cds_count" : "21602",
       "method" : "import",
-      "transcript_count" : "22183"
+      "exon_count" : "187931",
+      "transcript_count" : "23395",
+      "cds_count" : "21602",
+      "start_date" : "2015-09"
    }
 }
 
