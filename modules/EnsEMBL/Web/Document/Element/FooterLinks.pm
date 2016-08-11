@@ -37,12 +37,11 @@ sub content {
     <div class="twocol-right right">
       <a href="https://bitbucket.org/lepbase/lepbase/issues?status=new&status=open" title="report an issue">report an issue</a> |
       <a href="http://www.lepbase.org" title="lepbase.org">lepbase.org</a> |
-      <a href="mailto:contact\@lepbase.org" title="contact\@lepbase.org">contact us</a> | 
-      <a href="http://www.ensemblgenomes.org/" title="ensemblgenomes.org">ensembl genomes</a>
-    </div>) 
+      <a href="mailto:contact\@lepbase.org" title="contact\@lepbase.org">contact us</a> |
+      <a href="http://www.ensembl.org/" title="ensembl.org"><img src="/i/empowered.png"></img></a>
+    </div>)
   ;
 ## ...END LEPBASE MODIFICATIONS
 }
 
 1;
-
