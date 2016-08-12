@@ -1,20 +1,48 @@
 <!-- {about} --><a name="about"></a>
 
-  <p id="about"></p>
+  <p id="about">(From Wikipedia) Lerema accius, the clouded skipper, is a butterfly of the Hesperiidae family. It is found in the United States from Georgia west to Texas, south to Florida, and south through Mexico and Central America to Venezuela and Colombia.
+
+<p>The wingspan is 32–45 mm. Adults are on wing year round in Florida and southern Texas.</p>
+
+<p>The larvae feed on various grasses including Stenotaphrum secundatum, Erianthus alopecturoides and Echinochloa povietianum. Adults feed on the nectar of various pink, purple, or white flowers, including shepherd's needle, selfheal, vervain, buttonbush and 
+lantana.</p>
+
+<p>Picture credit: <a href="http://www.butterfliesofamerica.com/images/Hesperiidae/Hesperiinae/Lerema_a_accius/Lerema_accius_F_USA_VA_Nansemand_Co_ex_F_23-VIII-88_emgd_08-X-88-MGCL-3.jpg">Butterflies of America</a></p>
+
 <!-- {about} -->
 <!-- {assembly} --><a name="assembly"></a>
   <h2 id="assembly" style="margin-bottom:5px">Assembly</h2>
 
+<p>Adapted from [1]: We assembled a 310 Mb genome of Lac. This Whole Genome Shotgun project has been deposited at DDBJ/EMBL/GenBank under the accession LGAG00000000. The version described in this paper is version LGAG01000000. In addition, the main results from 
+genome assembly, annotation and analysis can be downloaded at http://prodata.swmed.edu/LepDB/. We removed sequencing reads that did not pass the Illumina purity filter and classified the remainder according to their TruSeq adapter indices. Mate pair libraries 
+were processed by the Delox script to remove the LoxP sequences and to separate true mate pair from paired-end reads. All reads were processed by mirabait to remove contamination from the TruSeq adapters, fastq_quality_trimmer (from FASTX_TOOLKIT, 
+http://hannonlab.cshl.edu/fastx_toolkit/) to remove low quality portions at both ends, JELLYFISH to obtain k-mer frequencies in all the libraries, and QUAKE to correct sequencing errors. The data processing resulted in nine libraries that were supplied to 
+Platanus for genome assembly: 250 and 500 bp paired-end libraries, three paired-end and three mate pair libraries from 2, 6 to 15 kb libraries and a single-end library containing all reads whose pairs were removed in the process.
+</p>
 
+<p>We mapped these reads to the initial assembly with Bowtie2 and calculated the coverage of each scaffold with the help of SAMtools. Many short scaffolds in the assembly showed coverage that was about half of the expected value, which likely resulted from 
+highly heterozygous regions that were not merged to the equivalent segments in the homologous chromosomes. We merged them into other scaffolds if they could be fully aligned (coverage > 90 % and uncovered region lt 500 bp) to another significantly less covered 
+region in a longer scaffold with high sequence identity (gt 95 %). Similar problems occurred in the Heliconius melpomene and Papilio glaucus genome projects, and similar strategies were used to improve the assemblies. </p>
 
 <!-- {assembly} -->
 <!-- {annotation} --><a name="annotation"></a>
   <h2 id="annotation" style="margin-bottom:5px">Annotation</h2>
-  <p></p>
+
+  <p>Adapted from [1]: From the transcripts of both specimens in the pupal and adult stages, we obtained two sets of transcript-based annotations from two pipelines: TopHat followed by Cufflinks and Trinity followed by PASA. In addition, we obtained five sets of 
+homology-based annotations by aligning protein sets from Drosophila melanogaster and four published Lepidoptera genomes to the Lac genome with exonerate. Proteins from the entire UniRef90 database were used to generate another set of gene 
+predictions by genblastG. We manually curated and selected 1427 confident gene models by integrating the evidence from transcripts and homologs to train de novo gene predictors: AUGUSTUS, SNAP and GlimmerHMM. These trained predictors, the 
+self-trained Genemark and a consensus based pipeline, Maker  were used to generate another five sets of gene models. Transcript-based and homology-based annotations were supplied to AUGUSTUS, SNAP and Maker to boost their performance. In total, we 
+generated 15 sets of gene predictions and integrated them with EvidenceModeller  to generate the final gene models.</p?
+
+<p>We predicted the function of Lac proteins by transferring annotations and GO-terms from the closest BLAST hits (E-value lt 10−5) in both the Swissprot database and Flybase. Finally, we performed InterproScan to identify conserved protein domains and functional 
+motifs, to predict coiled coils, transmembrane helices and signal peptides, to detect homologous 3D structures, to assign Lac proteins to protein families and to map them to metabolic pathways.
+</p>
+
 <!-- {annotation} -->
 <!-- {references} -->
   <h2>References</h2>
   <ol>
-    <!--li><a id="ref-01"></a><a href="http://europepmc.org/abstract/MED/123456">TITLE</a>.</li-->
+    <li><a href="http://www.ncbi.nlm.nih.gov/pubmed/26311350">Skipper genome sheds light on unique phenotypic traits and phylogeny.
+</a></li>
   </ol>
  <!-- {references} -->
