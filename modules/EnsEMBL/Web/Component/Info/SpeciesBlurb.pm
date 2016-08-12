@@ -40,6 +40,7 @@ sub content {
   my $path              = $hub->species_path;
   my $common_name       = $species_defs->SPECIES_COMMON_NAME;
   my $display_name      = $species_defs->SPECIES_SCIENTIFIC_NAME;
+  my $production_name   = $species_defs->SPECIES_PRODUCTION_NAME;
   my $ensembl_version   = $species_defs->ENSEMBL_VERSION;
   my $current_assembly  = $species_defs->ASSEMBLY_NAME;
   my $accession         = $species_defs->ASSEMBLY_ACCESSION;
@@ -50,7 +51,7 @@ sub content {
 ###
 # BEGIN LEPBASE MODIFICATIONS...
   my $html = qq(
-<div class="column-wrapper">  
+<div class="column-wrapper">
   <div class="column-one">
     <div class="column-padding no-left-margin">
       <h1 class="no-bottom-margin">Assembly and gene annotation</h1>
@@ -61,42 +62,28 @@ sub content {
 # ...END LEPBASE MODIFICATIONS
 ###
   $html .= '
-<div class="column-wrapper">  
+<div class="column-wrapper">
   <div class="column-two">
     <div class="column-padding no-left-margin">';
 ### ASSEMBLY
   $html .= '<h2 id="assembly">Assembly</h2>';
-  $html .= EnsEMBL::Web::Controller::SSI::template_INCLUDE($self, "/ssi/species/${species}_assembly.html");
-
-  
-  $html .= '<p>The assembly plot above is a representation of genome assembly quality which condenses a number of key metrics into a single scale independent visualisation.
-  <ul>
-    <li>The green bar in the upper left indicates the size of the full assembly relative to the longest scaffold</li>
-    <li>The radius of the circular plot represents the length of the longest scaffold in the assembly</li>
-    <li>The angle subtended by the first (red) segment within this plot indicates the percentage of the assembly that is in the longest scaffold</li>
-    <li>The radial axis originates at the circumference and indicates scaffold length</li>
-    <li>Subsequent (grey) segments are plotted from the circumference and the length of segment at a given percentage indicates the cumulative percentage of the assembly that is contained within scaffolds of at least that length</li>
-    <li>The N50 and N90 scaffold lengths are indicated respectively by dark and light orange arcs that connect to the radial axis for ease of comparison</li>
-    <li>The cumulative number of scaffolds within a given percentge of the genome is plotted in purple originating at the centre of the plot</li>
-    <li>White scale lines are drawn at successive orders of magnitude from 10 scaffolds onwards</li>
-    <li>The plot in the lower right indicates the percentage base composition of the assembly: ACGT = light blue; GC = dark blue; N = grey</li>
-  </ul>
-  </p>'; 
+  $html .= '<iframe src="http://content.lepbase.org/pages/assemblies/assembly-stats.html?assembly='.$production_name.'&view=circle" width="600" height="600"></iframe>';
+ 
   $html .= sprintf '<p>The genome assembly represented here corresponds to %s %s</p>', $source_type, $hub->get_ExtURL_link($accession, "ASSEMBLY_ACCESSION_SOURCE_$source", $accession) if $accession; ## Add in GCA link
-  
+
   $html .= '<h2 id="genebuild">Gene annotation</h2>';
   $html .= EnsEMBL::Web::Controller::SSI::template_INCLUDE($self, "/ssi/species/${species}_annotation.html");
 
   ## Link to Wikipedia
-  $html .= $self->_wikipedia_link; 
-  
+  $html .= $self->_wikipedia_link;
+
   $html .= '
     </div>
   </div>
   <div class="column-two">
     <div class="column-padding" style="margin-left:16px">';
-    
-  ## ASSEMBLY STATS 
+
+  ## ASSEMBLY STATS
   my $file = '/ssi/species/stats_' . $self->hub->species . '.html';
   $html .= '<h2>Statistics</h2>';
   $html .= EnsEMBL::Web::Controller::SSI::template_INCLUDE($self, $file);
@@ -106,7 +93,7 @@ sub content {
   </div>
 </div>';
 
-  return $html;  
+  return $html;
 }
 
 sub _wikipedia_link {
@@ -114,9 +101,9 @@ sub _wikipedia_link {
   my $self = shift;
   my $species = $self->hub->species;
   my $html = qq(<h2>More information</h2>
-<p>General information about this species can be found in 
+<p>General information about this species can be found in
 <a href="http://en.wikipedia.org/wiki/$species" rel="external">Wikipedia</a>.
-</p>); 
+</p>);
 
   return $html;
 }

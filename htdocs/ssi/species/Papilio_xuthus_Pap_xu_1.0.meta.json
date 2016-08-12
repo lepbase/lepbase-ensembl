@@ -1,0 +1,34 @@
+{
+   "genebuild" : {
+      "cds_count" : "15322",
+      "version" : "1",
+      "gene_count" : "15322",
+      "method" : "import",
+      "exon_count" : "98881",
+      "transcript_count" : "15322",
+      "start_date" : "2015-10"
+   },
+   "assembly" : {
+      "gc_percent" : "34.13",
+      "scaffold_count" : "15362",
+      "cegma_partial" : "96.37",
+      "accession" : "GCA_001298345.1",
+      "n" : "13206803",
+      "cegma_complete" : "91.53",
+      "atgc" : "230025001",
+      "span" : "243231804",
+      "name" : "Pap_xu_1.0",
+      "date" : "2015-09-28"
+   },
+   "species" : {
+      "scientific_name" : "Papilio xuthus",
+      "common_name" : "Asian swallowtail",
+      "taxonomy_id" : "66420",
+      "display_name" : "Papilio xuthus Pap_xu_1.0"
+   },
+   "provider" : {
+      "name" : "BGI",
+      "url" : " "
+   }
+}
+

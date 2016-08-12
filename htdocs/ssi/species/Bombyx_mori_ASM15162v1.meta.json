@@ -1,0 +1,34 @@
+{
+   "genebuild" : {
+      "exon_count" : "165035",
+      "transcript_count" : "20510",
+      "version" : "1",
+      "start_date" : "2015-08",
+      "gene_count" : "14542",
+      "cds_count" : "19605",
+      "method" : "import"
+   },
+   "provider" : {
+      "url" : "http://ncbi.nlm.nih.gov/",
+      "name" : "RefSeq"
+   },
+   "species" : {
+      "taxonomy_id" : "7091",
+      "common_name" : "Silk moth",
+      "scientific_name" : "Bombyx mori",
+      "display_name" : "Bombyx mori ASM15162v1"
+   },
+   "assembly" : {
+      "scaffold_count" : "43463",
+      "span" : "481819406",
+      "cegma_partial" : "96.77",
+      "cegma_complete" : "76.61",
+      "gc_percent" : "37.67",
+      "accession" : "GCA_000151625.1",
+      "n" : "50095828",
+      "atgc" : "431723578",
+      "date" : "2008-04-28",
+      "name" : "ASM15162v1"
+   }
+}
+

@@ -1,0 +1,34 @@
+{
+   "species" : {
+      "common_name" : "Diamondback moth",
+      "scientific_name" : "Plutella xylostella",
+      "taxonomy_id" : "51655",
+      "display_name" : "Plutella xylostella DBM_FJ_v1.1"
+   },
+   "assembly" : {
+      "span" : "393470562",
+      "n" : "56604501",
+      "gc_percent" : "38.31",
+      "cegma_complete" : "78.23",
+      "atgc" : "336866061",
+      "accession" : "GCA_000330985.1",
+      "scaffold_count" : "1794",
+      "cegma_partial" : "92.34",
+      "date" : "2014-10-02",
+      "name" : "DBM_FJ_v1.1"
+   },
+   "genebuild" : {
+      "method" : "import",
+      "transcript_count" : "23907",
+      "start_date" : "2016-01",
+      "cds_count" : "21674",
+      "version" : "2016-01",
+      "exon_count" : "171402",
+      "gene_count" : "19386"
+   },
+   "provider" : {
+      "url" : "http://iae.fafu.edu.cn/DBM/",
+      "name" : "Plutella xylostella genome consortium"
+   }
+}
+

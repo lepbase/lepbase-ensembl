@@ -1,0 +1,34 @@
+{
+   "genebuild" : {
+      "version" : "2015-07",
+      "exon_count" : "126397",
+      "gene_count" : "23136",
+      "transcript_count" : "24497",
+      "cds_count" : "24497",
+      "method" : "import",
+      "start_date" : "2015-07"
+   },
+   "assembly" : {
+      "scaffold_count" : "10542",
+      "accession" : " ",
+      "date" : "2015-04-03",
+      "name" : "v1",
+      "cegma_partial" : "96.37",
+      "n" : "17411143",
+      "atgc" : "364541237",
+      "span" : "381952380",
+      "gc_percent" : "35.09",
+      "cegma_complete" : "85.08"
+   },
+   "species" : {
+      "scientific_name" : "Plodia interpunctella",
+      "common_name" : "Indian mealmoth",
+      "taxonomy_id" : "58824",
+      "display_name" : "Plodia interpunctella v1"
+   },
+   "provider" : {
+      "name" : "Steve Paterson Lab",
+      "url" : "http://www.liv.ac.uk/genomic-research/"
+   }
+}
+

@@ -1,0 +1,34 @@
+{
+   "genebuild" : {
+      "exon_count" : "218780",
+      "start_date" : "2015-07",
+      "cds_count" : "27403",
+      "transcript_count" : "27403",
+      "method" : "import",
+      "gene_count" : "15451",
+      "version" : "2015-07"
+   },
+   "provider" : {
+      "url" : "http://agripestbase.org/manduca/",
+      "name" : "Agripestbase"
+   },
+   "species" : {
+      "taxonomy_id" : "7130",
+      "display_name" : "Manduca sexta Msex_1.0",
+      "scientific_name" : "Manduca sexta",
+      "common_name" : "Tobacco hornworm"
+   },
+   "assembly" : {
+      "gc_percent" : "35.26",
+      "n" : "19769076",
+      "accession" : "GCA_000262585.1",
+      "cegma_partial" : "95.97",
+      "date" : "2012-05-24",
+      "atgc" : "399655695",
+      "span" : "419424771",
+      "name" : "Msex_1.0",
+      "cegma_complete" : "85.89",
+      "scaffold_count" : "20871"
+   }
+}
+

@@ -1,0 +1,34 @@
+{
+   "assembly" : {
+      "n" : "59104615",
+      "span" : "406468287",
+      "accession" : "GCA_001186105.1",
+      "gc_percent" : "35.72",
+      "date" : "2015-07-22",
+      "scaffold_count" : "7301",
+      "cegma_partial" : "95.16",
+      "cegma_complete" : "78.23",
+      "name" : "v1",
+      "atgc" : "347363672"
+   },
+   "genebuild" : {
+      "version" : "1",
+      "transcript_count" : "19808",
+      "gene_count" : "15208",
+      "start_date" : "2015-08",
+      "exon_count" : "149339",
+      "cds_count" : "18472",
+      "method" : "import"
+   },
+   "species" : {
+      "scientific_name" : "Amyelois transitella",
+      "display_name" : "Amyelois transitella v1",
+      "common_name" : "Navel orangeworm",
+      "taxonomy_id" : "680683"
+   },
+   "provider" : {
+      "name" : "University of Illinois at Urbana-Champaign",
+      "url" : "http://www.ncbi.nlm.nih.gov/genome/annotation_euk/Amyelois_transitella/100/"
+   }
+}
+

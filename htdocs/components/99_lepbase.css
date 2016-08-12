@@ -1,0 +1,314 @@
+.lb-column-one {
+  text-align: center;
+  width: 100%;
+  margin: auto;
+}
+.lb-column-left {
+  text-align: left;
+  width: 100%;
+  margin: auto;
+}
+.lb-plain-box {
+  background: none;
+  border: none;
+}
+
+.species_list_container {
+  margin-top:8px;
+  margin-bottom:8px;
+}
+
+.lb-species-box {
+  width: 275px;
+  display: inline-table;
+  text-align: left;
+  background-color: [[MH_BG]];
+  margin: 6px 4px;
+  overflow: hidden;
+  padding:6px;
+}
+
+.lb-extra-species-box {
+  width: 30%;
+  min-width:200px;
+  display: inline-table;
+  text-align: left;
+  background-color: [[PAGE_BG]];
+  overflow: hidden;
+  padding:6px;
+}
+
+.lb-extra-species-box a {
+  color: [[MH_BG]];
+  text-decoration: none;
+  font-weight:bold;
+}
+
+.lb-extra-species-box a:visited {
+  color: [[MH_BG]];
+  text-decoration: none;
+}
+
+.lb-extra-species-box a:hover {
+  color: [[MH_HOVER]];
+  text-decoration: none;
+}
+
+.species-list div.lb-species-box span.sp-img {
+  padding: 0;
+  border: none;
+  background: none;
+  margin-top:-2px;
+}
+
+.lb-secondary {
+  background-color: [[MH_TAB]];
+}
+
+.lb-primary-assembly {
+  font-size: 120%;
+  line-height: 1.5em;
+  text-decoration: none;
+  font-weight: normal;
+  color:[[PAGE_BG]];
+}
+.lb-primary-assembly:visited {
+  color:[[PAGE_BG]];
+}
+.lb-primary-assembly:hover {
+  color:[[PAGE_HOVER]];
+}
+
+a.lb-alternate-assemblies {
+  font-size: 90%;
+  color:#aaa;
+  margin-right:1em;
+  text-decoration: none;
+  font-weight: normal;
+}
+a.lb-alternate-assemblies:visited {
+  color:#aaa;
+}
+a.lb-alternate-assemblies:hover {
+  color:[[PAGE_HOVER]];
+}
+
+.lb-sp-img {
+  float: left;
+  margin-right: 8px;
+  text-decoration: none;
+}
+.lb-sp-img img {
+  display: block;
+  height: 48px;
+  width: 48px;
+}
+
+.lb-info-box {
+  width:98%;
+  max-width: 700px;
+  display: inline-block;
+  margin: 2px 1px;
+  vertical-align: top;
+  padding: 6px;
+}
+
+.lb-species-page {
+   padding:0;
+   background-color:white;
+ }
+
+.column-wrapper.lb-species-page {
+   max-width:1600px;
+ }
+
+.lb-info-box.lb-species-page {
+   text-align:left;
+ }
+ .lb-panel-container {
+   width:49%;
+   display:inline-block;
+   vertical-align:top
+ }
+
+ iframe.lb-iframe {
+   width:700px;
+   height:700px;
+   border:none;
+ }
+
+ h3.lb-heading {
+    font-size: 1.1em;
+    line-height: 2.5em;
+    background-color: [[MH_BG]];
+    color: white !important;
+    margin-bottom: 0;
+    text-align: center
+}
+
+#masthead {
+  margin-bottom:15px;
+}
+
+body.static #masthead {
+  margin-bottom:0
+}
+
+#masthead .tabs_holder {
+  bottom: -15px;
+  left: 0;
+  right: 0;
+  background-color: [[MH_BG]];
+}
+
+div.lb-tools-holder {
+  left: 30px;
+  position: absolute;
+  width: 500px;
+  top: 11px;
+}
+
+div.lb-menu-category {
+  float: left;
+  height: 22px;
+  margin-left: 4px;
+  background-color: [[PAGE_BG]];
+  padding: 5px;
+  border: 2px solid [[MH_BG]];
+  border-radius: 4px;
+  color: [[MH_BG]];
+  line-height: 22px;
+  font-weight: bold;
+  font-size: 14px;
+  font-family: sans-serif;
+}
+
+a div.lb-menu-category:hover {
+  border: 2px solid [[MH_HOVER]];
+}
+
+img.lb-menu-linkicon {
+  max-width: 20px;
+  max-height: 20px;
+  display: inline-block;
+  vertical-align: middle;
+  margin-right: 5px;
+}
+
+.lb-meta-table {
+  width:700px;
+}
+.lb-meta-group, .lb-meta-key {
+  font-weight:bold;
+}
+
+.lb-meta-table tr:nth-child(odd) {
+  background-color: [[NEUTRAL_BG]];
+}
+
+.lb-meta-table td {
+  padding: 4px;
+}
+
+div#wide-footer, div#footer {
+  background-color: [[MH_BG]];
+  margin: 10px 0px;
+  padding: 16px 10px;
+  color: [[MH_TEXT]];
+}
+
+div#wide-footer a, div#footer a {
+  color: [[MH_LINK]];
+  text-decoration:underline;
+}
+
+div#wide-footer a:visited, div#footer a:visited {
+  color: [[MH_LINK]];
+}
+
+div#wide-footer a:hover, div#footer a:hover {
+  color: [[MH_HOVER]];
+}
+
+div#wide-footer img, div#footer img {
+  border: 2px solid #333;
+  background-color: white;
+  margin: 10px 10px 0px 0px;
+  height: 30px;
+  border-radius:6px;
+}
+
+div#wide-footer img:hover, div#footer img:hover {
+  border-color: [[MH_HOVER]];
+}
+
+div.lb-ackn-logos {
+  white-space: nowrap;
+}
+
+div.cookie-message {
+  padding: 0 10px;
+}
+
+/*@media (max-width: 1414px) {
+  .lb-extra-species-box {
+    width: 47%;
+  }
+}*/
+
+@media (max-width: 1459px) {
+  .lb-info-box {
+    width: 98%;
+  }
+
+   iframe.lb-iframe {
+     width:100%;
+     height:600px;
+   }
+
+  .lb-meta-table {
+    width:100%;
+  }
+}
+@media (max-width: 920px) {
+  #masthead, body #masthead {
+    top: -20px;
+    height:100px;
+  }
+  div.lb-tools-holder {
+    top: 47px;
+  }
+  #masthead .logo_holder {
+    top: 31px;
+  }
+  #masthead .tabs_holder {
+    bottom: -21px;
+  }
+  #main_holder {
+    top:-20px;
+  }
+}
+
+@media (max-width: 1023px) {
+  .lb-info-box {
+    width: 100%;
+    min-width: 700px;
+  }
+
+  .lb-extra-species-box {
+    width: 30%;
+  }
+
+   .lb-panel-container {
+     width:80%;
+   }
+
+   iframe.lb-iframe {
+     width: 100%;
+     height: 600px;
+   }
+
+  .lb-meta-table {
+    width: 100%;
+  }
+}

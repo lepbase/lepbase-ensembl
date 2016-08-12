@@ -4,19 +4,21 @@
 </head>
 <body>
 <div class="column-wrapper">
-  <div class="column-two">
-    <div class="plain-box">
+  <div class="lb-column-one">
+    <div class="lb-plain-box">
       <div class="js_panel"><input class="panel_type" type="hidden" value="SpeciesList" /> [[SCRIPT::EnsEMBL::Web::Document::HTML::LepbaseSpecies]] </div>
     </div>
   </div>
-  <div class="column-two">
-    <div class="column-padding no-right-margin">[[INCLUDE::/ssi/funding.inc]] </div>
-    <div class="column-padding no-right-margin">[[INCLUDE::/ssi/contact.inc]]</div>
-    <div class="column-padding no-right-margin">
-    <div class="plain-box">
-      <div class="js_panel"><input class="panel_type" type="hidden" value="SpeciesList" /> [[SCRIPT::EnsEMBL::Web::Document::HTML::LepbaseHeliconiines]] </div>
-    </div>
-    </div>
+</div>
+
+<div class="column-wrapper">
+  <div class="lb-column-one">
+    <!--div class="lb-panel-container">
+      <div class="lb-info-box lb-species-page"> [[INCLUDE::/ssi/funding.inc]] </div>
+    </div-->
+    <!--div class="lb-panel-container"-->
+      <div class="lb-info-box lb-species-page"> [[SCRIPT::EnsEMBL::Web::Document::HTML::LepbaseSecondary]] </div>
+    <!--/div-->
   </div>
 </div>
 </body>
