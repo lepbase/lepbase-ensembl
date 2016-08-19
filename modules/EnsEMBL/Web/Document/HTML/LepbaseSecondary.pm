@@ -62,13 +62,16 @@ sub render_species_list {
   my (%check_extra,  @ok_extra);
 
   foreach (@{$hub->get_species_set('ASSEMBLY_ONLY')}) {
+    next unless $species_info->{$_};
     push @ok_extra, $species_info->{$_} unless $check_extra{$_}++;
     #push @{$assemblies{$species_info->{$_}->{'scientific'}}}, $species_info->{$_};
   }
   #my $extra_html = $self->render_with_images(\@ok_extra,\%assemblies);
-  my $extra_html = $self->render_plain(@ok_extra);
-  my $html = qq{<div class="lb-info-box"><h3 class="lb-heading">Assemblies without gene models</h3><div class="lb-extra-assemblies">$extra_html</div></div>};
-
+  my $html;
+  if (@ok_extra){
+    my $extra_html = $self->render_plain(@ok_extra);
+    $html = qq{<div class="lb-info-box"><h3 class="lb-heading">Assemblies without gene models</h3><div class="lb-extra-assemblies">$extra_html</div></div>};
+  }
   return $html;
 }
 
