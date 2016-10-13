@@ -60,7 +60,7 @@ sub render_species_list {
 
   my (@ok_faves, %assemblies, %check_faves);
 
-  foreach (@{$hub->get_favourite_species) {
+  foreach (@{$hub->get_favourite_species}) {
     next unless $species_info->{$_};
     push @ok_faves, $species_info->{$_}->{'scientific'} unless $check_faves{$species_info->{$_}->{'scientific'}}++;
     push @{$assemblies{$species_info->{$_}->{'scientific'}}}, $species_info->{$_};
