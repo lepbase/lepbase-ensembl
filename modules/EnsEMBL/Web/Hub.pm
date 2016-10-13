@@ -18,14 +18,14 @@ limitations under the License.
 
 package EnsEMBL::Web::Hub;
 
-### NAME: EnsEMBL::Web::Hub 
-### A centralised object giving access to data connections and the web environment 
+### NAME: EnsEMBL::Web::Hub
+### A centralised object giving access to data connections and the web environment
 
 ### DESCRIPTION:
-### Hub uses the Flyweight design pattern to create a single object that is 
+### Hub uses the Flyweight design pattern to create a single object that is
 ### passed around between all other objects that require data connectivity.
-### The Hub stores information about the current web page and its environment, 
-### including cgi parameters, settings parsed from the URL, browser session, 
+### The Hub stores information about the current web page and its environment,
+### including cgi parameters, settings parsed from the URL, browser session,
 ### database connections, and so on.
 
 use strict;
@@ -78,6 +78,23 @@ sub get_species_set {
   my $species_defs = $self->species_defs;
   my @species   = @{$species_defs->$set || []};
   return \@species;
+}
+
+sub get_favourite_species {
+  my $self         = shift;
+  my $species_defs = $self->species_defs;
+  my @fav          = @{$species_defs->DEFAULT_FAVOURITES || []};
+     @fav          = ($species_defs->ENSEMBL_PRIMARY_SPECIES, $species_defs->ENSEMBL_SECONDARY_SPECIES) unless scalar @favourites;
+  my %remove       = map { $_ => 1 } @{$species_defs->ASSEMBLY_ONLY || []};
+  my %fav          = map { $_ => 1 } @fav;
+  foreach my $key (keys %remove){
+    $fav{$key} = 0;
+  }
+  my @favourites;
+  while (my $sp = shift @fav){
+    push @favourites, $sp if $fax{$sp};
+  }
+  return \@favourites;
 }
 
 ## ...END LEPBASE MODIFICATIONS
