@@ -84,7 +84,7 @@ sub get_favourite_species {
   my $self         = shift;
   my $species_defs = $self->species_defs;
   my @fav          = @{$species_defs->DEFAULT_FAVOURITES || []};
-     @fav          = ($species_defs->ENSEMBL_PRIMARY_SPECIES, $species_defs->ENSEMBL_SECONDARY_SPECIES) unless scalar @favourites;
+     @fav          = ($species_defs->ENSEMBL_PRIMARY_SPECIES, $species_defs->ENSEMBL_SECONDARY_SPECIES) unless scalar @fav;
   my %remove       = map { $_ => 1 } @{$species_defs->ASSEMBLY_ONLY || []};
   my %fav          = map { $_ => 1 } @fav;
   foreach my $key (keys %remove){
@@ -92,7 +92,7 @@ sub get_favourite_species {
   }
   my @favourites;
   while (my $sp = shift @fav){
-    push @favourites, $sp if $fax{$sp};
+    push @favourites, $sp if $fav{$sp};
   }
   return \@favourites;
 }
