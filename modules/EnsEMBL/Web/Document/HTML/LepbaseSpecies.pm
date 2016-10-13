@@ -56,10 +56,11 @@ sub render_species_list {
   my $logins        = $hub->users_available;
   my $user          = $hub->user;
   my $species_info  = $hub->get_species_info;
+  my $site_name = $self->hub->species_defs->ENSEMBL_SITE_NAME;
 
   my (@ok_faves, %assemblies, %check_faves);
 
-  foreach (@{$hub->get_species_set('ANNOTATED_ASSEMBLIES')}) {
+  foreach (@{$hub->get_favourite_species) {
     next unless $species_info->{$_};
     push @ok_faves, $species_info->{$_}->{'scientific'} unless $check_faves{$species_info->{$_}->{'scientific'}}++;
     push @{$assemblies{$species_info->{$_}->{'scientific'}}}, $species_info->{$_};
@@ -67,7 +68,7 @@ sub render_species_list {
   my $html;
   if (@ok_faves){
     my $fav_html = $self->render_with_images(\@ok_faves,\%assemblies);
-    $html = qq{<div class="static_favourite_species"><h3 class="lb-heading">Lepbase Ensembl genome browser - select a species/assembly to begin</h3><div class="species_list_container species-list">$fav_html</div></div>};
+    $html = '<div class="static_favourite_species"><h3 class="lb-heading">'.$site_name.' Ensembl genome browser - select a species/assembly to begin</h3><div class="species_list_container species-list">$fav_html</div></div>';
   }
 
   return $html;
