@@ -10,7 +10,11 @@
 <!-- {assembly} -->
 <!-- {annotation} --><a name="annotation"></a>
   <h2 id="annotation" style="margin-bottom:5px">Annotation</h2>
-  <p>As of Feb 11, 2016, the annotation is ongoing and will be updated as soon as it is finished.</p>
+  <p>The genome was repeat masked and a two pass annotation pipeline was used. In the first pass, MAKER was run using the 
+following ab-inition gene finders: SNAP (HMM trained using CEGMA gene models) and GeneMark; and using a transcriptome assembly
+to provide EST evidence. Full length MAKER gene models from this first pass were used to train an HMM for AUGUSTUS. A second pass
+AUGUSTUS run resulted in the transcript predictions reported here. (Description thanks to Reuben Nowell)
+</p>
 <!-- {annotation} -->
 <!-- {references} -->
   <h2>References</h2>
