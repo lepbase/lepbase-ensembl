@@ -74,7 +74,7 @@ sub render {
   }
 
  ## BEGIN LEPBASE MODIFICATIONS...
- my $blast_link = qq(Search for genes and regions of interest using <a href="$sample_data->{'BLAST_URL'}">BLAST</a>);
+ my $blast_link = 'Search for genes and regions of interest using <a href="'.$species_defs->{'BLAST_URL'}.'">BLAST</a>';
  if (keys %$sample_data) {
     my $collection_param = $collection ? ";collection=$collection" : '';
     $examples = join ' or ', map { $sample_data->{$_}
