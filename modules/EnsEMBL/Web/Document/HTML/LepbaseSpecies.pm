@@ -56,7 +56,7 @@ sub render_species_list {
   my $logins        = $hub->users_available;
   my $user          = $hub->user;
   my $species_info  = $hub->get_species_info;
-  my $site_name = $self->hub->species_defs->ENSEMBL_SITE_NAME;
+  my $site_name = $self->hub->species_defs->ENSEMBL_SITE_NAME_SHORT;
 
   my (@ok_faves, %assemblies, %check_faves);
 

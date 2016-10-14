@@ -33,7 +33,7 @@ sub content {
   my $url    = $self->href || $self->home_url;
   my $hub    = $self->hub;
   my $type   = $hub->type;
-  my $site_name = $self->hub->species_defs->ENSEMBL_SITE_NAME;
+  my $site_name = $self->hub->species_defs->ENSEMBL_SITE_NAME_SHORT;
   my $width = $self->hub->species_defs->MOBILE_LOGO_WIDTH;
   my $height = $self->hub->species_defs->MOBILE_LOGO_HEIGHT;
 ## BEGIN LEPBASE MODIFICATIONS...

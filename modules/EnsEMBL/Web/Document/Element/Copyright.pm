@@ -43,7 +43,7 @@ sub content {
 #  </div>),     $sd->SITE_NAME, $sd->SITE_RELEASE_VERSION, $sd->SITE_RELEASE_DATE
 #	       );
 ## BEGIN LEPBASE MODIFICATIONS...
-my $site_name = $self->hub->species_defs->ENSEMBL_SITE_NAME;
+my $site_name = $self->hub->species_defs->ENSEMBL_SITE_NAME_SHORT;
 my $site_version = $self->hub->species_defs->SITE_RELEASE_VERSION;
 my $site_date = $self->hub->species_defs->SITE_RELEASE_DATE;
 my $html = '<div class=lb-ackn-logos>';
