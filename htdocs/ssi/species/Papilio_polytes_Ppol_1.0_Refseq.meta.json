@@ -1,0 +1,32 @@
+{
+   "species" : {
+      "scientific_name" : "Papilio polytes",
+      "taxonomy_id" : "76194",
+      "common_name" : "Common Mormon",
+      "display_name" : "Papilio polytes Ppol 1.0 Refseq"
+   },
+   "genebuild" : {
+      "gene_count" : "13443",
+      "exon_count" : "143144",
+      "method" : "import",
+      "version" : "2",
+      "cds_count" : "16633",
+      "transcript_count" : "18111",
+      "start_date" : "2016-08"
+   },
+   "provider" : {
+      "url" : "http://papilio.nig.ac.jp/",
+      "name" : "Tokyo Institute of Technology"
+   },
+   "assembly" : {
+      "name" : "Ppol_1.0_Refseq",
+      "atgc" : "218282130",
+      "gc_percent" : "33.95",
+      "n" : "8738884",
+      "span" : "227021014",
+      "scaffold_count" : "3874",
+      "accession" : "GCA_000836215.1",
+      "date" : "2015-02-02"
+   }
+}
+

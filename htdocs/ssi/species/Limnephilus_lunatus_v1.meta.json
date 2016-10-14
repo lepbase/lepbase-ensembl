@@ -1,32 +1,32 @@
 {
-   "species" : {
-      "taxonomy_id" : "1218281",
-      "scientific_name" : "Limnephilus lunatus",
-      "common_name" : "Caddisfly",
-      "display_name" : "Limnephilus lunatus v1"
-   },
-   "genebuild" : {
-      "method" : "import",
-      "cds_count" : "13292",
-      "exon_count" : "44424",
-      "version" : "1",
-      "start_date" : "2016-05",
-      "transcript_count" : "13292",
-      "gene_count" : "13292"
-   },
    "assembly" : {
-      "atgc" : "804082756",
+      "scaffold_count" : "68834",
       "gc_percent" : "34.73",
-      "accession" : "GCA_000648945.1",
-      "date" : "2014-05-01",
       "span" : "1345859447",
       "name" : "v1",
-      "n" : "541776691",
-      "scaffold_count" : "68834"
+      "atgc" : "804082756",
+      "accession" : "GCA_000648945.1",
+      "date" : "2014-05-01",
+      "n" : "541776691"
    },
    "provider" : {
-      "url" : "https://www.hgsc.bcm.edu/arthropods/caddisfly-genome-project",
-      "name" : "i5k"
+      "name" : "i5k",
+      "url" : "https://www.hgsc.bcm.edu/arthropods/caddisfly-genome-project"
+   },
+   "genebuild" : {
+      "cds_count" : "13292",
+      "start_date" : "2016-08",
+      "gene_count" : "13292",
+      "version" : "2",
+      "transcript_count" : "13292",
+      "exon_count" : "44424",
+      "method" : "import"
+   },
+   "species" : {
+      "scientific_name" : "Limnephilus lunatus",
+      "display_name" : "Limnephilus lunatus v1",
+      "common_name" : "Caddisfly",
+      "taxonomy_id" : "1218281"
    }
 }
 
