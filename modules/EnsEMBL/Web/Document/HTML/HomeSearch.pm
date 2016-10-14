@@ -37,9 +37,9 @@ use EnsEMBL::Web::Form;
 
 sub render {
   my $self = shift;
-  
+
   return if $ENV{'HTTP_USER_AGENT'} =~ /Sanger Search Bot/;
-  
+
   my $hub                 = $self->hub;
   my $species_defs        = $hub->species_defs;
   my $page_species        = $hub->species || 'Multi';
@@ -57,7 +57,7 @@ sub render {
     $collection = (split('/', $ENV{REQUEST_URI}))[1];
     $collection = undef unless grep {$_ eq $collection} @{$species_defs->ENSEMBL_DATASETS};
   }
-  
+
   # form
   my $form = EnsEMBL::Web::Form->new({'action' => $search_url, 'method' => 'get', 'skip_validation' => 1, 'class' => [ $is_home_page ? 'homepage-search-form' : (), 'search-form', 'clear' ]});
   $form->add_hidden({'name' => 'site', 'value' => $default_search_code});
@@ -74,13 +74,14 @@ sub render {
   }
 
  ## BEGIN LEPBASE MODIFICATIONS...
+ my $blast_link = qq(Search for genes and regions of interest using <a href="$sample_data->{'BLAST_URL'}">BLAST</a>);
  if (keys %$sample_data) {
     my $collection_param = $collection ? ";collection=$collection" : '';
     $examples = join ' or ', map { $sample_data->{$_}
       ? qq(<a class="nowrap" href="$search_url?q=$sample_data->{$_}&sp=$lc_sp">$sample_data->{$_}</a>)
       : ()
     } qw(GENE_TEXT LOCATION_TEXT SEARCH_TEXT);
-    $examples = qq(<p class="search-example">Use the box in the the top right to search for genes, scaffolds and annotations.<br/>e.g.: $examples</p>) if $examples;
+    $examples = qq(<p class="search-example">$blast_link or use the box in the the top right to search for genes, scaffolds and annotations.<br/>e.g.: $examples</p>) if $examples;
   }
   return sprintf '<div>%s</div>',$examples;
   # form field
@@ -140,11 +141,11 @@ sub _add_collection_dropdown {
   my ($self, $field, $collection) = @_;
   my $hub          = $self->hub;
   my $species_defs = $hub->species_defs;
-  my %species; 
+  my %species;
   my $display_name;
   foreach(@{$species_defs->ENSEMBL_DATASETS}) {
     (my $display_name = $species_defs->get_config($_, 'DISPLAY_NAME')) =~ s/_/ /; # hack for E/S
-    $species{$display_name} = $_; 
+    $species{$display_name} = $_;
   }
   my %common_names = reverse %species;
 
