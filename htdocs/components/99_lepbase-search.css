@@ -1,0 +1,84 @@
+div#search_holder {
+    max-width:1024px;
+    font-family: helvetica-neue, helvetica, arial, sans;
+    width: 100%;
+}
+div#pages {
+    margin: 0px auto;
+    width: 200px;
+}
+div#results {
+    width: 100%;
+}
+div.lbs_toggle {
+    display:inline;
+}
+div.lbs_result {
+    background-color: [[TINT_BG]];
+    margin-top: 5px;
+    padding-left: 1em;
+    padding-bottom: 1em;
+    padding-left: 1em;
+    overflow: hidden;
+}
+div.lbs_result_header {
+    background-color: [[MH_BG]];
+    padding-left: 0.5em;
+    margin-left: -1em;
+    margin-bottom: 0.5em;
+    height: 2em;
+    padding-top: 0.5em;
+    color: [[MH_TEXT]];
+}
+div.lbs_species {
+    float: right;
+    margin-right: 1em;
+    margin-top: 0.25em;
+}
+div.lbs_xrefs {
+    margin-left: 1em;
+    margin-top: 0.25em;
+}
+div.lbs_transcripts, .lbs_translations, .lbs_location {
+    margin-top: 0.5em;
+}
+span.lbs_xrefs_db_name {
+    display: block;
+    font-style: italic;
+    margin-top: 0.25em;
+}
+span.lbs_xref {
+    margin-left: 1em;
+}
+span.lbs_xref_desc {}
+span.lbs_transcripts_title, .lbs_translations_title, div.lbs_location {
+    font-weight: bold;
+}
+span.lbs_transcript, .lbs_translation {
+    margin-left: 1em;
+}
+span.lbs_large {
+    font-size: 125%
+}
+div.lbs_transcripts, .lbs_translations, .lbs_location {
+    font-size: 110%
+}
+span.lbs_small, .lbs_xref, .lbs_xref_desc {
+    font-size: 85%;
+}
+#search_holder a {
+    color: [[MH_HOVER]];
+    text-decoration: none;
+    font-weight: normal;
+}
+#search_holder a:hover {
+    text-decoration: underline;
+    color: [[MH_HOVER]];
+}
+#search_holder a:visited {
+    color: [[MH_HOVER]]
+}
+
+#search_holder form input {
+    border-radius:0;
+}
