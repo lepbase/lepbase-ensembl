@@ -24,7 +24,7 @@ All modifications licensed under the Apache License, Version 2.0, as above.
 
 =cut
 
-package EnsEMBL::Web::Component::Gene::Summary;
+package EnsEMBL::Web::Component::Transcript::Summary;
 
 use strict;
 use warnings;
@@ -49,15 +49,31 @@ sub content {
   my $object      = $self->object;
   my $species     = $hub->species;
   my $table       = $self->new_twocol;
-  my $gene        = $object->Obj;
+  my $gene        = $object->gene;
 
   # add blast links
   my $title = $object->stable_id;
   my $slice = $object->slice;
   my $blast_html;
-  my $seq = $slice->{'seq'} || $slice->seq(1);
-  $blast_html = EnsEMBL::Web::Component::Shared->sequenceserver_button($title,$seq,'Gene');
-
+	my $transcripts = $gene->get_all_Transcripts;
+	my $index = 0;
+  if (@$transcripts > 1){
+  	for (my $i = 0; $i < @$transcripts; $i++) {
+  		$index = $i;
+  		last if $title eq $transcripts->[$i]->stable_id;
+  	}
+  }
+  my $seq = $transcripts->[$index]->seq()->seq();
+  $blast_html = EnsEMBL::Web::Component::Shared->sequenceserver_button($title,$seq,'Transcript');
+  $seq = undef;
+  $seq = $transcripts->[$index]->spliced_seq();
+  $blast_html .= EnsEMBL::Web::Component::Shared->sequenceserver_button($title,$seq,'cDNA') if $seq;
+  $seq = undef;
+  $seq = $transcripts->[$index]->translateable_seq();
+  $blast_html .= EnsEMBL::Web::Component::Shared->sequenceserver_button($title,$seq,'CDS') if $seq;
+  $seq = undef;
+  $seq = $transcripts->[$index]->translate()->seq();
+  $blast_html .= EnsEMBL::Web::Component::Shared->sequenceserver_button($transcripts->[$index]->stable_id,$seq,'Protein') if $seq;
   $table->add_row('BLAST',$blast_html);
 
   $html .= sprintf '<div class="summary_panel">%s</div>', $table->render;

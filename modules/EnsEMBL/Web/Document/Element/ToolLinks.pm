@@ -44,13 +44,15 @@ sub content {
 
 ## BEGIN LEPBASE MODIFICATIONS...
   my $sd    = $self->species_defs;
-  my $blog  = $sd->ENSEMBL_BLOG_URL;
-  push @links,   '<a href="http://blast.lepbase.org" title="BLAST"><div class="lb-menu-category"><img title="tools" src="/i/tools-icon.png" class="lb-menu-linkicon"/>BLAST</div></a>';
-  push @links,   '<a href="http://download.lepbase.org" title="Download"><div class="lb-menu-category"><img title="download" src="/i/download-icon.png" class="lb-menu-linkicon"/>Downloads</div></a>';
-  push @links,   '<a href="http://lepbase.org" title="lepbase.org"><div class="lb-menu-category"><img title="lepbase" src="/i/lepbase-icon.png" class="lb-menu-linkicon"/>lepbase.org</div></a>';
-  push @links,   '<a href="http://lepbase.org/category/help" title="Help"><div class="lb-menu-category"><img title="lepbase" src="/i/help-icon.png" class="lb-menu-linkicon"/>Help</div></a>';
-#  push @links,   '<a class="constant" href="http://webapollo.lepbase.org" title="WebApollo">WebApollo</a>';
-#  push @links,   '<a class="constant" href="http://lepbase.org/category/tools/" title="Tools">Tools</a>';
+  my $blast_url = $self->hub->species_defs->BLAST_URL;
+  my $download_url = $self->hub->species_defs->DOWNLOAD_URL;
+  my $project_url = $self->hub->species_defs->PROJECT_URL;
+  my $project_url_title = $self->hub->species_defs->PROJECT_URL_TITLE;
+  my $help_url = $self->hub->species_defs->HELP_URL;
+  push @links,   '<a href="$blast_url" title="BLAST"><div class="lb-menu-category"><img title="tools" src="/i/tools-icon.png" class="lb-menu-linkicon"/>BLAST</div></a>';
+  push @links,   '<a href="$download_url" title="Download"><div class="lb-menu-category"><img title="download" src="/i/download-icon.png" class="lb-menu-linkicon"/>Downloads</div></a>';
+  push @links,   '<a href="$project_url" title="$project_url_title"><div class="lb-menu-category"><img title="$project_url_title" src="/i/project-icon.png" class="lb-menu-linkicon"/>$project_url_title</div></a>';
+  push @links,   '<a href="$help_url" title="Help"><div class="lb-menu-category"><img title="lepbase" src="/i/help-icon.png" class="lb-menu-linkicon"/>Help</div></a>';
 
 ## ...END LEPBASE MODIFICATIONS
   my $tools = join '', @links;
