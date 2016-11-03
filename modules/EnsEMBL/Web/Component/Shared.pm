@@ -32,8 +32,7 @@ use strict;
 ### BEGIN LEPBASE MODIFICATIONS...
 ##################################
 sub sequenceserver_button {
-    my $self = shift;
-    my ($title,$sequence,$label) = @_;
+    my ($self,$title,$sequence,$label) = @_;
     my $blast_url = $self->hub->species_defs->BLAST_URL;
     my $button = '
         <form id="nt_blast_form_'.$label.'" target="_blank" action="'.$blast_url.'" method="POST">
@@ -48,6 +47,12 @@ sub sequenceserver_link {
     my ($title,$sequence,$label) = @_;
     my $link = '<a href="#" onclick="document.getElementById(\'nt_blast_form_'.$label.'\').submit();" class="button toggle no_img" style="float:left" title="Click to BLAST against Lepidoptera genes and genomes (opens a new window)">'.$label.'</a>';
     return $link;
+}
+
+sub gene_tree_button {
+    my ($self,$url,$label) = @_;
+    my $button = '<a class="button" href="'.$url.'">'.$label.'</a>';
+    return $button;
 }
 
 ##################################

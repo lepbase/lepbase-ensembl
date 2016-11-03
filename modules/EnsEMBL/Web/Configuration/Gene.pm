@@ -34,10 +34,10 @@ sub modify_tree {
 
   $self->PREV::modify_tree(@_);
 
-  my $compara_menu = $self->get_node('PanCompara');
-  my $pcdb_name = $self->hub->species_defs->PAN_COMPARA_DB_NAME;
-  $compara_menu->set('caption', $pcdb_name) if $compara_menu && $pcdb_name;
-
+  #my $compara_menu = $self->get_node('PanCompara');
+  #my $pcdb_name = $self->hub->species_defs->PAN_COMPARA_DB_NAME;
+  #$compara_menu->set('caption', $pcdb_name) if $compara_menu && $pcdb_name;
+  $self->delete_node('PanCompara');
   $self->delete_node('Family');
   $self->delete_node('Gene_families');
   $self->delete_node('Alleles');

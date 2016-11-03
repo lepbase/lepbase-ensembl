@@ -56,9 +56,25 @@ sub content {
   my $slice = $object->slice;
   my $blast_html;
   my $seq = $slice->{'seq'} || $slice->seq(1);
-  $blast_html = EnsEMBL::Web::Component::Shared->sequenceserver_button($title,$seq,'Gene');
+  $blast_html = $self->sequenceserver_button($title,$seq,'Gene');
 
   $table->add_row('BLAST',$blast_html);
+
+  # add gene tree buttons
+  my $member     = $object->database('compara') ? $object->database('compara')->get_GeneMemberAdaptor->fetch_by_stable_id($object->stable_id) : undef;
+  my $gt_html;
+  if ($member && $member->has_GeneTree){
+    my $gene_tree_url = $hub->url({
+      type   => 'Gene',
+      action => 'Compara_Tree',
+      g      => $gene->stable_id
+    });
+    $gt_html = $self->gene_tree_button($gene_tree_url,'Gene tree');
+  }
+
+  if ($gt_html){
+    $table->add_row('Gene trees',$gt_html);
+  }
 
   $html .= sprintf '<div class="summary_panel">%s</div>', $table->render;
 ##################################
