@@ -64,16 +64,16 @@ sub content {
   	}
   }
   my $seq = $transcripts->[$index]->seq()->seq();
-  $blast_html = EnsEMBL::Web::Component::Shared->sequenceserver_button($title,$seq,'Transcript');
+  $blast_html = $self->sequenceserver_button($title,$seq,'Transcript');
   $seq = undef;
   $seq = $transcripts->[$index]->spliced_seq();
-  $blast_html .= EnsEMBL::Web::Component::Shared->sequenceserver_button($title,$seq,'cDNA') if $seq;
+  $blast_html .= $self->sequenceserver_button($title,$seq,'cDNA') if $seq;
   $seq = undef;
   $seq = $transcripts->[$index]->translateable_seq();
-  $blast_html .= EnsEMBL::Web::Component::Shared->sequenceserver_button($title,$seq,'CDS') if $seq;
+  $blast_html .= $self->sequenceserver_button($title,$seq,'CDS') if $seq;
   $seq = undef;
   $seq = $transcripts->[$index]->translate()->seq();
-  $blast_html .= EnsEMBL::Web::Component::Shared->sequenceserver_button($transcripts->[$index]->stable_id,$seq,'Protein') if $seq;
+  $blast_html .= $self->sequenceserver_button($transcripts->[$index]->stable_id,$seq,'Protein') if $seq;
   $table->add_row('BLAST',$blast_html);
 
   $html .= sprintf '<div class="summary_panel">%s</div>', $table->render;

@@ -32,7 +32,7 @@ use strict;
 ### BEGIN LEPBASE MODIFICATIONS...
 ##################################
 sub sequenceserver_button {
-    my $obj = shift;
+    my $self = shift;
     my ($title,$sequence,$label) = @_;
     my $blast_url = $self->hub->species_defs->BLAST_URL;
     my $button = '
