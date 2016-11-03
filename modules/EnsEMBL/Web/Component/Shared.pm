@@ -36,7 +36,7 @@ sub sequenceserver_button {
     my ($title,$sequence,$label) = @_;
     my $blast_url = $self->hub->species_defs->BLAST_URL;
     my $button = '
-        <form id="nt_blast_form_'.$label.'" target="_blank" action="$blast_url" method="POST">
+        <form id="nt_blast_form_'.$label.'" target="_blank" action="'.$blast_url.'" method="POST">
             <input type="hidden" name="input_sequence" value=">'.$title."\n".$sequence.'">
             '.sequenceserver_link($title,$sequence,$label).'
         </form>';
