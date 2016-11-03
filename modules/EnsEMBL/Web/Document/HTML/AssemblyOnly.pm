@@ -24,7 +24,7 @@ All modifications licensed under the Apache License, Version 2.0, as above.
 
 =cut
 
-package EnsEMBL::Web::Document::HTML::LepbaseSpecies;
+package EnsEMBL::Web::Document::HTML::AssemblyOnly;
 
 use strict;
 
@@ -50,31 +50,50 @@ sub render {
   return $html;
 }
 
+
+
 sub render_species_list {
   my ($self, $fragment) = @_;
   my $hub           = $self->hub;
   my $logins        = $hub->users_available;
   my $user          = $hub->user;
   my $species_info  = $hub->get_species_info;
-  my $site_name = $self->hub->species_defs->ENSEMBL_SITE_NAME_SHORT;
 
-  my (@ok_faves, %assemblies, %check_faves);
+  my (%check_extra,  @ok_extra);
 
-  foreach (@{$hub->get_favourite_species}) {
+  foreach (@{$hub->get_species_set('ASSEMBLY_ONLY')}) {
     next unless $species_info->{$_};
-    push @ok_faves, $species_info->{$_}->{'scientific'} unless $check_faves{$species_info->{$_}->{'scientific'}}++;
-    push @{$assemblies{$species_info->{$_}->{'scientific'}}}, $species_info->{$_};
+    push @ok_extra, $species_info->{$_} unless $check_extra{$_}++;
+    #push @{$assemblies{$species_info->{$_}->{'scientific'}}}, $species_info->{$_};
   }
+  #my $extra_html = $self->render_with_images(\@ok_extra,\%assemblies);
   my $html;
-  if (@ok_faves){
-    my $fav_html = $self->render_with_images(\@ok_faves,\%assemblies);
-    $html = '<div class="static_favourite_species"><h3 class="lb-heading">'.$site_name.' Ensembl genome browser - select a species/assembly to begin</h3><div class="species_list_container species-list">'.$fav_html.'</div></div>';
+  if (@ok_extra){
+    my $extra_html = $self->render_plain(@ok_extra);
+    $html = qq{<div class="lb-info-box"><h3 class="lb-heading">Assemblies without gene models</h3><div class="lb-extra-assemblies">$extra_html</div></div>};
+  }
+  return $html;
+}
+
+sub render_plain {
+  my ($self, @species_list) = @_;
+  my $hub           = $self->hub;
+  my $species_defs  = $hub->species_defs;
+  my $static_server = $species_defs->ENSEMBL_STATIC_SERVER;
+  my $html;
+
+  foreach (@species_list) {
+    $html .= qq(
+      <div class="lb-extra-species-box">
+        <a href="$_->{'key'}/Info/Index">
+          $_->{'common'}
+        </a>
+      </div>
+    );
   }
 
   return $html;
 }
-
-
 
 sub render_ajax_reorder_list {
   my $self          = shift;
@@ -120,7 +139,7 @@ sub render_with_images {
     }
     $links .= '</span>';
     $html .= qq(
-      <div class="lb-species-box">
+      <div class="lb-species-box lb-secondary">
         <a href="$assemblies->{$_}[0]->{'key'}/Info/Index">
           <div class="lb-sp-img"><img src="$static_server/i/species/48/$assemblies->{$_}[0]->{'key'}.png" alt="$assemblies->{$_}[0]->{'name'}" title="Browse $assemblies->{$_}[0]->{'name'}" height="48" width="48" /></div>
         </a>
