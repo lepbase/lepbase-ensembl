@@ -178,27 +178,50 @@ sub content {
   my $src = $species_defs->ASSEMBLY_STATS_URL.'?assembly='.$production_name.'&view=circle';
   my $altctr = 0;
   my $alt_asm_text;
-  foreach (@{$hub->get_favourite_species}) {
-    if ($species_info->{$_}->{'scientific'} eq $species_defs->SPECIES_SCIENTIFIC_NAME &&
-        $species_info->{$_}->{'key'} ne $species_defs->SPECIES_URL){
+  my %alt;
+  my $relctr = 0;
+  my $rel_asm_text;
+  my $relalt = '';
+  my $binomial = join(' ',(split /\s/,$species_defs->SPECIES_SCIENTIFIC_NAME)[0..1]);
+  foreach (@{$hub->get_species_set('DEFAULT_FAVOURITES')}) {
+    if ($species_info->{$_}->{'key'} ne $species_defs->SPECIES_URL){
+      if ($species_info->{$_}->{'scientific'} eq $species_defs->SPECIES_SCIENTIFIC_NAME){
         $altctr++;
         my $asm = $species_info->{$_}->{'name'}.'_'.$species_info->{$_}->{'assembly'};
         $asm =~ s/\s/_/g;
-        $alt_asm_text = ' <a href="'.$species_info->{$_}->{'url'}.'">'.$species_info->{$_}->{'name'}.' '.$species_info->{$_}->{'assembly'}.'</a>';
+        $alt_asm_text .= ' | ' if ($altctr > 1);
+        $alt_asm_text .= '<a href="'.$species_info->{$_}->{'url'}.'">'.$species_info->{$_}->{'name'}.' '. $species_info->{$_}->{'assembly'}.'</a>';
+        $alt{$species_info->{$_}->{'key'}} = 1;
         $src .= '&altAssembly='.$asm;
+      }
+      if (!$alt{$species_info->{$_}->{'key'}} && $binomial eq join(' ',(split /\s/,$species_info->{$_}->{'scientific'})[0..1])){
+        $relctr++;
+        my $asm = $species_info->{$_}->{'name'}.'_'.$species_info->{$_}->{'assembly'};
+        $asm =~ s/\s/_/g;
+        $alt{$species_info->{$_}->{'key'}} = 1;
+        $rel_asm_text .= ' | ' if ($relctr > 1);
+        $rel_asm_text .= '<a href="'.$species_info->{$_}->{'url'}.'">'.$species_info->{$_}->{'name'}.' '. $species_info->{$_}->{'assembly'}.'</a>';
+        $relalt .= '&altAssembly='.$asm;
+      }
     }
   }
   my $ref_asm = ucfirst $species_defs->REFERENCE_ASSEMBLY;
-  if ($species_defs->SPECIES_SCIENTIFIC_NAME ne $species_info->{$ref_asm}->{'scientific'}){
+  if (!$alt{$species_info->{$ref_asm}->{'key'}} && $species_info->{$ref_asm}->{'key'} ne $species_defs->SPECIES_URL){
     my $asm = $species_info->{$ref_asm}->{'name'}.'_'.$species_info->{$ref_asm}->{'assembly'};
     $asm =~ s/\s/_/g;
-    $src .= '&altAssembly='.$asm;
+    $relalt .= '&altAssembly='.$asm;
   }
   if ($altctr > 0){
     $src .= '&altView=compare';
     my $plural = $altctr > 1 ? 'assemblies' : 'assembly';
-    $alt_asm_text = "Alternate $plural available:";
+    $alt_asm_text = "<p>Alternate $plural available: ".$alt_asm_text.'</p>';
   }
+  if ($relctr > 0){
+    $src .= '&altView=compare' if $altctr == 0;
+    my $plural = $relctr > 1 ? 'assemblies' : 'assembly';
+    $rel_asm_text = "<p>Related $plural: ".$rel_asm_text.'</p>';
+  }
+  $src .= $relalt;
   $src .= '&altView=cumulative&altView=table';
 
   my $assembly_text = '<h3 class="lb-heading">Assembly statistics</h3><iframe class="lb-iframe" src="'.$src.'"></iframe>';
@@ -206,12 +229,13 @@ sub content {
   <br/><a href="https://zenodo.org/badge/latestdoi/20772/rjchallis/assembly-stats"><img src="https://zenodo.org/badge/20772/rjchallis/assembly-stats.svg" alt="10.5281/zenodo.56996" /></a>
   </p>';
 
-  if ($about_text || $search_text || $alt_asm_text) {
+  if ($about_text || $search_text || $alt_asm_text || $rel_asm_text) {
     $html .= '<div class="lb-info-box lb-species-page">';
     $html .= '<h3 class="lb-heading">About <em>'.$species_defs->SPECIES_SCIENTIFIC_NAME.'</em></h3>'.$about_text.'<br/>' if $about_text;
-    $html .= $search_text.'<br/>' if $search_text;
-    $html .= $alt_asm_text.'<br/>' if $alt_asm_text;
-    $html .= '</div>';
+    $html .= $search_text if $search_text;
+    $html .= $alt_asm_text if $alt_asm_text;
+    $html .= $rel_asm_text if $rel_asm_text;
+    $html .= '<br/></div>';
   }
 
   $html .= '<div class="lb-info-box lb-species-page">'.$assembly_text.'</div>';

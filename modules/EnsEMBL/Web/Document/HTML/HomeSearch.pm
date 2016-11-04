@@ -81,8 +81,9 @@ sub render {
       ? qq(<a class="nowrap" href="$search_url?q=$sample_data->{$_}&sp=$lc_sp">$sample_data->{$_}</a>)
       : ()
     } qw(GENE_TEXT LOCATION_TEXT SEARCH_TEXT);
-    $examples = qq(<p class="search-example">$blast_link or use the box in the the top right to search for genes, scaffolds and annotations.<br/>e.g.: $examples</p>) if $examples;
+    $examples = qq(<p class="search-example">$blast_link or use the box in the the top right to search for genes, scaffolds and annotations.</p><p class="search-example">Example search terms: $examples</p>) if $examples;
   }
+  $examples = qq(<p class="search-example">$blast_link</p>) unless $examples;
   return sprintf '<div>%s</div>',$examples;
   # form field
   my $f_params = {'notes' => $examples};
