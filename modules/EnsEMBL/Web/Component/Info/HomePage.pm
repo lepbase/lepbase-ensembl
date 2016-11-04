@@ -173,22 +173,18 @@ sub content {
   my $about_text = $self->_other_text('about', $species);
   $html .= '<div class="column-wrapper lb-species-page"><div class="lb-column-one"><div class="lb-panel-container">';
   my $search_text = EnsEMBL::Web::Document::HTML::HomeSearch->new($hub)->render;
-  if ($about_text || $search_text) {
-    $html .= '<div class="lb-info-box lb-species-page">';
-    $html .= '<h3 class="lb-heading">About <em>'.$species_defs->SPECIES_SCIENTIFIC_NAME.'</em></h3>'.$about_text.'<br/>' if $about_text;
-    $html .= $search_text.'<br/>' if $search_text;
-    $html .= '</div>';
-  }
 
   my $species_info  = $hub->get_species_info;
   my $src = $species_defs->ASSEMBLY_STATS_URL.'?assembly='.$production_name.'&view=circle';
   my $altctr = 0;
+  my $alt_asm_text;
   foreach (@{$hub->get_favourite_species}) {
     if ($species_info->{$_}->{'scientific'} eq $species_defs->SPECIES_SCIENTIFIC_NAME &&
         $species_info->{$_}->{'key'} ne $species_defs->SPECIES_URL){
         $altctr++;
         my $asm = $species_info->{$_}->{'name'}.'_'.$species_info->{$_}->{'assembly'};
         $asm =~ s/\s/_/g;
+        $alt_asm_text = ' <a href="'.$species_info->{$_}->{'url'}.'">'.$species_info->{$_}->{'name'}.' '.$species_info->{$_}->{'assembly'}.'</a>';
         $src .= '&altAssembly='.$asm;
     }
   }
@@ -199,7 +195,9 @@ sub content {
     $src .= '&altAssembly='.$asm;
   }
   if ($altctr > 0){
-    $src .= '&altView=compare'
+    $src .= '&altView=compare';
+    my $plural = $altctr > 1 ? 'assemblies' : 'assembly';
+    $alt_asm_text = "Alternate $plural available:";
   }
   $src .= '&altView=cumulative&altView=table';
 
@@ -207,6 +205,14 @@ sub content {
   $assembly_text .= '<p>Assembly stats plots are described at <a href="http://github.com/rjchallis/assembly-stats">github.com/rjchallis/assembly-stats</a>
   <br/><a href="https://zenodo.org/badge/latestdoi/20772/rjchallis/assembly-stats"><img src="https://zenodo.org/badge/20772/rjchallis/assembly-stats.svg" alt="10.5281/zenodo.56996" /></a>
   </p>';
+
+  if ($about_text || $search_text || $alt_asm_text) {
+    $html .= '<div class="lb-info-box lb-species-page">';
+    $html .= '<h3 class="lb-heading">About <em>'.$species_defs->SPECIES_SCIENTIFIC_NAME.'</em></h3>'.$about_text.'<br/>' if $about_text;
+    $html .= $search_text.'<br/>' if $search_text;
+    $html .= $alt_asm_text.'<br/>' if $alt_asm_text;
+    $html .= '</div>';
+  }
 
   $html .= '<div class="lb-info-box lb-species-page">'.$assembly_text.'</div>';
 
