@@ -180,15 +180,23 @@ sub content {
     $html .= '</div>';
   }
 
-
+  my $species_info  = $hub->get_species_info;
   my $src = $species_defs->ASSEMBLY_STATS_URL.'?assembly='.$production_name.'&view=circle';
   my $altctr = 0;
   foreach (@{$hub->get_favourite_species}) {
     if ($species_info->{$_}->{'scientific'} eq $species_defs->SPECIES_SCIENTIFIC_NAME &&
-        $species_info->{$_}->{'url'} ne $species_defs->SPECIES_URL){
+        $species_info->{$_}->{'key'} ne $species_defs->SPECIES_URL){
         $altctr++;
-        $src .= '&altAssembly='.$species_info->{$_}->{'display'};
+        my $asm = $species_info->{$_}->{'name'}.'_'.$species_info->{$_}->{'assembly'};
+        $asm =~ s/\s/_/g;
+        $src .= '&altAssembly='.$asm;
     }
+  }
+  my $ref_asm = ucfirst $species_defs->REFERENCE_ASSEMBLY;
+  if ($species_defs->SPECIES_SCIENTIFIC_NAME ne $species_info->{$ref_asm}->{'scientific'}){
+    my $asm = $species_info->{$ref_asm}->{'name'}.'_'.$species_info->{$ref_asm}->{'assembly'};
+    $asm =~ s/\s/_/g;
+    $src .= '&altAssembly='.$asm;
   }
   if ($altctr > 0){
     $src .= '&altView=compare'
@@ -280,9 +288,9 @@ sub content {
 
   if ($genebuild == 1){
     $src = $species_defs->CODON_USAGE_URL.'?assembly='.$production_name.'&view=plot&altView=table';
-    if ($alternate{$production_name}){
-      $src .= '&altAssembly='.$alternate{$production_name}->[0];
-    }
+#    if ($alternate{$production_name}){
+#      $src .= '&altAssembly='.$alternate{$production_name}->[0];
+#    }
     my $codon_text = '<h3 class="lb-heading">Codon usage</h3><iframe class="lb-iframe" src="'.$src.'"></iframe>';
     $codon_text .= '<p>Codon usage plots are described at <a href="http://github.com/rjchallis/codon-usage">github.com/rjchallis/codon-usage</a>
     <br/><a href="https://zenodo.org/badge/latestdoi/20772/rjchallis/codon-usage"><img src="https://zenodo.org/badge/20772/rjchallis/codon-usage.svg" alt="10.5281/zenodo.56681" /></a>
