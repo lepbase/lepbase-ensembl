@@ -29,8 +29,8 @@
 }
 
 .lb-extra-species-box {
-  width: 30%;
-  min-width:200px;
+  width: 15%;
+  min-width:220px;
   display: inline-table;
   text-align: left;
   background-color: [[PAGE_BG]];
@@ -106,7 +106,6 @@ a.lb-alternate-assemblies:hover {
 
 .lb-info-box {
   width:98%;
-  max-width: 700px;
   display: inline-block;
   margin: 2px 1px;
   vertical-align: top;
@@ -124,6 +123,7 @@ a.lb-alternate-assemblies:hover {
 
 .lb-info-box.lb-species-page {
    text-align:left;
+   max-width: 700px;
  }
  .lb-panel-container {
    width:49%;
