@@ -33,17 +33,7 @@ use base qw(EnsEMBL::Web::Document::HTML);
 sub render {
   my $self      = shift;
   my $fragment  = shift eq 'fragment';
-  my $full_list = $self->render_species_list($fragment);
-
-  my $html = $fragment ? $full_list : sprintf('
-      <div class="reorder_species" style="display: none;">
-         %s
-      </div>
-      <div class="full_species">
-        %s
-      </div>
-  ', $self->render_ajax_reorder_list, $full_list);
-
+  my $html = $self->render_species_list($fragment);
 
   #warn $html;
 
