@@ -33,17 +33,7 @@ use base qw(EnsEMBL::Web::Document::HTML);
 sub render {
   my $self      = shift;
   my $fragment  = shift eq 'fragment';
-  my $full_list = $self->render_species_list($fragment);
-
-  my $html = $fragment ? $full_list : sprintf('
-      <div class="reorder_species" style="display: none;">
-         %s
-      </div>
-      <div class="full_species">
-        %s
-      </div>
-  ', $self->render_ajax_reorder_list, $full_list);
-
+  my $html = $self->render_species_list($fragment);
 
   #warn $html;
 
@@ -88,65 +78,6 @@ sub render_plain {
         <a href="$_->{'key'}/Info/Index">
           $_->{'common'}
         </a>
-      </div>
-    );
-  }
-
-  return $html;
-}
-
-sub render_ajax_reorder_list {
-  my $self          = shift;
-  my $hub           = $self->hub;
-  my $species_defs  = $hub->species_defs;
-  my $favourites    = $hub->get_favourite_species;
-  my %species_info  = %{$hub->get_species_info};
-  my @fav_list      = map qq\<li id="favourite-$_->{'key'}">$_->{'common'} (<em>$_->{'scientific'}</em>)</li>\, map $species_info{$_}, @$favourites;
-
-  delete $species_info{$_} for @$favourites;
-
-  my @sorted       = sort { $a->{'common'} cmp $b->{'common'} } values %species_info;
-  my @species_list = map qq\<li id="species-$_->{'key'}">$_->{'common'} (<em>$_->{'scientific'}</em>)</li>\, @sorted;
-
-  return sprintf('
-    <p>For easy access to commonly used genomes, drag from the bottom list to the top one &middot; <span class="link toggle_link">Save</span></p>
-    <p><strong>Favourites</strong></p>
-    <ul class="favourites list">
-      %s
-    </ul>
-    <p><strong>Other available species</strong></p>
-    <ul class="species list">
-      %s
-    </ul>
-    <p><span class="link toggle_link">Save selection</span> &middot; <a href="/Account/Favourites/Reset">Restore default list</a></p>
-  ', join("\n", @fav_list), join("\n", @species_list));
-}
-
-sub render_with_images {
-  my ($self, $species_list, $assemblies) = @_;
-  my $hub           = $self->hub;
-  my $species_defs  = $hub->species_defs;
-  my $static_server = $species_defs->ENSEMBL_STATIC_SERVER;
-  my $html;
-
-
-
-  foreach (@$species_list) {
-    my $links = '<br/><span class="lb-alternate-assemblies">';
-    foreach my $asm (@{$assemblies->{$_}}){
-      $links .= qq(<a class="lb-alternate-assemblies" href="$asm->{'key'}/Info/Index">$asm->{'assembly'}</a>
-      );
-    }
-    $links .= '</span>';
-    $html .= qq(
-      <div class="lb-species-box lb-secondary">
-        <a href="$assemblies->{$_}[0]->{'key'}/Info/Index">
-          <div class="lb-sp-img"><img src="$static_server/i/species/48/$assemblies->{$_}[0]->{'key'}.png" alt="$assemblies->{$_}[0]->{'name'}" title="Browse $assemblies->{$_}[0]->{'name'}" height="48" width="48" /></div>
-        </a>
-        <a class="lb-primary-assembly" href="$assemblies->{$_}[0]->{'key'}/Info/Index">
-          $assemblies->{$_}[0]->{'scientific'}
-        </a>
-        $links
       </div>
     );
   }
