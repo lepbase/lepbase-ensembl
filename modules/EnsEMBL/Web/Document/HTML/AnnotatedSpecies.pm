@@ -64,35 +64,6 @@ sub render_species_list {
   return $html;
 }
 
-
-
-sub render_ajax_reorder_list {
-  my $self          = shift;
-  my $hub           = $self->hub;
-  my $species_defs  = $hub->species_defs;
-  my $favourites    = $hub->get_favourite_species;
-  my %species_info  = %{$hub->get_species_info};
-  my @fav_list      = map qq\<li id="favourite-$_->{'key'}">$_->{'common'} (<em>$_->{'scientific'}</em>)</li>\, map $species_info{$_}, @$favourites;
-
-  delete $species_info{$_} for @$favourites;
-
-  my @sorted       = sort { $a->{'common'} cmp $b->{'common'} } values %species_info;
-  my @species_list = map qq\<li id="species-$_->{'key'}">$_->{'common'} (<em>$_->{'scientific'}</em>)</li>\, @sorted;
-
-  return sprintf('
-    <p>For easy access to commonly used genomes, drag from the bottom list to the top one &middot; <span class="link toggle_link">Save</span></p>
-    <p><strong>Favourites</strong></p>
-    <ul class="favourites list">
-      %s
-    </ul>
-    <p><strong>Other available species</strong></p>
-    <ul class="species list">
-      %s
-    </ul>
-    <p><span class="link toggle_link">Save selection</span> &middot; <a href="/Account/Favourites/Reset">Restore default list</a></p>
-  ', join("\n", @fav_list), join("\n", @species_list));
-}
-
 sub render_with_images {
   my ($self, $species_list, $assemblies) = @_;
   my $hub           = $self->hub;
