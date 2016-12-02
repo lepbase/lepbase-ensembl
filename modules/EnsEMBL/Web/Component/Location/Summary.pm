@@ -28,7 +28,7 @@ sub content {
   my $self = shift;
 
   return if $self->hub->action eq 'Genome';
-  return if $self->hub->action eq 'auto';
+  return if $self->hub->action eq 'autocomplete';
 
   my $object = $self->object || $self->hub->core_object('location');
   my $slice  = $object->database('core')->get_SliceAdaptor->fetch_by_region(
