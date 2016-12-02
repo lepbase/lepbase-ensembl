@@ -32,6 +32,7 @@ use strict;
 
 use Carp;
 use CGI;
+$CGI::LIST_CONTEXT_WARN = 0;
 use URI::Escape qw(uri_escape uri_unescape);
 
 use EnsEMBL::Web::SpeciesDefs;
