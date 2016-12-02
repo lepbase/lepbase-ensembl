@@ -1,5 +1,6 @@
 =head1 LICENSE
-Copyright [2014-2016] EMBL-European Bioinformatics Institute
+Copyright [1999-2015] Wellcome Trust Sanger Institute and the EMBL-European Bioinformatics Institute
+Copyright [2016] EMBL-European Bioinformatics Institute
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
 You may obtain a copy of the License at
@@ -14,22 +15,18 @@ limitations under the License.
 package EnsEMBL::Web::ImageConfig::contigviewbottom;
 
 use strict;
-use warnings;
 
-use parent qw(EnsEMBL::Web::ImageConfig);
+use base qw(EnsEMBL::Web::ImageConfig);
 
-sub init_cacheable {
+sub init {
   my $self = shift;
 
-  $self->SUPER::init_cacheable(@_);
-
   $self->set_parameters({
-    image_resizeable => 1,
-    bottom_toolbar   => 1,
-    sortable_tracks  => 'drag', # allow the user to reorder tracks on the image
-    can_trackhubs    => 1,      # allow track hubs
-    opt_halfheight   => 0,      # glyphs are half-height [ probably removed when this becomes a track config ]
-    opt_lines        => 1,      # draw registry lines
+    toolbars        => { top => 1, bottom => 1 },
+    sortable_tracks => 'drag', # allow the user to reorder tracks on the image
+    trackhubs        => 1,      # allow track hubs
+    opt_halfheight  => 0,      # glyphs are half-height [ probably removed when this becomes a track config ]
+    opt_lines       => 1,      # draw registry lines
   });
 
   # First add menus in the order you want them for this display
@@ -44,9 +41,7 @@ sub init_cacheable {
     dna_align_est
     dna_align_rna
     dna_align_other
-    dna_align_ncrna_pred
     lepbase_rnaseq
-    community_annotation
     protein_align
     protein_feature
     rnaseq
@@ -72,6 +67,7 @@ sub init_cacheable {
     information
   ));
 
+  $self->image_resize = 1;
   my %desc = (
     contig    => 'Track showing underlying assembly contigs.',
     seq       => 'Track showing sequence in both directions. Only displayed at 1Kb and below.',
@@ -88,6 +84,39 @@ sub init_cacheable {
   );
 
   $self->add_track('decorations', 'gc_plot', '%GC', 'gcplot', { display => 'normal',  strand => 'r', description => 'Shows percentage of Gs & Cs in region', sortable => 1 });
+
+  my $gencode_version = $self->hub->species_defs->GENCODE ? $self->hub->species_defs->GENCODE->{'version'} : '';
+  $self->add_track('transcript', 'gencode', "Basic Gene Annotations from GENCODE $gencode_version", '_gencode', {
+      labelcaption => "Genes (Basic set from GENCODE $gencode_version)",
+      display     => 'off',
+      description => 'The GENCODE set is the gene set for human and mouse. GENCODE Basic is a subset of representative transcripts (splice variants).',
+      sortable    => 1,
+      colours     => $self->species_defs->colour('gene'),
+      label_key  => '[biotype]',
+      logic_names => ['proj_ensembl',  'proj_ncrna', 'proj_havana_ig_gene', 'havana_ig_gene', 'ensembl_havana_ig_gene', 'proj_ensembl_havana_lincrna', 'proj_havana', 'ensembl', 'mt_genbank_import', 'ensembl_havana_lincrna', 'proj_ensembl_havana_ig_gene', 'ncrna', 'assembly_patch_ensembl', 'ensembl_havana_gene', 'ensembl_lincrna', 'proj_ensembl_havana_gene', 'havana'],
+      renderers   =>  [
+        'off',                     'Off',
+        'gene_nolabel',            'No exon structure without labels',
+        'gene_label',              'No exon structure with labels',
+        'transcript_nolabel',      'Expanded without labels',
+        'transcript_label',        'Expanded with labels',
+        'collapsed_nolabel',       'Collapsed without labels',
+        'collapsed_label',         'Collapsed with labels',
+        'transcript_label_coding', 'Coding transcripts only (in coding genes)',
+      ],
+    }) if($gencode_version);
+
+  if ($self->species_defs->ALTERNATIVE_ASSEMBLIES) {
+    foreach my $alt_assembly (@{$self->species_defs->ALTERNATIVE_ASSEMBLIES}) {
+      $self->add_track('misc_feature', "${alt_assembly}_assembly", "$alt_assembly assembly", 'alternative_assembly', {
+        display       => 'off',
+        strand        => 'f',
+        colourset     => 'alternative_assembly',
+        description   => "Track indicating $alt_assembly assembly",
+        assembly_name => $alt_assembly
+      });
+    }
+  }
 
   # Add in additional tracks
   $self->load_tracks;
@@ -110,14 +139,16 @@ sub init_cacheable {
     $self->modify_configs($tracks, {display => 'compact'});
   }
 
-  ## ParaSite: display the EVA tracks by default
-  if($self->hub->species_defs->EVA_TRACKS) {
-    foreach my $study (@{$self->hub->species_defs->EVA_TRACKS}) {
-      my $track  = "variation_feature_eva_" . $study->{'study_id'};
-      $self->modify_configs([$track], {display => 'compact'});
-    }
+  # These tracks get added after the "auto-loaded tracks get addded
+  if ($self->species_defs->ENSEMBL_MOD) {
+    $self->add_track('information', 'mod', '', 'text', {
+      name    => 'Message of the day',
+      display => 'normal',
+      menu    => 'no',
+      strand  => 'r',
+      text    => $self->species_defs->ENSEMBL_MOD
+    });
   }
-  ##
 
   $self->add_tracks('information',
     [ 'missing', '', 'text', { display => 'normal', strand => 'r', name => 'Disabled track summary', description => 'Show counts of number of tracks turned off by the user' }],
@@ -129,6 +160,24 @@ sub init_cacheable {
     [ 'ruler',     '', 'ruler',     { display => 'normal', strand => 'b', name => 'Ruler',     description => 'Shows the length of the region being displayed' }],
     [ 'draggable', '', 'draggable', { display => 'normal', strand => 'b', menu => 'no' }]
   );
+
+  ## LRG track
+  if ($self->species_defs->HAS_LRG) {
+    $self->add_tracks('lrg',
+      [ 'lrg_transcript', 'LRG', '_transcript', {
+        display     => 'off', # Switched off by default
+        strand      => 'b',
+        name        => 'LRG',
+        description => 'Transcripts from the <a class="external" href="http://www.lrg-sequence.org">Locus Reference Genomic sequence</a> project.',
+        logic_names => [ 'LRG_import' ],
+        logic_name  => 'LRG_import',
+        colours     => $self->species_defs->colour('gene'),
+        label_key   => '[display_label]',
+        colour_key  => '[logic_name]',
+        zmenu       => 'LRG',
+      }]
+    );
+  }
 
   ## Switch on multiple alignments defined in MULTI.ini
   my $compara_db      = $self->hub->database('compara');
@@ -146,10 +195,22 @@ sub init_cacheable {
     }
   }
 
-## ParaSite
-  $self->modify_configs( ['dna_align_ncrna_pred'], {'display'=>'as_alignment_label'} );
-  $self->modify_configs( ['lepbase_rnaseq'], {'strand'=>'r'} );
-##
+  my @feature_sets = ('cisRED', 'VISTA', 'miRanda', 'NestedMICA', 'REDfly CRM', 'REDfly TFBS');
+
+  foreach my $f_set (@feature_sets) {
+    $self->modify_configs(
+      [ "regulatory_regions_funcgen_$f_set" ],
+      { depth => 25, height => 6 }
+    );
+  }
+
+  ## Regulatory build track now needs to be turned on explicitly
+  $self->modify_configs(['regbuild'], {display => 'compact'});
+
+  ## ParaSite
+    $self->modify_configs( ['dna_align_ncrna_pred'], {'display'=>'as_alignment_label'} );
+    $self->modify_configs( ['lepbase_rnaseq'], {'strand'=>'r'} );
+  ##
 
 }
 
