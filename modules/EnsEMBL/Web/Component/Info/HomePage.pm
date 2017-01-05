@@ -245,8 +245,55 @@ sub content {
   my $genebuild = 0;
   my $meta_text;
 
-  my %p;
-  my $p = \%p;
+
+  my $dba = Bio::EnsEMBL::DBSQL::DBAdaptor->new(
+    -user   => $params->{'DATABASE_CORE'}{'RW_USER'},
+    -pass   => $params->{'DATABASE_CORE'}{'RW_PASS'},
+    -dbname => $dbname,
+    -host   => $params->{'DATABASE_CORE'}{'HOST'},
+    -port   => $params->{'DATABASE_CORE'}{'PORT'},
+    -driver => 'mysql'
+);
+
+
+my $meta_container = $dba->get_adaptor("MetaContainer");
+
+my %meta;
+
+$meta{'provider'}{'name'} = $meta_container->single_value_by_key('provider.name');
+$meta{'provider'}{'url'} = $meta_container->single_value_by_key('provider.url');
+$meta{'species'}{'common_name'} = $meta_container->single_value_by_key('species.common_name');
+$meta{'species'}{'display_name'} = $meta_container->single_value_by_key('species.display_name');
+$meta{'species'}{'scientific_name'} = $meta_container->single_value_by_key('species.scientific_name');
+$meta{'species'}{'taxonomy_id'} = $meta_container->single_value_by_key('species.taxonomy_id');
+$meta{'assembly'}{'accession'} = $meta_container->single_value_by_key('assembly.accession');
+$meta{'assembly'}{'date'} = $meta_container->single_value_by_key('assembly.date');
+$meta{'assembly'}{'name'} = $meta_container->single_value_by_key('assembly.name');
+$meta{'assembly'}{'span'} = $meta_container->single_value_by_key('assembly.span');
+$meta{'assembly'}{'gc_percent'} = $meta_container->single_value_by_key('assembly.gc_percent');
+$meta{'assembly'}{'n'} = $meta_container->single_value_by_key('assembly.n');
+$meta{'assembly'}{'atgc'} = $meta_container->single_value_by_key('assembly.atgc');
+$meta{'assembly'}{'scaffold_count'} = $meta_container->single_value_by_key('assembly.scaffold_count');
+if ($meta_container->single_value_by_key('assembly.cegma_complete')){
+  $meta{'assembly'}{'cegma_complete'} = $meta_container->single_value_by_key('assembly.cegma_complete');
+  $meta{'assembly'}{'cegma_partial'} = $meta_container->single_value_by_key('assembly.cegma_partial');
+}
+if ($meta_container->single_value_by_key('assembly.busco_complete')){
+  $meta{'assembly'}{'busco_complete'} = $meta_container->single_value_by_key('assembly.busco_complete');
+  $meta{'assembly'}{'busco_duplicated'} = $meta_container->single_value_by_key('assembly.busco_duplicated');
+  $meta{'assembly'}{'busco_fragmented'} = $meta_container->single_value_by_key('assembly.busco_fragmented');
+  $meta{'assembly'}{'busco_missing'} = $meta_container->single_value_by_key('assembly.busco_missing');
+  $meta{'assembly'}{'busco_number'} = $meta_container->single_value_by_key('assembly.busco_number');
+}
+$meta{'genebuild'}{'method'} = $meta_container->single_value_by_key('genebuild.method');
+$meta{'genebuild'}{'start_date'} = $meta_container->single_value_by_key('genebuild.start_date');
+$meta{'genebuild'}{'version'} = $meta_container->single_value_by_key('genebuild.version');
+$meta{'genebuild'}{'gene_count'} = $meta_container->single_value_by_key('genebuild.gene_count');
+$meta{'genebuild'}{'transcript_count'} = $meta_container->single_value_by_key('genebuild.transcript_count');
+$meta{'genebuild'}{'cds_count'} = $meta_container->single_value_by_key('genebuild.cds_count');
+$meta{'genebuild'}{'exon_count'} = $meta_container->single_value_by_key('genebuild.exon_count');
+
+  my $p = \%meta;
   $p->{'provider'}{'name'} = 'test';
 
     my @order = qw(provider species assembly);
