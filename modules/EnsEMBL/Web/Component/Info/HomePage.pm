@@ -247,7 +247,6 @@ sub content {
   my $meta_text;
 
 
-
   my %meta;
   $meta{'provider'}{'name'} = $species_defs->get_config($species,'PROVIDER_NAME');
   $meta{'provider'}{'url'} = $species_defs->get_config($species,'PROVIDER_URL');
@@ -282,10 +281,13 @@ sub content {
   $meta{'genebuild'}{'cds_count'} = $species_defs->get_config($species,'GENEBUILD_CDS_COUNT');
   $meta{'genebuild'}{'exon_count'} = $species_defs->get_config($species,'GENEBUILD_EXON_COUNT');
 
+  my $meta = $species_defs->get_config($species,'META');
+  if ($meta){
+    $meta{'assembly'}{'atgc'} = $meta->{'assembly.atgc'};
+  }
+
 
   my $p = \%meta;
-  $p->{'provider'}{'name'} = $species_defs->get_config($species,'PROVIDER_NAME');
-
     my @order = qw(provider species assembly);
     if ($p->{'genebuild'}{'gene_count'}){
       push @order,'genebuild';
