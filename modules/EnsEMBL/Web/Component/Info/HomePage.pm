@@ -248,6 +248,39 @@ sub content {
 
 
   my %meta;
+  $meta{'provider'}{'name'} = $species_defs->get_config($species,'PROVIDER_NAME');
+  $meta{'provider'}{'url'} = $species_defs->get_config($species,'PROVIDER_URL');
+  $meta{'species'}{'common_name'} = $species_defs->get_config($species,'SPECIES_COMMON_NAME');
+  $meta{'species'}{'display_name'} = $species_defs->get_config($species,'SPECIES_DISPLAY_NAME');
+  $meta{'species'}{'scientific_name'} = $species_defs->get_config($species,'SPECIES_SCIENTIFIC_NAME');
+  $meta{'species'}{'taxonomy_id'} = $species_defs->get_config($species,'SPECIES_TAXONOMY_ID');
+  $meta{'assembly'}{'accession'} = $species_defs->get_config($species,'ASSEMBLY_ACCESSION');
+  $meta{'assembly'}{'date'} = $species_defs->get_config($species,'ASSEMBLY_DATE');
+  $meta{'assembly'}{'name'} = $species_defs->get_config($species,'ASSEMBLY_NAME');
+  $meta{'assembly'}{'span'} = $species_defs->get_config($species,'ASSEMBLY_SPAN');
+  $meta{'assembly'}{'gc_percent'} = $species_defs->get_config($species,'ASSEMBLY_GC_PERCENT');
+  $meta{'assembly'}{'n'} = $species_defs->get_config($species,'ASSEMBLY_N');
+  $meta{'assembly'}{'atgc'} = $species_defs->get_config($species,'ASSEMBLY_ATGC');
+  $meta{'assembly'}{'scaffold_count'} = $species_defs->get_config($species,'ASSEMBLY_SCAFFOLD_COUNT');
+  if ($species_defs->get_config($species,'ASSEMBLY_CEGMA_COMPLETE')){
+    $meta{'assembly'}{'cegma_complete'} = $species_defs->get_config($species,'ASSEMBLY_CEGMA_COMPLETE');
+    $meta{'assembly'}{'cegma_partial'} = $species_defs->get_config($species,'ASSEMBLY_CEGMA_PARTIAL');
+  }
+  if ($species_defs->get_config($species,'ASSEMBLY_BUSCO_COMPLETE')){
+    $meta{'assembly'}{'busco_complete'} = $species_defs->get_config($species,'ASSEMBLY_BUSCO_COMPLETE');
+    $meta{'assembly'}{'busco_duplicated'} = $species_defs->get_config($species,'aASSEMBLY_BUSCO_DUPLICATED');
+    $meta{'assembly'}{'busco_fragmented'} = $species_defs->get_config($species,'ASSEMBLY_BUSCO_FRAGMENTED');
+    $meta{'assembly'}{'busco_missing'} = $species_defs->get_config($species,'ASSEMBLY_BUSCO_MISSING');
+    $meta{'assembly'}{'busco_number'} = $species_defs->get_config($species,'ASSEMBLY_BUSCO_NUMBER');
+  }
+  $meta{'genebuild'}{'method'} = $species_defs->get_config($species,'GENEBUILD_METHOD');
+  $meta{'genebuild'}{'start_date'} = $species_defs->get_config($species,'GENEBUILD_START_DATE');
+  $meta{'genebuild'}{'version'} = $species_defs->get_config($species,'GENEBUILD_VERSION');
+  $meta{'genebuild'}{'gene_count'} = $species_defs->get_config($species,'GENEBUILD_GENE_COUNT');
+  $meta{'genebuild'}{'transcript_count'} = $species_defs->get_config($species,'GENEBUILD_TRANSCRIPT_COUNT');
+  $meta{'genebuild'}{'cds_count'} = $species_defs->get_config($species,'GENEBUILD_CDS_COUNT');
+  $meta{'genebuild'}{'exon_count'} = $species_defs->get_config($species,'GENEBUILD_EXON_COUNT');
+
 
   my $p = \%meta;
   $p->{'provider'}{'name'} = $species_defs->get_config($species,'PROVIDER_NAME');
