@@ -281,10 +281,20 @@ sub content {
   $meta{'genebuild'}{'cds_count'} = $species_defs->get_config($species,'GENEBUILD_CDS_COUNT');
   $meta{'genebuild'}{'exon_count'} = $species_defs->get_config($species,'GENEBUILD_EXON_COUNT');
 
-  my $meta = $species_defs->get_config($species,'META');
-  if ($meta){
-    $meta{'assembly'}{'atgc'} = $meta->{'assembly.atgc'};
-  }
+  my $dbs = $species_defs->get_config($species,'databases');
+  my $dba = Bio::EnsEMBL::DBSQL::DBAdaptor->new(
+    -user   => $dbs->{'DATABASE_CORE'}{'RW_USER'},
+    -pass   => $dbs->{'DATABASE_CORE'}{'RW_PASS'},
+    -dbname => $dbs->{'DATABASE_CORE'}{'NAME'},
+    -host   => $dbs->{'DATABASE_CORE'}{'HOST'},
+    -port   => $dbs->{'DATABASE_CORE'}{'PORT'},
+    -driver => 'mysql'
+);
+
+
+my $meta_container = $dba->get_adaptor("MetaContainer");
+    $meta{'assembly'}{'atgc'} = $meta_container->single_value_by_key('assembly.atgc');
+  
 
 
   my $p = \%meta;
