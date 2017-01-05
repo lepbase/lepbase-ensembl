@@ -145,7 +145,17 @@ sub content {
   my $species      = $hub->species;
   my $img_url      = $self->img_url;
   my $common_name  = $species_defs->SPECIES_COMMON_NAME;
-  my $production_name  = $species_defs->SPECIES_SCIENTIFIC_NAME.' '.$species_defs->ASSEMBLY_NAME;
+  my $dbs = $species_defs->get_config($species,'databases');
+  my $dba = Bio::EnsEMBL::DBSQL::DBAdaptor->new(
+    -user   => $dbs->{'DATABASE_CORE'}{'USER'},
+    -pass   => $dbs->{'DATABASE_CORE'}{'PASS'},
+    -dbname => $dbs->{'DATABASE_CORE'}{'NAME'},
+    -host   => $dbs->{'DATABASE_CORE'}{'HOST'},
+    -port   => $dbs->{'DATABASE_CORE'}{'PORT'},
+    -driver => 'mysql'
+  );
+  my $meta_container = $dba->get_adaptor("MetaContainer");
+  my $production_name  = $species_defs->SPECIES_SCIENTIFIC_NAME.' '.$meta_container->single_value_by_key('assembly.name');
   $production_name =~ s/\s/_/g;
   my $display_name = $species_defs->SPECIES_SCIENTIFIC_NAME;
   my $taxid        = $species_defs->TAXONOMY_ID;
@@ -245,102 +255,87 @@ sub content {
 
   my $genebuild = 0;
   my $meta_text;
-
-
   my %meta;
-  $meta{'provider'}{'name'} = $species_defs->get_config($species,'PROVIDER_NAME');
-  $meta{'provider'}{'url'} = $species_defs->get_config($species,'PROVIDER_URL');
-  $meta{'species'}{'common_name'} = $species_defs->get_config($species,'SPECIES_COMMON_NAME');
-  $meta{'species'}{'display_name'} = $species_defs->get_config($species,'SPECIES_DISPLAY_NAME');
-  $meta{'species'}{'scientific_name'} = $species_defs->get_config($species,'SPECIES_SCIENTIFIC_NAME');
-  $meta{'species'}{'taxonomy_id'} = $species_defs->get_config($species,'SPECIES_TAXONOMY_ID');
-  $meta{'assembly'}{'accession'} = $species_defs->get_config($species,'ASSEMBLY_ACCESSION');
-  $meta{'assembly'}{'date'} = $species_defs->get_config($species,'ASSEMBLY_DATE');
-  $meta{'assembly'}{'name'} = $species_defs->get_config($species,'ASSEMBLY_NAME');
-  $meta{'assembly'}{'span'} = $species_defs->get_config($species,'ASSEMBLY_SPAN');
-  $meta{'assembly'}{'gc_percent'} = $species_defs->get_config($species,'ASSEMBLY_GC_PERCENT');
-  $meta{'assembly'}{'n'} = $species_defs->get_config($species,'ASSEMBLY_N');
-  $meta{'assembly'}{'atgc'} = $species_defs->get_config($species,'ASSEMBLY_ATGC');
-  $meta{'assembly'}{'scaffold_count'} = $species_defs->get_config($species,'ASSEMBLY_SCAFFOLD_COUNT');
-  if ($species_defs->get_config($species,'ASSEMBLY_CEGMA_COMPLETE')){
-    $meta{'assembly'}{'cegma_complete'} = $species_defs->get_config($species,'ASSEMBLY_CEGMA_COMPLETE');
-    $meta{'assembly'}{'cegma_partial'} = $species_defs->get_config($species,'ASSEMBLY_CEGMA_PARTIAL');
+
+  $meta{'provider'}{'name'} = $meta_container->single_value_by_key('provider.name');
+  $meta{'provider'}{'url'} = $meta_container->single_value_by_key('provider.url');
+  $meta{'species'}{'common_name'} = $meta_container->single_value_by_key('species.common_name');
+  $meta{'species'}{'display_name'} = $meta_container->single_value_by_key('species.display_name');
+  $meta{'species'}{'scientific_name'} = $meta_container->single_value_by_key('species.scientific_name');
+  $meta{'species'}{'taxonomy_id'} = $meta_container->single_value_by_key('species.taxonomy_id');
+  $meta{'assembly'}{'accession'} = $meta_container->single_value_by_key('assembly.accession');
+  $meta{'assembly'}{'date'} = $meta_container->single_value_by_key('assembly.date');
+  $meta{'assembly'}{'name'} = $meta_container->single_value_by_key('assembly.name');
+  $meta{'assembly'}{'span'} = $meta_container->single_value_by_key('assembly.span');
+  $meta{'assembly'}{'gc_percent'} = $meta_container->single_value_by_key('assembly.gc_percent');
+  $meta{'assembly'}{'n'} = $meta_container->single_value_by_key('assembly.n');
+  $meta{'assembly'}{'atgc'} = $meta_container->single_value_by_key('assembly.atgc');
+  $meta{'assembly'}{'scaffold_count'} = $meta_container->single_value_by_key('assembly.scaffold_count');
+  if ($meta_container->single_value_by_key('assembly.cegma_complete')){
+    $meta{'assembly'}{'cegma_complete'} = $meta_container->single_value_by_key('assembly.cegma_complete');
+    $meta{'assembly'}{'cegma_partial'} = $meta_container->single_value_by_key('assembly.cegma_partial');
   }
-  if ($species_defs->get_config($species,'ASSEMBLY_BUSCO_COMPLETE')){
-    $meta{'assembly'}{'busco_complete'} = $species_defs->get_config($species,'ASSEMBLY_BUSCO_COMPLETE');
-    $meta{'assembly'}{'busco_duplicated'} = $species_defs->get_config($species,'ASSEMBLY_BUSCO_DUPLICATED');
-    $meta{'assembly'}{'busco_fragmented'} = $species_defs->get_config($species,'ASSEMBLY_BUSCO_FRAGMENTED');
-    $meta{'assembly'}{'busco_missing'} = $species_defs->get_config($species,'ASSEMBLY_BUSCO_MISSING');
-    $meta{'assembly'}{'busco_number'} = $species_defs->get_config($species,'ASSEMBLY_BUSCO_NUMBER');
+  if ($meta_container->single_value_by_key('assembly.busco_complete')){
+    $meta{'assembly'}{'busco_complete'} = $meta_container->single_value_by_key('assembly.busco_complete');
+    $meta{'assembly'}{'busco_duplicated'} = $meta_container->single_value_by_key('assembly.busco_duplicated');
+    $meta{'assembly'}{'busco_fragmented'} = $meta_container->single_value_by_key('assembly.busco_fragmented');
+    $meta{'assembly'}{'busco_missing'} = $meta_container->single_value_by_key('assembly.busco_missing');
+    $meta{'assembly'}{'busco_number'} = $meta_container->single_value_by_key('assembly.busco_number');
   }
-  $meta{'genebuild'}{'method'} = $species_defs->get_config($species,'GENEBUILD_METHOD');
-  $meta{'genebuild'}{'start_date'} = $species_defs->get_config($species,'GENEBUILD_START_DATE');
-  $meta{'genebuild'}{'version'} = $species_defs->get_config($species,'GENEBUILD_VERSION');
-  $meta{'genebuild'}{'gene_count'} = $species_defs->get_config($species,'GENEBUILD_GENE_COUNT');
-  $meta{'genebuild'}{'transcript_count'} = $species_defs->get_config($species,'GENEBUILD_TRANSCRIPT_COUNT');
-  $meta{'genebuild'}{'cds_count'} = $species_defs->get_config($species,'GENEBUILD_CDS_COUNT');
-  $meta{'genebuild'}{'exon_count'} = $species_defs->get_config($species,'GENEBUILD_EXON_COUNT');
-
-  my $dbs = $species_defs->get_config($species,'databases');
-  my $dba = Bio::EnsEMBL::DBSQL::DBAdaptor->new(
-    -user   => $dbs->{'DATABASE_CORE'}{'USER'},
-    -pass   => $dbs->{'DATABASE_CORE'}{'PASS'},
-    -dbname => $dbs->{'DATABASE_CORE'}{'NAME'},
-    -host   => $dbs->{'DATABASE_CORE'}{'HOST'},
-    -port   => $dbs->{'DATABASE_CORE'}{'PORT'},
-    -driver => 'mysql'
-);
-
-
-my $meta_container = $dba->get_adaptor("MetaContainer");
-    $meta{'assembly'}{'atgc'} = $meta_container->single_value_by_key('assembly.atgc');
+  $meta{'genebuild'}{'method'} = $meta_container->single_value_by_key('genebuild.method');
+  $meta{'genebuild'}{'start_date'} = $meta_container->single_value_by_key('genebuild.start_date');
+  $meta{'genebuild'}{'version'} = $meta_container->single_value_by_key('genebuild.version');
+  $meta{'genebuild'}{'gene_count'} = $meta_container->single_value_by_key('genebuild.gene_count');
+  $meta{'genebuild'}{'transcript_count'} = $meta_container->single_value_by_key('genebuild.transcript_count');
+  $meta{'genebuild'}{'cds_count'} = $meta_container->single_value_by_key('genebuild.cds_count');
+  $meta{'genebuild'}{'exon_count'} = $meta_container->single_value_by_key('genebuild.exon_count');
 
 
 
   my $p = \%meta;
-    my @order = qw(provider species assembly);
-    if ($p->{'genebuild'}{'gene_count'}){
-      push @order,'genebuild';
-      $genebuild = 1;
-    }
-    my %order = ( 'provider' => ['name', 'url'],
-                  'species' => ['scientific_name', 'taxonomy_id', 'common_name', 'display_name'],
-                  'assembly' => ['name', 'accession', 'date', 'span', 'atgc', 'n', 'gc_percent', 'scaffold_count'],
-                  'genebuild' => ['version', 'method', 'start_date', 'gene_count', 'transcript_count', 'cds_count', 'exon_count']);
-    my $table = '<table class="lb-meta-table">';
-    while (my $group = shift @order){
-      next unless $p->{$group};
-      my $i = 0;
-      my %added;
-      foreach my $key (@{$order{$group}}){
-        my $g = $i == 0 ? ucfirst $group : '';
-        my $k = $key;
-        $k =~ s/_/ /g;
-        my $value = $p->{$group}{$key};
-        next unless $value;
-        if ($key eq 'url'){
-          $value = '<a href="value">'.$value.'</a>'
-        }
-        $table .= '<tr><td class="lb-meta-group">'.$g.'</td><td class="lb-meta-key">'.$k.'</td><td class="lb-meta-value">'.$value.'</td></tr>';
-        $added{$key}++;
-        $i++;
+  my @order = qw(provider species assembly);
+  if ($p->{'genebuild'}{'gene_count'}){
+    push @order,'genebuild';
+    $genebuild = 1;
+  }
+  my %order = ( 'provider' => ['name', 'url'],
+                'species' => ['scientific_name', 'taxonomy_id', 'common_name', 'display_name'],
+                'assembly' => ['name', 'accession', 'date', 'span', 'atgc', 'n', 'gc_percent', 'scaffold_count'],
+                'genebuild' => ['version', 'method', 'start_date', 'gene_count', 'transcript_count', 'cds_count', 'exon_count']);
+  my $table = '<table class="lb-meta-table">';
+  while (my $group = shift @order){
+    next unless $p->{$group};
+    my $i = 0;
+    my %added;
+    foreach my $key (@{$order{$group}}){
+      my $g = $i == 0 ? ucfirst $group : '';
+      my $k = $key;
+      $k =~ s/_/ /g;
+      my $value = $p->{$group}{$key};
+      next unless $value;
+      if ($key eq 'url'){
+        $value = '<a href="value">'.$value.'</a>'
       }
-      foreach my $key (sort keys %{$p->{$group}}){
-        next if $added{$key};
-        my $g = $i == 0 ? ucfirst $group : '';
-        my $k = $key;
-        $k =~ s/_/ /g;
-        my $value = $p->{$group}{$key};
-        if ($key eq 'url'){
-          $value = '<a href="value">'.$value.'</a>'
-        }
-        $table .= '<tr><td class="lb-meta-group">'.$g.'</td><td class="lb-meta-key">'.$k.'</td><td class="lb-meta-value">'.$value.'</td></tr>';
-        $i++;
-      }
+      $table .= '<tr><td class="lb-meta-group">'.$g.'</td><td class="lb-meta-key">'.$k.'</td><td class="lb-meta-value">'.$value.'</td></tr>';
+      $added{$key}++;
+      $i++;
     }
-    $table .= '</table>';
+    foreach my $key (sort keys %{$p->{$group}}){
+      next if $added{$key};
+      my $g = $i == 0 ? ucfirst $group : '';
+      my $k = $key;
+      $k =~ s/_/ /g;
+      my $value = $p->{$group}{$key};
+      if ($key eq 'url'){
+        $value = '<a href="value">'.$value.'</a>'
+      }
+      $table .= '<tr><td class="lb-meta-group">'.$g.'</td><td class="lb-meta-key">'.$k.'</td><td class="lb-meta-value">'.$value.'</td></tr>';
+      $i++;
+    }
+  }
+  $table .= '</table>';
 
-    $meta_text = '<h3 class="lb-heading">Assembly metadata</h3><p/>'.$table;
+  $meta_text = '<h3 class="lb-heading">Assembly metadata</h3><p/>'.$table;
 
 
   my $extra_text = $self->_other_text('assembly', $species);
