@@ -175,7 +175,8 @@ sub content {
   my $search_text = EnsEMBL::Web::Document::HTML::HomeSearch->new($hub)->render;
 
   my $species_info  = $hub->get_species_info;
-  my $src = $species_defs->ASSEMBLY_STATS_URL.'?assembly='.$production_name.'&view=circle';
+  my $join = $species_defs->ASSEMBLY_STATS_URL =~ m/\?/ ? '' : '?';
+  my $src = $species_defs->ASSEMBLY_STATS_URL.$join.'assembly='.$production_name.'&view=circle';
   my $altctr = 0;
   my $alt_asm_text;
   my %alt;
@@ -268,7 +269,7 @@ sub content {
   }
   if ($species_defs->get_config($species,'ASSEMBLY_BUSCO_COMPLETE')){
     $meta{'assembly'}{'busco_complete'} = $species_defs->get_config($species,'ASSEMBLY_BUSCO_COMPLETE');
-    $meta{'assembly'}{'busco_duplicated'} = $species_defs->get_config($species,'aASSEMBLY_BUSCO_DUPLICATED');
+    $meta{'assembly'}{'busco_duplicated'} = $species_defs->get_config($species,'ASSEMBLY_BUSCO_DUPLICATED');
     $meta{'assembly'}{'busco_fragmented'} = $species_defs->get_config($species,'ASSEMBLY_BUSCO_FRAGMENTED');
     $meta{'assembly'}{'busco_missing'} = $species_defs->get_config($species,'ASSEMBLY_BUSCO_MISSING');
     $meta{'assembly'}{'busco_number'} = $species_defs->get_config($species,'ASSEMBLY_BUSCO_NUMBER');
@@ -342,7 +343,8 @@ sub content {
 
 
   if ($genebuild == 1){
-    $src = $species_defs->CODON_USAGE_URL.'?assembly='.$production_name.'&view=plot&altView=table';
+    $join = $species_defs->CODON_USAGE_URL =~ m/\?/ ? '' : '?';
+    $src = $species_defs->CODON_USAGE_URL.$join.'assembly='.$production_name.'&view=plot&altView=table';
 #    if ($alternate{$production_name}){
 #      $src .= '&altAssembly='.$alternate{$production_name}->[0];
 #    }
