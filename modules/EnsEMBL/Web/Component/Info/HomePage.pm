@@ -283,8 +283,8 @@ sub content {
 
   my $dbs = $species_defs->get_config($species,'databases');
   my $dba = Bio::EnsEMBL::DBSQL::DBAdaptor->new(
-    -user   => $dbs->{'DATABASE_CORE'}{'RW_USER'},
-    -pass   => $dbs->{'DATABASE_CORE'}{'RW_PASS'},
+    -user   => $dbs->{'DATABASE_CORE'}{'USER'},
+    -pass   => $dbs->{'DATABASE_CORE'}{'PASS'},
     -dbname => $dbs->{'DATABASE_CORE'}{'NAME'},
     -host   => $dbs->{'DATABASE_CORE'}{'HOST'},
     -port   => $dbs->{'DATABASE_CORE'}{'PORT'},
@@ -294,7 +294,7 @@ sub content {
 
 my $meta_container = $dba->get_adaptor("MetaContainer");
     $meta{'assembly'}{'atgc'} = $meta_container->single_value_by_key('assembly.atgc');
-  
+
 
 
   my $p = \%meta;
