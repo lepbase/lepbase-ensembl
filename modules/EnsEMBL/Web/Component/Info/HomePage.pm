@@ -145,7 +145,7 @@ sub content {
   my $species      = $hub->species;
   my $img_url      = $self->img_url;
   my $common_name  = $species_defs->SPECIES_COMMON_NAME;
-  my $production_name  = $species_defs->SPECIES_SCIENTIFIC_NAME.' '.$species_defs->ASSEMBLY_NAME;
+  my $production_name  = $species_defs->SPECIES_SCIENTIFIC_NAME.' '.$species_defs->get_config($species,'ASSEMBLY_NAME');#$species_defs->ASSEMBLY_NAME;
   $production_name =~ s/\s/_/g;
   my $display_name = $species_defs->SPECIES_SCIENTIFIC_NAME;
   my $taxid        = $species_defs->TAXONOMY_ID;
