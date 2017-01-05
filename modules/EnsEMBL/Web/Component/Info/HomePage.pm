@@ -145,7 +145,7 @@ sub content {
   my $species      = $hub->species;
   my $img_url      = $self->img_url;
   my $common_name  = $species_defs->SPECIES_COMMON_NAME;
-  my $production_name  = $species_defs->SPECIES_SCIENTIFIC_NAME.' '.$species_defs->get_config($species,'ASSEMBLY_NAME');#$species_defs->ASSEMBLY_NAME;
+  my $production_name  = $species_defs->SPECIES_SCIENTIFIC_NAME.' '.$species_defs->ASSEMBLY_NAME;
   $production_name =~ s/\s/_/g;
   my $display_name = $species_defs->SPECIES_SCIENTIFIC_NAME;
   my $taxid        = $species_defs->TAXONOMY_ID;
@@ -240,25 +240,14 @@ sub content {
 
   $html .= '<div class="lb-info-box lb-species-page">'.$assembly_text.'</div>';
 
-  # add meta table from json file
-  use JSON;
-  my $file = "/ssi/species/${production_name}.meta.json";
-  my $json;
-  foreach my $root (@SiteDefs::ENSEMBL_HTDOCS_DIRS) {
-    my $filename = "$root/$file";
+  # add meta table from database
 
-    if (-f $filename && -e $filename) {
-      if (open FH, $filename) {
-        local($/) = undef;
-        $json = <FH>;
-        close FH;
-        last;
-      }
-    }
-  }
   my $genebuild = 0;
   my $meta_text;
-  if ($json){
+
+  my %p;
+  $p->{'provider'}{'name'} = 'test';
+
     my $p = from_json ($json);
     my @order = qw(provider species assembly);
     if ($p->{'genebuild'}{'gene_count'}){
@@ -303,7 +292,7 @@ sub content {
     $table .= '</table>';
 
     $meta_text = '<h3 class="lb-heading">Assembly metadata</h3><p/>'.$table;
-  }
+
 
   my $extra_text = $self->_other_text('assembly', $species);
   $extra_text .= $self->_other_text('annotation', $species);
