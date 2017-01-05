@@ -246,9 +246,9 @@ sub content {
   my $meta_text;
 
   my %p;
+  my $p = \%p;
   $p->{'provider'}{'name'} = 'test';
 
-    my $p = from_json ($json);
     my @order = qw(provider species assembly);
     if ($p->{'genebuild'}{'gene_count'}){
       push @order,'genebuild';
