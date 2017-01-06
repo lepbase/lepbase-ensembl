@@ -33,6 +33,10 @@ $(function(){
     				url.forEach(function(i){
     					prefix += '../';
     				});
+    var table = GetQueryStringParams('sp');
+    if (table){
+      $("#table").val(decodeURIComponent(table));
+    }
     $(function() {
           $("#se_q").autocomplete({
                 source: function(request, response) {
@@ -86,7 +90,7 @@ $(function(){
         $.ajax({
           type: "GET",
           url: "autocomplete",
-          data: {list:'tables'},
+          data: {list:'tables', search_db_name: $('#search_db_name').val(), search_db_host: $('#search_db_host').val(), search_db_port: $('#search_db_port').val(), search_db_user: $('#search_db_user').val()},
           contentType: "application/json; charset=utf-8",
           dataType: "json",
           success: function(msg) {
