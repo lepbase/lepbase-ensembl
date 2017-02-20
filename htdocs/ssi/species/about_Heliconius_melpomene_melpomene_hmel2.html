@@ -18,12 +18,21 @@ Heliconius genome underwent 10 chromosome fusions since the split with its siste
 
 <!-- {annotation} --><a name="annotation"></a>
   <h2 id="annotation" style="margin-bottom:5px">Annotation</h2>
-  <p>From <a href="https://github.com/johnomics/Heliconius_melpomene_version_2">GitHub</a>, "The Hmel1 annotation was transferred to Hmel2 by merging Hmel1-2 and Hmel2 with HaploMerger to generate chain files, filtering the chain to retain only between-genome matches, using CrossMap to transfer features with the chains, and then using transfer_features.py to transfer as many features directly as possible, falling back on the CrossMap transfers where necessary."</p>
+  <p>Braker 1.0 [2] was used to generate gene predictions for the Hmel2 genome assembly using 10 RNAseq libraries from NCBI SRA, and 10 additional wing RNAseq libraries from the Chris Jiggins Lab.
+ Manually annotated transcripts in Hmel1, and curated gene families from [3], [4], and [5] were mapped back to the Hmel2 genome using exonerate and retained as is. The remaining braker predictions were given the same names as the Hmel2 gene release if they overlapped unabiguously, otherwise new or different predictions were named from HMEL030000 onwards.</p>
 <!-- {annotation} -->
 <!-- {references} -->
   <h2>References</h2>
   <ol>
     <li><a id="ref-01"></a><a href="http://www.ncbi.nlm.nih.gov/pubmed/26772750">Major Improvements to the Heliconius melpomene Genome Assembly Used to Confirm 10 Chromosome Fusion Events in 6 Million Years of Butterfly Evolution.
 </a></li>
+    <li><a id="ref-02"></a><a href="http://www.ncbi.nlm.nih.gov/pubmed/26559507">BRAKER1: Unsupervised RNA-Seq-Based Genome Annotation with GeneMark-ET and AUGUSTUS.
+ </a></li>
+    <li><a id="ref-03"></a><a href="http://www.ncbi.nlm.nih.gov/pubmed/27572947">The transcriptome response of Heliconius melpomene larvae to a novel host plant.
+ </a></li>
+    <li><a id="ref-04"></a><a href="http://www.ncbi.nlm.nih.gov/pubmed/27004525">Genome-wide analysis of ionotropic receptors provides insight into their evolution in Heliconius butterflies.
+ </a></li>
+    <li><a id="ref-05"></a><a href="http://www.ncbi.nlm.nih.gov/pubmed/23950722">Female Behaviour Drives Expression and Evolution of Gustatory Receptors in Butterflies.
+ </a></li>
   </ol>
  <!-- {references} -->
