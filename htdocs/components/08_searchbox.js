@@ -36,6 +36,7 @@ $(function(){
     var table = GetQueryStringParams('sp');
     if (table){
       $("#table").val(decodeURIComponent(table));
+      $("#search_table").val(decodeURIComponent(table));
     }
     $(function() {
           $("#se_q").autocomplete({
