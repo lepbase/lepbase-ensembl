@@ -27,6 +27,8 @@ my $dbh = DBI->connect($dsn, $user);
 # search terms
 my $term = $cgi->param('term');
 my $tablename = $cgi->param('table') || 'multi';
+warn $term;
+warn $tablename;
 my $page_size = $cgi->param('page_size') || 10;
 my $feature_type = $cgi->param('feature_type') || undef;
 my $count = $cgi->param('count') || undef;
@@ -34,7 +36,7 @@ my $offset = $cgi->param('offset') ? $cgi->param('offset') -1 : 0;
 my $page = $offset / $page_size + 1;
 $term =~ s/\*/\%/g;
 my @coords;
-if ($term =~ m/(.+):(\d+)-(\d+)$/){
+if ($term =~ m/(.+):(\d+)-(\d+)\%*$/){
   @coords = ($2,$3);
   $term = $1;
 }
