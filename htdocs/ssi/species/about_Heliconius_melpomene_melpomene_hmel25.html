@@ -1,0 +1,42 @@
+<!-- {about} --><a name="about"></a>
+  <p>(Imported via <a href="http://metazoa.ensembl.org">EnsemblMetazoa</a>)</p>
+  <p>Within the butterflies, the combined traits of daytime flight and colour-vision have led to the evolution of complex colour patterns for both within- and between-species signalling. As long ago as 1862, Henry W. Bates, reflecting upon observations made during his stay in the Amazon basin, had shown that colour patterns for butterflies of the genus Heliconius were similar between species within any one area. Furthermore, the specific patterns of such Mullerian mimickry, whereby species share the cost of educating predators about their unpalatable nature, changes every 100-200 miles. Such characteristics provide exciting opportunities for genomic studies into the nature of adaptive variation, the origin of new species, and the genetic basis of complex traits. The Postman Butterfly, <em>Heliconius melpomene</em>, has large long wings with a red stripe down each forewing. It is poisonous, and has a geographical distribution from Central to South America. It is the first of the Heliconius butterflies to have its genome sequenced.</p>
+  <p>Picture credit: Mauricio Linares, via <a href="http://www.heliconius.org/2006/h-m-melpomene/">Chris Jiggins</a> (University of Cambridge)</p>
+<!-- {about} -->
+
+<!-- {assembly} --><a name="assembly"></a>
+
+  <h2 id="assembly" style="margin-bottom:5px">Assembly</h2>
+
+  <p>From the abstract [1]: "The Heliconius butterflies are a widely studied adaptive radiation of 46 species spread across Central and South America, several of which are known to hybridise in the wild. Here, we present a substantially improved assembly of the 
+Heliconius Melpomene genome, developed using novel methods that should be applicable to improving other genome assemblies produced using short read sequencing. Firstly, we whole genome sequenced a pedigree to produce a linkage map incorporating 99% of the 
+genome. Secondly, we incorporated haplotype scaffolds extensively to produce a more complete haploid version of the draft genome. Thirdly, we incorporated ~20x coverage of Pacific Biosciences sequencing and scaffolded the haploid genome using an assembly of this 
+long read sequence. These improvements result in a genome of 795 scaffolds, 275 Mb in length, with an N50 length of 2.1 Mb, an N50 number of 34 and with 99% of the genome placed and 84% anchored on chromosomes. We use the new genome assembly to confirm that the 
+Heliconius genome underwent 10 chromosome fusions since the split with its sister genus Eueides, over a period of about 6 million years."</p>
+
+  <p>Version Hmel2.5 orders the majority of scaffolds in the genome using extensive linkage mapping and long read data, such that all chromosomes now have one major scaffold and most chromosomes are in a single scaffold. See Davey et al. 2017 for details[6].</p>
+
+<!-- {assembly} -->
+
+<!-- {annotation} --><a name="annotation"></a>
+  <h2 id="annotation" style="margin-bottom:5px">Annotation</h2>
+  <p>Braker 1.0 [2] was used to generate gene predictions for the Hmel2 genome assembly using 10 RNAseq libraries from NCBI SRA, and 10 additional wing RNAseq libraries from the Chris Jiggins Lab.
+ Manually annotated transcripts in Hmel1, and curated gene families from [3], [4], and [5] were mapped back to the Hmel2 genome using exonerate and retained as is. The remaining braker predictions were given the same names as the Hmel2 gene release if they overlapped unabiguously, otherwise new or different predictions were named from HMEL030000 onwards.</p>
+<!-- {annotation} -->
+<!-- {references} -->
+  <h2>References</h2>
+  <ol>
+    <li><a id="ref-01"></a><a href="http://www.ncbi.nlm.nih.gov/pubmed/26772750">Major Improvements to the Heliconius melpomene Genome Assembly Used to Confirm 10 Chromosome Fusion Events in 6 Million Years of Butterfly Evolution.
+</a></li>
+    <li><a id="ref-02"></a><a href="http://www.ncbi.nlm.nih.gov/pubmed/26559507">BRAKER1: Unsupervised RNA-Seq-Based Genome Annotation with GeneMark-ET and AUGUSTUS.
+ </a></li>
+    <li><a id="ref-03"></a><a href="http://www.ncbi.nlm.nih.gov/pubmed/27572947">The transcriptome response of Heliconius melpomene larvae to a novel host plant.
+ </a></li>
+    <li><a id="ref-04"></a><a href="http://www.ncbi.nlm.nih.gov/pubmed/27004525">Genome-wide analysis of ionotropic receptors provides insight into their evolution in Heliconius butterflies.
+ </a></li>
+    <li><a id="ref-05"></a><a href="http://www.ncbi.nlm.nih.gov/pubmed/23950722">Female Behaviour Drives Expression and Evolution of Gustatory Receptors in Butterflies.
+ </a></li>
+    <li><a id="ref-06"></a><a href="http://onlinelibrary.wiley.com/doi/10.1002/evl3.12/abstract">No evidence for maintenance of a sympatric Heliconius species barrier by chromosomal inversions.
+ </a></li>
+  </ol>
+ <!-- {references} -->
